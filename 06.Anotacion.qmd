@@ -5,67 +5,127 @@ knitr:
     root.dir: "09_filogenomica_mags_entrega"
 ---
 
-## 01. Asignación taxonómica
+## 01. Predicción de genes y anotación estructural
 
-### 01.1 GTDB-tk
+### 01.1. ¿Qué es la anotación?
 
-GTDB-Tk es una herramienta que asigna taxonomía a genomas utilizando la base de datos [GTDB](https://gtdb.ecogenomic.org/) (Genome Taxonomy Database). Basado en árboles filogenéticos y medidas de ANI (Average Nucleotide Identity), GTDB-Tk clasifica genomas bacterianos y arqueanos, proporciona una taxonomía coherente y actualizada. Se utiliza mucho en el análisis de genomas y metagenomas.
+La anotación funcional nos permite conocer qué es lo que nuestros microorganismos pueden producir. Es decir, nos permite saber que proteínas, enzimas y metabolitos contienen. A pesar de que comúnmente nos enfocamos únicamente en los genes durante el proceso de anotación, este también nos permite ver varias otras cosas. En general, el proceso de anotación nos ayuda a identificar:
 
-![GTDB-tk Workflow](Figures/GTDB-tk_worflow.png){fig-align="center" width="944"}
+* **Elementos transcribibles:** Genes (llamados CDS), subunidades del RNA ribosomal (como el 16S) y RNA de transporte (tRNA)
 
-Recordemos que ya tenemos un *bin* refinado y desreplicado. Ahora vamos a asignarle identidad taxonómica, para ello vamos a correr GTDB-tk
+* **Elementos de control:** Promotores, sitios de unión de represores/activadores, codones de inicio y paro, secuencias Shine-Dalgarno, terminadores y riboswitches.
 
-Creamos el directorio de resultados para GTDB-tk
+* **Elementos de arquitectura:** Secuencias ori y ter y telómeros (en caso de los cromosomas lineales).
 
-``` bash
-mkdir -p results/13.gtdbtk/0h/bins
-```
+* **Elementos móviles:** Transposones, ICEs y profagos.
 
-Y copiamos con un nuevo nombre
+* **Otros elementos:** Sistemas CRISPR-Cas, pseudogenes y proteínas hipotéticas.
 
-``` bash
-cp results/12.drep/0h/dereplicated_genomes/0h_cleanbin_000001.fasta  results/13.gtdbtk/0h/bins/0hBin01.fasta
-```
+![Estructura del genoma bacteriano](Figures/dna_3d.png){fig-align="center" width="1044"}
 
-::: {.callout-tip collapse="true"}
-### Script para más de un MAG
+### 01.2. Consideraciones generales
 
-Si tienes más de un MAG, que así será en las muestras de mayor tiempo de fermentación, puedes generar un ciclo for para copiar y renombrar todos.
+La doble hélice de ADN está conformada por dos cadenas individuales pero complementarias. Estas cadenas están conformadas de nucleótidos, los cuales tienen un azúcar de 5 carbonos como base. En el quinto carbono del anillo de la azúcar, se encuentra siempre un fosfato. En el tercer carbono se encuentra un grupo hidroxilo. Al formarse la cadena de ADN, el extremo del nucleótido A que contiene el grupo fosfato (5’) se una al extremo que tiene el grupo hidroxilo del nucleótido B (3’). Este proceso se repite hasta terminar la cadena, por lo que al final quedan un grupo 5’ y un 3’ libres en los extremos.
 
-``` bash
-nano src/copiar_renombrarbins.sh
-```
+En la cadena ”líder” estos extremos van del **5’ -> 3’**
 
-``` bash
-#!/usr/bin/bash   
-destination_dir="results/13.gtdbtk/0h/bins"   
-count=1    
-for file in $(ls results/12.drep/0h/dereplicated_genomes/*.fasta); do        
-  new_name=$(printf "0hBin%02d.fasta" "$count")         
-  cp "$file" "$destination_dir/$new_name"         
-  count=$((count + 1))  
-done
-```
+En cadena complementaria, van del  **3’ -> 5’**
+
+![Direccionalidad del ADN](Figures/DNA_chemical_structure.svg){fig-align="center" width="944"}
+
+Esto es importante porque, en general, las bases que nosotros encontramos en nuestros archivos fasta y fastq se encuentran siempre en dirección **5’ -> 3’**.
+
+------------------------------------------------------------------------
+
+# Ejercicios:
+
+::: callout-tip
+## Ejercicio 1
+
+**Ahora a te toca a ti**
+
+Vamos a empezar un pequeño ejercicio de anotación. Imaginen que ustedes tienen la siguiente secuencia dentro de su archivo fasta:
+
+**5' - ATGAATCGGTACCTGCGAGCAGTGGTAA - 3'**
+
+¿Cual sería la cadena complementaria?
+¿Por qué es importante mantener la dirección constante en nuestros archivos?
+
+Tiempo 5 min
 :::
 
-Y ahora sí, ejecutamos gtdbtk
+------------------------------------------------------------------------
 
-``` bash
-conda activate /home/dianao/.conda/envs/gtdbtk_2.5.2
-```
+### 01.3. El código genético
 
-``` bash
-export GTDBTK_DATA_PATH=/data/BD/gtdbtk/release_gtdbtk_r226_full     
-nohup gtdbtk classify_wf \           
-  --genome_dir results/13.gtdbtk/0h/bins/ \           
-  --out_dir results/13.gtdbtk/0h/ \           
-  --cpus 6 \           
-  -x fasta > outs/13.gtdbtk0h.out &
-```
+Para crear proteínas, es necesario pasar de la secuencia de nucleótidos (leída siempre en sentido 5’ -> 3’) a una secuencia de aminoácidos. Esto se usando al mRNA como intermediario. Como recordaran, la única diferencia entre el DNA y el mRNA es que este último utiliza la base Uracilo (U) en lugar de Tiamina (T).
 
-## 02. Anotación funcional
+Ahora, dado que la cantidad de aminoácidos (al menos 20) es mayor a la cantidad de nucleótidos (sólo 4), es necesario usar combinaciones de 3 nucleótidos para representar cada aminoácido. A la lista de equivalencias de grupos de 3 nucleótidos a aminoácidos es lo que conocemos como el código genético.
 
-### 02.1 PROKKA
+Aunque en algún momento se creyó que el código genético era universal, ahora sabemos que existen variantes, pero la gran mayoría de la bacterias usan la variante 11.
+
+![Genetic code 11](Figures/genetic_code.png){fig-align="center" width="944"}
+
+Durante la anotación es necesario encontrar los marcos de lectura de un gen. Estos están definidos como la secuencia de nucleótidos que se encuentra entre un codón de inicio (AUG, GUG o UUG) y un codón de paro (UAA, UAG, UGA).
+
+
+
+------------------------------------------------------------------------
+
+# Ejercicios:
+
+::: callout-tip
+## Ejercicio 2
+
+**Ahora a te toca a ti**
+
+Vamos a continuar con nuestro ejercicio. Nuestra cadena original era:
+
+**5' - ATGAATCGGTACCTGCGAGCAGTGGTAA - 3'**
+
+Ahora vamos a convertirla a mRNA y buscar codones.
+
+¿Tenemos codones de inicio? ¿Y de paro?
+¿Qué aminoácidos tenemos?
+
+Tiempo 10 min
+:::
+
+------------------------------------------------------------------------
+
+Durante la anotación es necesario encontrar los marcos de lectura de un gen. Estos están definidos como la secuencia de nucleótidos que se encuentra entre un codón de inicio (AUG, GUG o UUG) y un codón de paro (UAA, UAG, UGA). A estos les llamamos ORFs (open reading frames).
+
+![Los 6 marcos de lecturas](Figures/reading_frames.png){fig-align="center" width="944"}
+
+### 01.4. ¿Cómo funciona un anotador?
+
+Los anotadores de genomas típicamente usan una variedad de programas de forma lineal (uno tras otro) para ir desde un archivo FASTA hasta los diferentes formatos de los archivos de anotación.
+
+    1. Detección de ORFs (Open Reading Frames) usando todos los marcos de lectura y el código genético adecuado. (*prodigal, glimmer3, GeneMarkS-2*)
+
+    1. Detección de tRNAs, rRNAs y otros otros RNAs no codificantes (ncRNAs). (*barnap, infernal*)
+
+    1. Asignación de funciones de los posibles CDS usando programas de comparación por homología y bases de datos de funciones (posterior a la curación de ORFs). (*diamond, mmseqs2*)
+
+    1. Dependiendo de cada anotador, pasos extras son añadidos, como detección de secuencias CRISPR-Cas, péptidos señales o detección de pseudo-genes, por ejemplo.
+
+**¡Ojo!**
+
+Para asegurarse de tener una buena anotación es necesario tener un buen ensamble (principio Garbage In, Garbage Out).
+
+A pesar de que todas siguen el mismo flujo de trabajo, existen diferentes estrategias de anotación. Estas se pueden dividir en:
+
+**Anotación generalizada:** Esta estrategia hace uso de herramientas con un buen balance entre potencia y velocidad. Hace uso de bases de datos generales para asignar funciones.
+
+**Anotación comprensiva:** Esta estrategia hace uso de varias herramientas redundantes para asegurar que todo sea cubierto. Hace uso de múltiples bases de datos para cubrir la mayor cantidad de funciones.
+
+**Anotación especializada:** Esta estrategia hace uso de herramientas generales en combinación con bases de datos diseñadas y curadas para propósitos específicos (reconstrucción de rutas metabólicas, identificación de factores de virulencia, etc.)
+
+En este ejercicio vamos a utilizar dos ensambladores generales, Prokka y Bakta.
+
+## 02. Anotación
+
+### 02.1. Prokka
 
 [Prokka](https://training.galaxyproject.org/training-material/topics/genome-annotation/tutorials/annotation-with-prokka/slides-plain.html) es una herramienta útil, usa diferentes programas para predecir genes, secuencias codificantes, tRNAs, rRNAs. Hace la traducción de CDS a aminoácidos y asigna funciones usando diferentes bases de datos.
 
@@ -189,6 +249,99 @@ Ya tienes el mismo MAG anotado con Prokka (que corriste) y con Bakta (en tu dire
 
 ------------------------------------------------------------------------
 
+### 02.3. Archivos de salida
+
+El resultado principal de la anotación de genomas es el nombre, secuencia y  localización de los genes (Coding sequences, o CDS) y otros elementos que estos contienen. Para representar toda, o parte de esta información pueden usarse diferentes tipos y estructuras de archivos.  La diversidad de estos archivos corresponde a la diversidad de usos que se les puede dar. Es decir, cada tipo de archivo fue creado para resolver una necesidad específica. Esto significa que no todos los archivos son equivalentes.
+
+En general, podemos dividir los archivos de salida entre aquellos que contienen la información de la anotación, la secuencia de nucleotidos y/o aminoácidos y los que contienen la localización (*i.e* coordenadas) de los mismos, o una combinación de todos estos.
+
+![Tipos de archivos](Figures/anotacion-tipos-de-archivos.png){fig-align="center" width="944"}
+
+Los archivos más comunes y utilizados son los siguientes:
+
+**ffn/fasta/faa:** Estos son archivos fasta, similares en formato a los que se usan para los contigs, con la diferencia de que estos únicamente cuentan con los CDS (ffn/fasta) o proteínas (faa). Estos archivos son bastante útiles para cuando queremos hacer alineamientos, BLAST u otros análisis que requieren la secuencia de uno o pocos elementos, sin importar su orden.
+
+**xlsx/tsv:** Ambos son archivos tabulares. Cada programa de anotación suele tener su propio formato, pero en general podemos encontrar las funciones y coordenadas de los CDS u otros elementos anotados en tablas de Excel (xlsx) o tablas separadas por tabuladores que pueden abrirse con cualquier programa (tsv). Estos archivos son muy buenos para hacer resúmenes, comparativas generales entre organismos y para ubicar rápidamente funciones de interés.
+
+**gff3:** El formato general de anotaciones versión 3 (gff3) es un formato estándar que contiene 9 columnas con coordenadas y funciones de los CDS y otros elementos. Se puede considerar como un sub-tipo de los tsv y se usa generalmente en conjunto con el archivo fasta/faa de anotación para generar mapas de genes usando librerías de anotación.
+
+Las columnas que se encuentran en el archivo gff3 son:
+    1- Nombre de la secuencia
+    2- Base de datos que produjo la anotación
+    3- Tipo de elemento (CDS, gene, etc…)
+    4- Inicio
+    5- Fin
+    6- Score de alineamiento
+    7- Cadena
+    8- Fase (posición del nucleótido en el codón)
+    9- Atributos (función)
+
+**gbff3:** El formato gbff3 (Genebank flat file format), contiene una gran cantidad de información sobre la localización, función, y ambos tipos de secuencias (nucleótidos y aminoácidos). Debido a la gran cantidad de información que podemos extraer de un archivo gbff3, es el formato de anotación por excelencia y es comúnmente usado para pipelines de filogenomica, anotación extra, etc. Sin embargo, puede llegar a ser un poco complicado de utilizar y la falta de un verdadero estándar de como debe estar formado, puede causar problemas.
+
+**embl:** El formato embl, desarrollado por la ENA (European nucleotide archive) es similar al formato gbff, ya que contiene una gran cantidad de información y tiene la ventaja de que su formato está mucho más estandarizado, por lo que es mucho más fácil de utilizar. A pesar de esto, no es tan comúnmente usado, y su uso principal es para contados programas bioinformaticos que permiten usar este tipo de archivos como *input*.
+
+**asn/json:** Estos formatos suelen contener una gran cantidad de información, incluso más que los formatos gbff o embl. Sin embargo, la información dentro de estos archivos no está estructurada de una forma amigable para ser leída por humanos, por lo que se utilizan principalmente como input para programas especializados.
+
+------------------------------------------------------------------------
+
+# Ejercicios:
+
+::: callout-tip
+## Ejercicio 3
+
+**Ahora a te toca a ti**
+
+Basado en los tipos de archivos que vimos, escoge uno para comparar a grandes rasgos los genomas que anotaste con prokka y bakta y responde las siguientes preguntas:
+
+¿Qué archivo elegiste y por qué?
+¿Qué métrica usaste para comparar?
+¿Cuál fue mejor?
+
+Tiempo 10 min
+
+
+:::
+
+------------------------------------------------------------------------
+
+## 03.Ortología y anotación de KO, KEGG, eggNOG y Pfam
+
+### 03.1. Ortología, homología y paralogía
+
+Como mencionamos en la sección pasada, el formato gff3 contiene una columna llamada *"score de alineamiento"*. Este score nos indica que tan similar es la secuencia que encontramos a una secuencia conocida y anotada en una base de datos. Sin embargo, una alta similitud (es decir, un buen score) no garantiza que ambas secuencias tengan exactamente la misma función. Para transferir de forma segura la función de un gen conocido a uno de nuestro MAG recién ensamblado, necesitamos distinguir entre *homología, ortología y paralogía*.
+
+- **Homología:** Es el término general que indica que dos secuencias comparten un **ancestro evolutivo común**. La similitud es el porcentaje observable (ej. 85% de identidad), mientras que la homología es la conclusión evolutiva. En otras palabras, homología denota parentesco. Y debido a esto, es clasificación categórica. Algo es homologo o no lo es, no hay puntos medios.
+
+- **Ortología:** Son genes homólogos en *diferentes especies* que divergieron debido a un evento de **especiación** (ej. la ADN polimerasa en *E. coli* y en *Bacillus subtilis*). Como simplemente se separaron al ramificarse los linajes, los ortólogos **tienden a conservar la misma función**. La mayoría de los programas de anotación tratan de identificar ortólogos para asignar función a una secuencia.
+
+- **Paralogía:** Son genes homólogos que surgieron por un evento de **duplicación génica**, lo que significa que pueden existir dentro de un *mismo organismo*. Al duplicarse, una copia suele mantener la función original, mientras que la otra copia queda libre de presión selectiva. Esta copia extra puede acumular mutaciones y desarrollar **funciones nuevas o especializadas** (neofuncionalización/subfuncionalización).
+
+Si una herramienta de anotación se guía únicamente por el mejor *score* de similitud cruda (como un simple BLAST), tu gen podría alinearse maravillosamente con un parálogo. Debido a esto, aunque se parezcan mucho en su secuencia de aminoácidos, su función biológica actual podría ser totalmente distinta, provocando una anotación errónea.
+
+Para resolver este problema, las herramientas y bases de datos funcionales modernas (como KEGG, eggNOG o Pfam) no solo buscan similitud, sino que realizan análisis filogenéticos para agrupar las proteínas en **Grupos Ortólogos (Orthologous Groups)**. Al basarse en la ortología, nos aseguran que la función que le asignamos a nuestra proteína hipotética realmente refleja su verdadero rol biológico en la célula.
+
+------------------------------------------------------------------------
+
+# Ejercicios:
+
+::: callout-tip
+## Ejercicio 4
+
+**Ahora a te toca a ti**
+
+Mira y analiza esta filogenia para identificar los pares de genes homologos, ortologos y paralogos.
+
+Tiempo 10 min
+
+![¿Cual es cual?](Figures/example_homologous.png){fig-align="center" width="1044"}
+
+:::
+
+------------------------------------------------------------------------
+
+### 03.2. Bases de datos.
+
+
 Con las proteínas predichas por Bakta ya podemos hacerles preguntas más específicas. Existen varias bases de datos especializadas, y **cada una responde algo distinto**; conviene tener claro el mapa antes de correrlas:
 
 ::: callout-note
@@ -207,7 +360,7 @@ En el taller correremos **KofamScan** en vivo; las demás las platicamos.
 
 ------------------------------------------------------------------------
 
-### 02.3 KofamScan
+### 02.3. KofamScan
 
 [KofamScan](https://github.com/takaram/kofam_scan) es una herramienta de anotación, usa la base de datos KOfam de [KEGG](https://www.genome.jp/kegg/pathway.html) para obtener información sobre los genes que participan en diferentes rutas metabólicas.
 
@@ -320,6 +473,68 @@ Dentro de los genomas microbianos, podemos encontrar algunas regiones específic
 
 Si te interesa buscar BGCs en los genomas de tu interés puedes aprender siguiendo el flujo de análisis propuestos en la lección de [Minería Genómica](https://carpentries-incubator.github.io/genome-mining/) de Software Carpentry.
 
+
+
+## 01. Asignación taxonómica
+
+### 01.1 GTDB-tk
+
+GTDB-Tk es una herramienta que asigna taxonomía a genomas utilizando la base de datos [GTDB](https://gtdb.ecogenomic.org/) (Genome Taxonomy Database). Basado en árboles filogenéticos y medidas de ANI (Average Nucleotide Identity), GTDB-Tk clasifica genomas bacterianos y arqueanos, proporciona una taxonomía coherente y actualizada. Se utiliza mucho en el análisis de genomas y metagenomas.
+
+![GTDB-tk Workflow](Figures/GTDB-tk_worflow.png){fig-align="center" width="944"}
+
+Recordemos que ya tenemos un *bin* refinado y desreplicado. Ahora vamos a asignarle identidad taxonómica, para ello vamos a correr GTDB-tk
+
+Creamos el directorio de resultados para GTDB-tk
+
+``` bash
+mkdir -p results/13.gtdbtk/0h/bins
+```
+
+Y copiamos con un nuevo nombre
+
+``` bash
+cp results/12.drep/0h/dereplicated_genomes/0h_cleanbin_000001.fasta  results/13.gtdbtk/0h/bins/0hBin01.fasta
+```
+
+::: {.callout-tip collapse="true"}
+### Script para más de un MAG
+
+Si tienes más de un MAG, que así será en las muestras de mayor tiempo de fermentación, puedes generar un ciclo for para copiar y renombrar todos.
+
+``` bash
+nano src/copiar_renombrarbins.sh
+```
+
+``` bash
+#!/usr/bin/bash
+destination_dir="results/13.gtdbtk/0h/bins"
+count=1
+for file in $(ls results/12.drep/0h/dereplicated_genomes/*.fasta); do
+  new_name=$(printf "0hBin%02d.fasta" "$count")
+  cp "$file" "$destination_dir/$new_name"
+  count=$((count + 1))
+done
+```
+:::
+
+Y ahora sí, ejecutamos gtdbtk
+
+``` bash
+conda activate /home/dianao/.conda/envs/gtdbtk_2.5.2
+```
+
+``` bash
+export GTDBTK_DATA_PATH=/data/BD/gtdbtk/release_gtdbtk_r226_full
+nohup gtdbtk classify_wf \
+  --genome_dir results/13.gtdbtk/0h/bins/ \
+  --out_dir results/13.gtdbtk/0h/ \
+  --cpus 6 \
+  -x fasta > outs/13.gtdbtk0h.out &
+```
+
+
+
 ## 03. Filogenómica
 
 La sección anterior termina con una tabla de taxonomía para cada MAG del pozol. Este módulo va un paso más allá: construye un árbol con los mismos genes marcadores que usa GTDB-Tk, lo lee de forma crítica y lo compara con esa taxonomía.
@@ -364,7 +579,7 @@ Partimos de lo que ya produjo el taller:
 
 Todo está en tu directorio, dentro de `results/19.gtdbtk_global/`: la carpeta `mags/`, `gtdbtk.bac120.summary.tsv` y `quality_report.tsv`.
 
--    **Ambientes.** Esta práctica usa dos ambientes de conda que ya están instalados en el servidor: `gtdbtk` (pasos 2 y 3) y `qiime2` (pasos 4 a 6). El ambiente `qiime2` también trae R, con los paquetes `tidyverse` y `ape`. En cada paso de terminal se indica cuándo activar y desactivar el ambiente.
+-   **Ambientes.** Esta práctica usa dos ambientes de conda que ya están instalados en el servidor: `gtdbtk` (pasos 2 y 3) y `qiime2` (paso 4). Para R se usan los paquetes `tidyverse`, `ape` y `ggrepel`. En cada paso de terminal se indica cuándo activar y desactivar el ambiente.
 
 ------------------------------------------------------------------------
 
@@ -392,22 +607,44 @@ gtdbtk identify --genome_dir results/19.gtdbtk_global/mags \
 
 La salida que nos interesa es `identify/gtdbtk.bac120.markers_summary.tsv`, con una fila por MAG. `number_unique_genes` cuenta los marcadores encontrados una sola vez y `number_multiple_genes` los que aparecen con más de una copia.
 
-Para ver las tablas en la terminal (desde `~/reads2mags_pozol`), primero la de marcadores. Las columnas son el nombre del MAG, los marcadores únicos y los marcadores con más de una copia:
+Esta parte se hace en R, igual que en las prácticas anteriores, con `results` como directorio de trabajo. Cargamos los paquetes que vamos a usar:
 
-``` bash
-cut -f1,2,3 results/22.gtdbtk_marcadores/identify/gtdbtk.bac120.markers_summary.tsv | column -t
+```{r}
+library(tidyverse)
+library(ape)
+library(ggrepel)
 ```
 
-Y la calidad de CheckM2: nombre del MAG, completitud y contaminación:
+Ahora leemos el resumen de marcadores. Nos quedamos con el nombre del MAG y las dos columnas que usaremos:
 
-``` bash
-cut -f1,2,3 results/19.gtdbtk_global/quality_report.tsv | column -t
+```{r}
+mk <- read_tsv("22.gtdbtk_marcadores/identify/gtdbtk.bac120.markers_summary.tsv") |>
+  select(Bin_name = name, Unicos = number_unique_genes, Multiples = number_multiple_genes)
 ```
 
+Leemos también la calidad de CheckM2 (completitud y contaminación):
 
-Un MAG con pocos de los 120 marcadores aporta poca información al árbol. Para ver cuáles son, comparamos los marcadores únicos de cada MAG con su completitud según CheckM2, que mide algo parecido con otro método. Esta es la gráfica, ya preparada:
+```{r}
+cal <- read_tsv("19.gtdbtk_global/quality_report.tsv") |>
+  select(Bin_name = Name, Completitud = Completeness, Contaminacion = Contamination)
+```
 
-![Marcadores bac120 únicos contra completitud CheckM2](Figures/marcadores.png){fig-align="center" width="70%"}
+Unimos las dos tablas por el nombre del MAG:
+
+```{r}
+mk <- left_join(mk, cal, by = "Bin_name")
+```
+
+Un MAG con pocos de los 120 marcadores aporta poca información al árbol. Para ver cuáles son, comparamos los marcadores únicos de cada MAG con su completitud según CheckM2, que mide algo parecido con otro método:
+
+```{r marcadores}
+ggplot(mk, aes(Completitud, Unicos, label = Bin_name)) +
+  geom_point() + geom_text_repel(size = 3) +
+  labs(x = "Completitud CheckM2 (%)", y = "Marcadores bac120 únicos (de 120)") +
+  theme_minimal()
+```
+
+El resultado esperado es la gráfica de arriba. Si tu sesión de R no muestra gráficos (por ejemplo, si trabajas en la terminal del servidor), guárdala con `ggsave("marcadores.png", width = 7, height = 5)` y descárgala a tu computadora para verla.
 
 **Explora:**
 
@@ -439,6 +676,11 @@ Ya no necesitamos este ambiente, así que lo desactivamos:
 conda deactivate
 ```
 
+**Si algo falla** en este paso o en el anterior, copia el resultado precomputado:
+
+```{bash, eval=FALSE}
+cp -r RUTA_RESPALDO/22.gtdbtk_marcadores results/
+```
 
 ------------------------------------------------------------------------
 
@@ -476,26 +718,21 @@ iqtree3 -s results/23.iqtree/bac120_17mags.faa \
 
 Las salidas principales son `bac120_17mags.treefile` (el árbol con los soportes SH-aLRT/UFBoot en cada nodo) y `bac120_17mags.iqtree` (el reporte con el modelo y la verosimilitud). Con 4 hilos tarda unos 5 minutos (unos 3 de ellos en ModelFinder).
 
+Desactivamos el ambiente:
 
+```{bash, eval=FALSE}
+conda deactivate
+```
+
+**Si algo falla**, copia el resultado precomputado:
+
+```{bash, eval=FALSE}
+cp -r RUTA_RESPALDO/23.iqtree results/
+```
 
 ------------------------------------------------------------------------
 
 ### 03.5 Leer y enraizar el árbol
-
-Esta parte se hace en R, con `results` como directorio de trabajo. Usamos otra vez el ambiente `qiime2`, que también trae R (si ya lo tienes activo, no pasa nada). Entramos a `results` y abrimos R:
-
-``` bash
-conda activate qiime2
-cd results
-R
-```
-
-Cargamos los paquetes que vamos a usar:
-
-```{r}
-library(tidyverse)
-library(ape)
-```
 
 Vamos a leer el árbol en R. IQ-TREE lo entrega sin raíz; para leerlo en una dirección hay que enraizarlo con un grupo externo, y **enraizar no es trivial**. Aquí usamos MAG07 (*Acinetobacter*), el único MAG de otro filo (Pseudomonadota), porque es el único candidato claro dentro de este catálogo. En un proyecto propio conviene elegir el grupo externo con cuidado, y no tiene que ser uno de tus MAGs: también puedes buscar un genoma adecuado en bases de datos de genomas y añadirlo al análisis. Otra raíz cambia cómo se dibuja el árbol y quién parece divergir primero, pero las agrupaciones que veremos no cambian mientras la raíz quede fuera de ellas. La opción `edgelabel = TRUE` mantiene cada soporte en su nodo al enraizar:
 
@@ -534,21 +771,7 @@ legend("bottomleft", legend = names(colores), text.col = colores, bty = "n", cex
 add.scale.bar()
 ```
 
-El resultado esperado es el árbol de arriba. En la terminal del servidor no se abre ninguna ventana con la gráfica, así que hay que guardarla en un archivo. Corre el mismo bloque entre `png()` y `dev.off()`:
-
-``` r
-png("23.iqtree/arbol.png", width = 900, height = 700)
-arbol <- tr
-arbol$tip.label <- etiquetas
-plot(arbol, tip.color = colores[tx$Family], cex = 0.9, label.offset = 0.02)
-nodelabels(arbol$node.label, frame = "none", cex = 0.6, adj = c(1.1, -0.4), col = "grey30")
-legend("bottomleft", legend = names(colores), text.col = colores, bty = "n", cex = 0.8)
-add.scale.bar()
-dev.off()
-getwd()
-```
-
-El árbol queda guardado como `23.iqtree/arbol.png`, dentro de la carpeta donde está trabajando R (`results`; `getwd()` te la muestra), junto a los demás archivos de IQ-TREE. Ábrelo desde el explorador de archivos de tu editor o descárgalo a tu computadora para verlo.
+El resultado esperado es el árbol de arriba. Si tu sesión de R no muestra gráficos, ejecuta `png("arbol.png", width = 900, height = 700)` antes del bloque de código, y `dev.off()` al terminar, para guardarlo y descargarlo.
 
 **Explora:** observa qué ramas son largas y qué nodos tienen soporte bajo. ¿Qué cambia si enraizas en otro MAG? Prueba con otro valor de `outgroup`.
 
@@ -578,17 +801,6 @@ bind_rows(lapply(c("Phylum", "Order", "Family", "Genus"), monofiletico)) |>
 
 **Explora:** revisa los soportes de esos grupos en la figura anterior.
 
-Para terminar, salimos de R (si pregunta si guardas la sesión, responde `n`), volvemos a la raíz del proyecto y desactivamos el ambiente:
-
-``` r
-q()
-```
-
-``` bash
-cd ..
-conda deactivate
-```
-
 ------------------------------------------------------------------------
 
 ### 03.7 Límites de la inferencia
@@ -609,6 +821,9 @@ Los 17 MAGs (`results/19.gtdbtk_global/mags/`) y las tablas `19.gtdbtk_global/gt
 
 `results/22.gtdbtk_marcadores/` (marcadores y alineamiento) y `results/23.iqtree/` (árbol y reporte de IQ-TREE).
 
+## Resultados precomputados de respaldo
+
+Para poder continuar aunque falle un paso, se entregan junto con el `.Rmd` los resultados ya calculados, con la misma estructura de `results/`: `22.gtdbtk_marcadores/` (marcadores y alineamiento) y `23.iqtree/` (árbol y reporte de IQ-TREE). En cada paso se indica cuándo copiarlos. Las tablas de `19.gtdbtk_global/` se incluyen para poder compilar el documento.
 
 ## Preguntas de interpretación
 
@@ -1204,3 +1419,5 @@ Responde por tu cuenta (puedes comentarlo con tus compañeros):
 -   Fu et al. 2012. CD-HIT. *Bioinformatics*.
 -   Camargo et al. 2023. geNomad. *Nature Biotechnology*.
 -   Roux et al. 2019. MIUViG. *Nature Biotechnology*.
+
+
