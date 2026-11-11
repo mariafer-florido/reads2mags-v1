@@ -211,13 +211,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul>
 </li>
   <li>
-<a href="#asignaci%C3%B3n-taxon%C3%B3mica" id="toc-asignación-taxonómica" class="nav-link" data-scroll-target="#asignaci%C3%B3n-taxon%C3%B3mica">04. Asignación taxonómica</a>
+<a href="#reconstrucci%C3%B3n-metab%C3%B3lica" id="toc-reconstrucción-metabólica" class="nav-link" data-scroll-target="#reconstrucci%C3%B3n-metab%C3%B3lica">04. Reconstrucción metabólica</a>
   <ul class="collapse">
-<li><a href="#gtdb-tk" id="toc-gtdb-tk" class="nav-link" data-scroll-target="#gtdb-tk">04.1 GTDB-tk</a></li>
+<li><a href="#herramientas-para-reconstrucci%C3%B3n-metab%C3%B3lica" id="toc-herramientas-para-reconstrucción-metabólica" class="nav-link" data-scroll-target="#herramientas-para-reconstrucci%C3%B3n-metab%C3%B3lica">04.1. Herramientas para reconstrucción metabólica</a></li>
   </ul>
 </li>
   <li>
-<a href="#filogen%C3%B3mica" id="toc-filogenómica" class="nav-link" data-scroll-target="#filogen%C3%B3mica">05. Filogenómica</a>
+<a href="#asignaci%C3%B3n-taxon%C3%B3mica" id="toc-asignación-taxonómica" class="nav-link" data-scroll-target="#asignaci%C3%B3n-taxon%C3%B3mica">05. Asignación taxonómica</a>
+  <ul class="collapse">
+<li><a href="#gtdb-tk" id="toc-gtdb-tk" class="nav-link" data-scroll-target="#gtdb-tk">05.1 GTDB-tk</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#filogen%C3%B3mica" id="toc-filogenómica" class="nav-link" data-scroll-target="#filogen%C3%B3mica">06. Filogenómica</a>
   <ul class="collapse">
 <li><a href="#objetivos" id="toc-objetivos" class="nav-link" data-scroll-target="#objetivos">Objetivos</a></li>
   <li><a href="#conceptos-clave" id="toc-conceptos-clave" class="nav-link" data-scroll-target="#conceptos-clave">Conceptos clave</a></li>
@@ -226,8 +232,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li>
 <a href="#pr%C3%A1ctica" id="toc-práctica" class="nav-link" data-scroll-target="#pr%C3%A1ctica">Práctica</a>
   <ul class="collapse">
-<li><a href="#insumos-necesarios" id="toc-insumos-necesarios" class="nav-link" data-scroll-target="#insumos-necesarios">03.1 Insumos necesarios</a></li>
-  <li><a href="#marcadores-identificaci%C3%B3n" id="toc-marcadores-identificación" class="nav-link" data-scroll-target="#marcadores-identificaci%C3%B3n">03.2 Marcadores: identificación</a></li>
+<li><a href="#insumos-necesarios" id="toc-insumos-necesarios" class="nav-link" data-scroll-target="#insumos-necesarios">06.1 Insumos necesarios</a></li>
+  <li><a href="#marcadores-identificaci%C3%B3n" id="toc-marcadores-identificación" class="nav-link" data-scroll-target="#marcadores-identificaci%C3%B3n">06.2 Marcadores: identificación</a></li>
   <li><a href="#alineamiento-de-marcadores" id="toc-alineamiento-de-marcadores" class="nav-link" data-scroll-target="#alineamiento-de-marcadores">03.3 Alineamiento de marcadores</a></li>
   <li><a href="#%C3%A1rbol-de-m%C3%A1xima-verosimilitud" id="toc-árbol-de-máxima-verosimilitud" class="nav-link" data-scroll-target="#%C3%A1rbol-de-m%C3%A1xima-verosimilitud">03.4 Árbol de máxima verosimilitud</a></li>
   <li><a href="#leer-y-enraizar-el-%C3%A1rbol" id="toc-leer-y-enraizar-el-árbol" class="nav-link" data-scroll-target="#leer-y-enraizar-el-%C3%A1rbol">03.5 Leer y enraizar el árbol</a></li>
@@ -748,8 +754,33 @@ Caution
 <p>Los Clústeres de Genes Biosintéticos (BGCs) son un tipo de operón, que a veces pueden ser parte de una isla genomica. A pesar de que los productos que generan no son estrictamente necesarios para la supervivencia del organismo (metabolismo secundario), son bastante útiles para mejorar el “fitness” del mismo.</p>
 <p><a href="https://antismash.secondarymetabolites.org/#!/start">antiSMASH</a> usa modelos ocultos de Markov que permiten identificar los grupos de genes contenidos en las secuencias genómicas que codifican BGCs de todas las clases químicas conocidas.</p>
 <p>Si te interesa saber más a fondo cómo anotar BGCs en los genomas de tu interés puedes aprender siguiendo el flujo de análisis propuestos en la lección de <a href="https://carpentries-incubator.github.io/genome-mining/">Minería Genómica</a> de Software Carpentry.</p>
-</section></section><section id="asignación-taxonómica" class="level2"><h2 class="anchored" data-anchor-id="asignación-taxonómica">04. Asignación taxonómica</h2>
-<section id="gtdb-tk" class="level3"><h3 class="anchored" data-anchor-id="gtdb-tk">04.1 GTDB-tk</h3>
+</section></section><section id="reconstrucción-metabólica" class="level2"><h2 class="anchored" data-anchor-id="reconstrucción-metabólica">04. Reconstrucción metabólica</h2>
+<p>Una vez que hemos asignado identificadores funcionales, como los números KO, a las secuencias de nuestro MAG, el siguiente paso es realizar una reconstrucción metabólica. Este proceso consiste en integrar esas anotaciones individuales dentro de redes bioquímicas para inferir las capacidades de nuestro microorganismo, su posible importancia ecológico y su estilo de vida. Por ejemplo, con la reconstrucción metabólica podemos saber su tipo de respiración, si tiene la capacidad de fijación de nitrógeno o las vías de síntesis de aminoácidos que utiliza.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="Figures/tca-bacteria.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1044"></p>
+</figure>
+</div>
+<p>La reconstrucción metabólica va más allá de un simple conteo de genes, estando más enfocada en evaluar el contexto de las vías bioquímicas a través de un proceso de 4 etapas:</p>
+<ol type="1">
+<li><p><strong>Mapeo a redes de referencia:</strong> Se relacionan los números KO, EC o Reactome anotados con mapas metabólicos globales estandarizados (como KEGG Pathways, KEGG Modules, MetaCyc o BioCyc).</p></li>
+<li><p><strong>Evaluación de completitud de módulos (Pathway Completeness):</strong> Se determina qué porcentaje de los pasos secuenciales de una ruta metabólica está presente en el genoma. Un módulo se considera funcionalmente completo si cuenta con todas las enzimas clave del bloque sintético o degradativo.</p></li>
+<li><p><strong>Análisis de brechas (Gap-filling):</strong> Identifica pasos ausentes en una ruta. Si a un operón o vía lineal le falta una sola enzima intermedia, esta ausencia puede deberse a la fragmentación del ensamblaje del MAG (cobertura incompleta del genoma) o a que el organismo utiliza una variante enzimática no canónica.</p></li>
+<li><p><strong>Inferencia de fenotipos y perfiles biogeoquímicos:</strong> Agrupa las vías en grandes categorías ecológicas como el ciclo del nitrógeno (desnitrificación, anammox, fijación), ciclo del azufre, metanogénesis, fijación de carbono y resistencia a metales pesados.</p></li>
+</ol>
+<section id="herramientas-para-reconstrucción-metabólica" class="level3"><h3 class="anchored" data-anchor-id="herramientas-para-reconstrucción-metabólica">04.1. Herramientas para reconstrucción metabólica</h3>
+<p>Hacer la reconstrucción del metabolismo a mano es increíblemente laborioso y pesado. Por eso se usan herramientas bioinformaticas para semi-automatizar este proceso a partir de archivos de anotación (<em>.gff3, .faa</em> o tablas de <em>eggNOG/KEGG</em>). Entre las herramientas más útiles para esto se encuentran las siguientes:</p>
+<ol type="1">
+<li><p><strong>KEGG Mapper / Reconstruct:</strong> Interfaz que toma listas de identificadores KO y colorea las rutas metabólicas de KEGG, permitiendo visualizar qué nodos de la red están presentes en tu organismo.</p></li>
+<li><p><strong>METABOLIC:</strong> Es un pipeline de linea de comando que integra la anotación funcional con la cobertura metagenómica para cuantificar la contribución potencial de cada MAG a los ciclos biogeoquímicos globales.</p></li>
+<li><p><strong>MicrobeAnnotator:</strong> Pipeline similar a METABOLIC, que extrae anotaciones de múltiples bases de datos para calcular porcentajes de completitud de módulos de KEGG y rutas metabólicas generales.</p></li>
+<li><p><strong>RbiMs (Reconstruction of Bin Metabolisms):</strong> Un paquete de R especializado en la integración, perfilamiento y visualización de vías metabólicas para MAGs. Importa directamente los resultados de anotación (KEGG vía KofamScan, dbCAN, InterProScan, etc.), calcula el porcentaje de cobertura de cada vía y permite extraer subconjuntos de datos metabólicos de manera programática. Al correr de forma nativa en R, facilita la integración de metadatos experimentales, la generación de gráficas y la aplicación de análisis para identificar vías diferencialmente enriquecidas.</p></li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="Figures/rbims.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="944"></p>
+</figure>
+</div>
+</section></section><section id="asignación-taxonómica" class="level2"><h2 class="anchored" data-anchor-id="asignación-taxonómica">05. Asignación taxonómica</h2>
+<section id="gtdb-tk" class="level3"><h3 class="anchored" data-anchor-id="gtdb-tk">05.1 GTDB-tk</h3>
 <p>GTDB-Tk es una herramienta que asigna taxonomía a genomas utilizando la base de datos <a href="https://gtdb.ecogenomic.org/">GTDB</a> (Genome Taxonomy Database). Basado en árboles filogenéticos y medidas de ANI (Average Nucleotide Identity), GTDB-Tk clasifica genomas bacterianos y arqueanos, proporciona una taxonomía coherente y actualizada. Se utiliza mucho en el análisis de genomas y metagenomas.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="Figures/GTDB-tk_worflow.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="944"></p>
@@ -793,7 +824,7 @@ Caution
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--out_dir</span> results/13.gtdbtk/0h/ <span class="dt">\</span></span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--cpus</span> 6 <span class="dt">\</span></span>
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">-x</span> fasta <span class="op">&gt;</span> outs/13.gtdbtk0h.out <span class="kw">&amp;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section></section><section id="filogenómica" class="level2"><h2 class="anchored" data-anchor-id="filogenómica">05. Filogenómica</h2>
+</section></section><section id="filogenómica" class="level2"><h2 class="anchored" data-anchor-id="filogenómica">06. Filogenómica</h2>
 <p>La sección anterior termina con una tabla de taxonomía para cada MAG del pozol. Este módulo va un paso más allá: construye un árbol con los mismos genes marcadores que usa GTDB-Tk, lo lee de forma crítica y lo compara con esa taxonomía.</p>
 <p><strong>Pregunta guía:</strong> <em>¿qué tan bien concuerda la taxonomía asignada a los MAGs con su filogenia, y cuánta confianza podemos darle a esa comparación?</em></p>
 <section id="objetivos" class="level3"><h3 class="anchored" data-anchor-id="objetivos">Objetivos</h3>
@@ -812,7 +843,7 @@ Caution
 <p><strong>Enraizar.</strong> Un árbol sin raíz no indica qué linaje divergió primero. Para leerlo en una dirección se elige un grupo externo.</p>
 <p><strong>Un dato para la comparación.</strong> La taxonomía de GTDB se definió sobre un árbol de genomas construido con estos mismos marcadores.</p>
 <hr></section></section><section id="práctica" class="level2"><h2 class="anchored" data-anchor-id="práctica">Práctica</h2>
-<section id="insumos-necesarios" class="level3"><h3 class="anchored" data-anchor-id="insumos-necesarios">03.1 Insumos necesarios</h3>
+<section id="insumos-necesarios" class="level3"><h3 class="anchored" data-anchor-id="insumos-necesarios">06.1 Insumos necesarios</h3>
 <p>Partimos de lo que ya produjo el taller:</p>
 <ul>
 <li><p><strong>Los 17 MAGs desreplicados</strong></p></li>
@@ -823,7 +854,7 @@ Caution
 <li>
 <strong>Ambientes.</strong> Esta práctica usa dos ambientes de conda que ya están instalados en el servidor: <code>gtdbtk</code> (pasos 2 y 3) y <code>qiime2</code> (paso 4). Para R se usan los paquetes <code>tidyverse</code>, <code>ape</code> y <code>ggrepel</code>. En cada paso de terminal se indica cuándo activar y desactivar el ambiente.</li>
 </ul>
-<hr></section><section id="marcadores-identificación" class="level3"><h3 class="anchored" data-anchor-id="marcadores-identificación">03.2 Marcadores: identificación</h3>
+<hr></section><section id="marcadores-identificación" class="level3"><h3 class="anchored" data-anchor-id="marcadores-identificación">06.2 Marcadores: identificación</h3>
 <p>Vamos a buscar en cada MAG los 120 genes marcadores que GTDB-Tk usa para clasificar. Primero activamos el ambiente de GTDB-Tk:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate gtdbtk</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

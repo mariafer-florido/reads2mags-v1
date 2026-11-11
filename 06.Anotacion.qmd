@@ -521,10 +521,40 @@ Los Clústeres de Genes Biosintéticos (BGCs) son un tipo de operón, que a vece
 Si te interesa saber más a fondo cómo anotar BGCs en los genomas de tu interés puedes aprender siguiendo el flujo de análisis propuestos en la lección de [Minería Genómica](https://carpentries-incubator.github.io/genome-mining/) de Software Carpentry.
 
 
+## 04. Reconstrucción metabólica
 
-## 04. Asignación taxonómica
+Una vez que hemos asignado identificadores funcionales, como los números KO, a las secuencias de nuestro MAG, el siguiente paso  es realizar una reconstrucción metabólica. Este proceso consiste en integrar esas anotaciones individuales dentro de redes bioquímicas  para inferir las capacidades de nuestro microorganismo, su posible importancia ecológico y su estilo de vida. Por ejemplo, con la reconstrucción metabólica podemos saber su tipo de respiración, si tiene la capacidad de fijación de nitrógeno o las vías de síntesis de aminoácidos que utiliza.
 
-### 04.1 GTDB-tk
+![](Figures/tca-bacteria.png){fig-align="center" width="1044"}
+
+La reconstrucción metabólica va más allá de un simple conteo de genes, estando más enfocada en evaluar el contexto de las vías bioquímicas a través de un proceso de 4 etapas:
+
+  1. **Mapeo a redes de referencia:** Se relacionan los números KO, EC o Reactome anotados con mapas metabólicos globales estandarizados (como KEGG Pathways, KEGG Modules, MetaCyc o BioCyc).
+
+  2. **Evaluación de completitud de módulos (Pathway Completeness):** Se determina qué porcentaje de los pasos secuenciales de una ruta metabólica está presente en el genoma. Un módulo se considera funcionalmente completo si cuenta con todas las enzimas clave del bloque sintético o degradativo.
+
+  3. **Análisis de brechas (Gap-filling):** Identifica pasos ausentes en una ruta. Si a un operón o vía lineal le falta una sola enzima intermedia, esta ausencia puede deberse a la fragmentación del ensamblaje del MAG (cobertura incompleta del genoma) o a que el organismo utiliza una variante enzimática no canónica.
+
+  4. **Inferencia de fenotipos y perfiles biogeoquímicos:** Agrupa las vías en grandes categorías ecológicas como el ciclo del nitrógeno (desnitrificación, anammox, fijación), ciclo del azufre, metanogénesis, fijación de carbono y resistencia a metales pesados.
+
+
+### 04.1. Herramientas  para reconstrucción metabólica
+
+Hacer la reconstrucción del metabolismo a mano es increíblemente laborioso y pesado. Por eso se usan herramientas bioinformaticas para semi-automatizar este proceso a partir de archivos de anotación (*.gff3, .faa* o tablas de *eggNOG/KEGG*). Entre las herramientas más útiles para esto se encuentran las siguientes:
+
+  1. **KEGG Mapper / Reconstruct:** Interfaz que toma listas de identificadores KO y colorea las rutas metabólicas de KEGG, permitiendo visualizar qué nodos de la red están presentes en tu organismo.
+
+  2. **METABOLIC:** Es un pipeline de linea de comando que integra la anotación funcional con la cobertura metagenómica para cuantificar la contribución potencial de cada MAG a los ciclos biogeoquímicos globales.
+
+  3. **MicrobeAnnotator:** Pipeline similar a METABOLIC, que extrae anotaciones de múltiples bases de datos para calcular porcentajes de completitud de módulos de KEGG y rutas metabólicas generales.
+
+  4. **RbiMs (Reconstruction of Bin Metabolisms):** Un paquete de R especializado en la integración, perfilamiento y visualización de vías metabólicas para MAGs. Importa directamente los resultados de anotación (KEGG vía KofamScan, dbCAN, InterProScan, etc.), calcula el porcentaje de cobertura de cada vía y permite extraer subconjuntos de datos metabólicos de manera programática. Al correr de forma nativa en R, facilita la integración de metadatos experimentales, la generación de gráficas y la aplicación de análisis para identificar vías diferencialmente enriquecidas.
+
+![](Figures/rbims.png){fig-align="center" width="944"}
+
+## 05. Asignación taxonómica
+
+### 05.1 GTDB-tk
 
 GTDB-Tk es una herramienta que asigna taxonomía a genomas utilizando la base de datos [GTDB](https://gtdb.ecogenomic.org/) (Genome Taxonomy Database). Basado en árboles filogenéticos y medidas de ANI (Average Nucleotide Identity), GTDB-Tk clasifica genomas bacterianos y arqueanos, proporciona una taxonomía coherente y actualizada. Se utiliza mucho en el análisis de genomas y metagenomas.
 
@@ -582,7 +612,7 @@ nohup gtdbtk classify_wf \
 
 
 
-## 05. Filogenómica
+## 06. Filogenómica
 
 La sección anterior termina con una tabla de taxonomía para cada MAG del pozol. Este módulo va un paso más allá: construye un árbol con los mismos genes marcadores que usa GTDB-Tk, lo lee de forma crítica y lo compara con esa taxonomía.
 
@@ -616,7 +646,7 @@ Al terminar este módulo podrás:
 
 ## Práctica
 
-### 03.1 Insumos necesarios
+### 06.1 Insumos necesarios
 
 Partimos de lo que ya produjo el taller:
 
@@ -630,7 +660,7 @@ Todo está en tu directorio, dentro de `results/19.gtdbtk_global/`: la carpeta `
 
 ------------------------------------------------------------------------
 
-### 03.2 Marcadores: identificación
+### 06.2 Marcadores: identificación
 
 Vamos a buscar en cada MAG los 120 genes marcadores que GTDB-Tk usa para clasificar. Primero activamos el ambiente de GTDB-Tk:
 
