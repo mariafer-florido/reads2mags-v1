@@ -21,7 +21,7 @@ La anotación funcional nos permite conocer qué es lo que nuestros microorganis
 
 * **Otros elementos:** Sistemas CRISPR-Cas, pseudogenes y proteínas hipotéticas.
 
-![Estructura del genoma bacteriano](Figures/dna_3d.png){fig-align="center" width="1044"}
+![](Figures/dna_3d.png){fig-align="center" width="1044"}
 
 ### 01.2. Consideraciones generales
 
@@ -31,16 +31,14 @@ En la cadena ”líder” estos extremos van del **5’ -> 3’**
 
 En cadena complementaria, van del  **3’ -> 5’**
 
-![Direccionalidad del ADN](Figures/DNA_chemical_structure.svg){fig-align="center" width="944"}
+![](Figures/DNA_chemical_structure.svg){fig-align="center" width="944"}
 
 Esto es importante porque, en general, las bases que nosotros encontramos en nuestros archivos fasta y fastq se encuentran siempre en dirección **5’ -> 3’**.
 
 ------------------------------------------------------------------------
 
-# Ejercicios:
-
 ::: callout-tip
-## Ejercicio 1
+#### Ejercicio 1
 
 **Ahora a te toca a ti**
 
@@ -58,13 +56,13 @@ Tiempo 5 min
 
 ### 01.3. El código genético
 
-Para crear proteínas, es necesario pasar de la secuencia de nucleótidos (leída siempre en sentido 5’ -> 3’) a una secuencia de aminoácidos. Esto se usando al mRNA como intermediario. Como recordaran, la única diferencia entre el DNA y el mRNA es que este último utiliza la base Uracilo (U) en lugar de Tiamina (T).
+Para crear proteínas, es necesario pasar de la secuencia de nucleótidos (leída siempre en sentido 5’ -> 3’) a una secuencia de aminoácidos. Esto se usando al mRNA como intermediario. Como recordaran, la única diferencia entre el DNA y el mRNA es que este último utiliza la base Uracilo (U) en lugar de Timina (T).
 
 Ahora, dado que la cantidad de aminoácidos (al menos 20) es mayor a la cantidad de nucleótidos (sólo 4), es necesario usar combinaciones de 3 nucleótidos para representar cada aminoácido. A la lista de equivalencias de grupos de 3 nucleótidos a aminoácidos es lo que conocemos como el código genético.
 
 Aunque en algún momento se creyó que el código genético era universal, ahora sabemos que existen variantes, pero la gran mayoría de la bacterias usan la variante 11.
 
-![Genetic code 11](Figures/genetic_code.png){fig-align="center" width="944"}
+![](Figures/genetic_code.png){fig-align="center" width="944"}
 
 Durante la anotación es necesario encontrar los marcos de lectura de un gen. Estos están definidos como la secuencia de nucleótidos que se encuentra entre un codón de inicio (AUG, GUG o UUG) y un codón de paro (UAA, UAG, UGA).
 
@@ -72,10 +70,8 @@ Durante la anotación es necesario encontrar los marcos de lectura de un gen. Es
 
 ------------------------------------------------------------------------
 
-# Ejercicios:
-
 ::: callout-tip
-## Ejercicio 2
+#### Ejercicio 2
 
 **Ahora a te toca a ti**
 
@@ -95,19 +91,19 @@ Tiempo 10 min
 
 Durante la anotación es necesario encontrar los marcos de lectura de un gen. Estos están definidos como la secuencia de nucleótidos que se encuentra entre un codón de inicio (AUG, GUG o UUG) y un codón de paro (UAA, UAG, UGA). A estos les llamamos ORFs (open reading frames).
 
-![Los 6 marcos de lecturas](Figures/reading_frames.png){fig-align="center" width="944"}
+![](Figures/reading_frames.png){fig-align="center" width="944"}
 
 ### 01.4. ¿Cómo funciona un anotador?
 
 Los anotadores de genomas típicamente usan una variedad de programas de forma lineal (uno tras otro) para ir desde un archivo FASTA hasta los diferentes formatos de los archivos de anotación.
 
-    1. Detección de ORFs (Open Reading Frames) usando todos los marcos de lectura y el código genético adecuado. (*prodigal, glimmer3, GeneMarkS-2*)
+  1. Detección de ORFs (Open Reading Frames) usando todos los marcos de lectura y el código genético adecuado. (*prodigal, glimmer3, GeneMarkS-2*)
 
-    1. Detección de tRNAs, rRNAs y otros otros RNAs no codificantes (ncRNAs). (*barnap, infernal*)
+  2. Detección de tRNAs, rRNAs y otros otros RNAs no codificantes (ncRNAs). (*barnap, infernal*)
 
-    1. Asignación de funciones de los posibles CDS usando programas de comparación por homología y bases de datos de funciones (posterior a la curación de ORFs). (*diamond, mmseqs2*)
+  3. Asignación de funciones de los posibles CDS usando programas de comparación por homología y bases de datos de funciones (posterior a la curación de ORFs). (*diamond, mmseqs2*)
 
-    1. Dependiendo de cada anotador, pasos extras son añadidos, como detección de secuencias CRISPR-Cas, péptidos señales o detección de pseudo-genes, por ejemplo.
+  4. Dependiendo de cada anotador, pasos extras son añadidos, como detección de secuencias CRISPR-Cas, péptidos señales o detección de pseudo-genes, por ejemplo.
 
 **¡Ojo!**
 
@@ -121,7 +117,7 @@ A pesar de que todas siguen el mismo flujo de trabajo, existen diferentes estrat
 
 **Anotación especializada:** Esta estrategia hace uso de herramientas generales en combinación con bases de datos diseñadas y curadas para propósitos específicos (reconstrucción de rutas metabólicas, identificación de factores de virulencia, etc.)
 
-En este ejercicio vamos a utilizar dos ensambladores generales, Prokka y Bakta.
+En este ejercicio vamos a utilizar dos anotadores generales, Prokka y Bakta.
 
 ## 02. Anotación
 
@@ -219,6 +215,8 @@ Las ventajas sobre Prokka son:
 
 El costo es que Bakta necesita una **base de datos grande** (la completa pesa decenas de GB) y **tarda más**: en este MAG de 0 h corrió en \~15 minutos. Por eso en el taller **no lo vamos a correr en vivo**, ya dejamos sus resultados en el directorio de cada quien; de ahí tomaremos el `.faa` (las proteínas predichas) como insumo para las anotaciones que siguen, por ser la anotación más completa y actual.
 
+------------------------------------------------------------------------
+
 ::: {.callout-note collapse="true"}
 ### Asi se corrió (No lo ejecutes)
 
@@ -255,7 +253,7 @@ El resultado principal de la anotación de genomas es el nombre, secuencia y  lo
 
 En general, podemos dividir los archivos de salida entre aquellos que contienen la información de la anotación, la secuencia de nucleotidos y/o aminoácidos y los que contienen la localización (*i.e* coordenadas) de los mismos, o una combinación de todos estos.
 
-![Tipos de archivos](Figures/anotacion-tipos-de-archivos.png){fig-align="center" width="944"}
+![](Figures/anotacion-tipos-de-archivos.png){fig-align="center" width="944"}
 
 Los archivos más comunes y utilizados son los siguientes:
 
@@ -283,8 +281,6 @@ Las columnas que se encuentran en el archivo gff3 son:
 **asn/json:** Estos formatos suelen contener una gran cantidad de información, incluso más que los formatos gbff o embl. Sin embargo, la información dentro de estos archivos no está estructurada de una forma amigable para ser leída por humanos, por lo que se utilizan principalmente como input para programas especializados.
 
 ------------------------------------------------------------------------
-
-# Ejercicios:
 
 ::: callout-tip
 ## Ejercicio 3
@@ -322,8 +318,6 @@ Para resolver este problema, las herramientas y bases de datos funcionales moder
 
 ------------------------------------------------------------------------
 
-# Ejercicios:
-
 ::: callout-tip
 ## Ejercicio 4
 
@@ -333,7 +327,7 @@ Mira y analiza esta filogenia para identificar los pares de genes homologos, ort
 
 Tiempo 10 min
 
-![¿Cual es cual?](Figures/example_homologous.png){fig-align="center" width="1044"}
+![](Figures/example_homologous.png){fig-align="center" width="1044"}
 
 :::
 
@@ -343,14 +337,45 @@ Tiempo 10 min
 
 Ahora que ya sabemos cómo se hacen las comparativas, necesitamos una base de datos con los genes y proteínas que queremos usar como base para la comparación.
 
-Existen muchas bases de datos, la mayoría de las cuales están basadas en proteínas con función conocida de forma experimental (o con una inferencia informática bastante cuidadosa). Además, las bases de datos suelen organizar estas proteínas de forma racional, en vías metabólicas comunes, por funciones generales, etc..., de acuerdo con las necesidades de quienes las hicieron. Entre las bases de datos más comunes se encuentran KO, KEGG, COG
+Existen muchas bases de datos, la mayoría de las cuales están basadas en proteínas con función conocida de forma experimental (o con una inferencia informática bastante cuidadosa). Además, las bases de datos suelen organizar estas proteínas de forma racional, en vías metabólicas comunes, por funciones generales, etc..., de acuerdo con las necesidades de quienes las hicieron. Entre las bases de datos más comunes se encuentran KO, KEGG, COG, eggNOG y Pfam. Cada una tiene un enfoque particular para estructurar y clasificar la inmensa diversidad genética:
 
+  1. **KEGG (Kyoto Encyclopedia of Genes and Genomes)**: Es mucho más que un simple catálogo de secuencias; es un conjunto integral de bases de datos diseñado para entender los sistemas biológicos de alto nivel. Su mayor fortaleza son los mapas de vías metabólicas (*KEGG Pathways*), los cuales ilustran gráficamente cómo interactúan las moléculas y enzimas dentro de una célula para realizar funciones biológicas complejas, desde el ciclo de Krebs hasta la degradación de hidrocarburos.
 
+  2. **KO (KEGG Orthology)**: Es el sistema de clasificación específico que utiliza KEGG para vincular los genes individuales de cualquier organismo con las vías metabólicas generales. Un identificador KO (por ejemplo, *K00873*) agrupa a todos los genes ortólogos de diferentes especies que catalizan exactamente la misma reacción funcional. En la práctica, cuando anotas un genoma, buscas asignarle un número KO a cada gen para saber exactamente qué "nodo" o paso de un mapa metabólico de KEGG es capaz de realizar tu organismo.
 
-Con las proteínas predichas por Bakta ya podemos hacerles preguntas más específicas. Existen varias bases de datos especializadas, y **cada una responde algo distinto**; conviene tener claro el mapa antes de correrlas:
+  3. **COG (Clusters of Orthologous Groups)**: Fue uno de los primeros sistemas pioneros en clasificar las proteínas de genomas completos en grupos evolutivos. Su mayor legado, y la razón por la que lo seguimos mencionando hoy en día, es la creación de las categorías funcionales amplias representadas por una sola letra. Por ejemplo, la categoría **[C]** agrupa genes encargados de Energy production and conversion, y la **[G]** agrupa los de Carbohydrate transport and metabolism. Aunque la base de datos original de COG ya no se actualiza con la misma frecuencia que antes, su sistema de clasificación por letras sigue siendo el estándar universal.
+
+  4. **eggNOG (evolutionary genealogy of genes: Non-supervised Orthologous Groups)**: Es la evolución moderna, automatizada y escalable del sistema clásico COG. eggNOG construye grupos de ortólogos basándose en análisis filogenéticos masivos a diferentes niveles taxonómicos (abarcando miles de genomas y permitiendo búsquedas desde todo el dominio Bacteria hasta linajes muy específicos). Al heredar y expandir las categorías funcionales de COG, esta base de datos es la herramienta predilecta para hacer resúmenes y gráficos del perfil funcional completo de un MAG, dándote una visión global de lo que "sabe hacer" ese microorganismo.
+
+  5. **Pfam (Protein families)**: A diferencia de KEGG, COG o eggNOG, Pfam no intenta clasificar o anotar la proteína completa, sino que se enfoca en identificar sus dominios proteicos. Utiliza Modelos Ocultos de Markov (HMMs) para reconocer los "bloques de construcción" evolutivos (módulos estructurales o funcionales) de una secuencia. Esto es crucial porque los genes a menudo se fusionan o intercambian partes. Pfam te permite diseccionar la arquitectura de tu proteína y descubrir si tiene, por ejemplo, un dominio catalítico conocido unido a un dominio regulador completamente nuevo.
+
+------------------------------------------------------------------------
+
+::: callout-tip
+## Ejercicio 5
+
+**Ahora a te toca a ti**
+
+Qué tipo de bases de datos te parecen más adecuadas para los siguientes casos:
+
+  1. Quiero saber qué porcentaje del genoma de mi MAG está dedicado a la "producción de energía" y al "metabolismo de carbohidratos".
+
+  2. Encontré que mi MAG tiene muchas "proteínas hipotéticas" y quiero saber que podrían hacer estas.
+
+  3. Quiero hacer un análisis comparativo para saber si todas mis MAGs cuentan con el ciclo de TCA completo
+
+Tiempo 10 min
+
+:::
+
+------------------------------------------------------------------------
+
+### 03.2. Ejecución de los anotación especializada
+
+Con las proteínas predichas por Bakta ya podemos hacerles preguntas más específicas. Como ya vimos, existen varias bases de datos especializadas, y **cada una responde algo distinto**; conviene tener claro el mapa antes de correrlas:
 
 ::: callout-note
-### ¿Qué pregunta responde cada herramienta?
+#### ¿Qué pregunta responde cada herramienta?
 
 -   **KofamScan (KEGG):** ¿qué **rutas metabólicas** puede llevar a cabo este organismo? (asigna números KO, que se mapean a rutas)
 
@@ -360,7 +385,7 @@ Con las proteínas predichas por Bakta ya podemos hacerles preguntas más espec�
 
 -   **antiSMASH:** ¿tiene **clústeres de genes biosintéticos** para metabolitos secundarios (antibióticos, bacteriocinas…)?
 
-En el taller correremos **KofamScan** en vivo; las demás las platicamos.
+En el taller correremos **KofamScan** en vivo y antiSMASH en web; las demás las platicamos.
 :::
 
 ------------------------------------------------------------------------
@@ -474,19 +499,36 @@ En el pozol, las CAZymes que degradan almidón del maíz son especialmente relev
 
 Dentro de los genomas microbianos, podemos encontrar algunas regiones específicas que participan en la biosíntesis de metabolitos secundarios, estas secciones se conocen como Clústeres de Genes Biosintéticos, que son relevantes debido a las posibles aplicaciones que pueden tener, por ejemplo: actividades antimicrobianas, antitumorales, reductoras del colesterol, antivirales, etc.
 
-[antiSMASH](https://antismash.secondarymetabolites.org/#!/start) usa modelos ocultos de Markov que permiten identificar los grupos de genes contenidos en las secuencias genómicas que codifican metabolitos secundarios de todas las clases químicas conocidas.
+Los Clústers de genes, u operones, son regiones del genoma que contienen multiples genes, prácticamente pegados unos a otros, todos los cuales son controlados por reguladores (promotores, enhancer, etc...).
 
-Si te interesa buscar BGCs en los genomas de tu interés puedes aprender siguiendo el flujo de análisis propuestos en la lección de [Minería Genómica](https://carpentries-incubator.github.io/genome-mining/) de Software Carpentry.
+![](Figures/operon.jpg){fig-align="center" width="944"}
+
+Las islas genomicas son similares a los operones, con la diferencia de que con la diferencia de que son segmentos de ADN mucho más grandes (generalmente entre 10 y 200 kilobases) y, lo más importante, han sido adquiridos a través de transferencia horizontal de genes (HGT).
+
+Mientras que un operón es una unidad funcional de transcripción que típicamente evoluciona junto con el organismo, una isla genómica es un "paquete" de información genética foránea que el microorganismo incorporó de otra especie (por ejemplo, a través de plásmidos, fagos o transformación). Debido a esto, las islas genómicas suelen tener características únicas que delatan su origen externo, tales como:
+
+  - Un porcentaje de GC y un uso de codones  diferente al promedio del resto del genoma.
+
+  - Suelen estar flanqueadas por secuencias de inserción, o contener en su interior genes que permitieron su integración original en el cromosoma, como integrasas y transposasas.
+
+
+![](Figures/islas.webp){fig-align="center" width="944"}
+
+Los Clústeres de Genes Biosintéticos (BGCs) son un tipo de operón, que a veces pueden ser parte de una isla genomica. A pesar de que los productos que generan no son estrictamente necesarios para la supervivencia del organismo (metabolismo secundario), son bastante útiles para mejorar el "fitness" del mismo.
+
+[antiSMASH](https://antismash.secondarymetabolites.org/#!/start) usa modelos ocultos de Markov que permiten identificar los grupos de genes contenidos en las secuencias genómicas que codifican BGCs de todas las clases químicas conocidas.
+
+Si te interesa saber más a fondo cómo anotar BGCs en los genomas de tu interés puedes aprender siguiendo el flujo de análisis propuestos en la lección de [Minería Genómica](https://carpentries-incubator.github.io/genome-mining/) de Software Carpentry.
 
 
 
-## 01. Asignación taxonómica
+## 04. Asignación taxonómica
 
-### 01.1 GTDB-tk
+### 04.1 GTDB-tk
 
 GTDB-Tk es una herramienta que asigna taxonomía a genomas utilizando la base de datos [GTDB](https://gtdb.ecogenomic.org/) (Genome Taxonomy Database). Basado en árboles filogenéticos y medidas de ANI (Average Nucleotide Identity), GTDB-Tk clasifica genomas bacterianos y arqueanos, proporciona una taxonomía coherente y actualizada. Se utiliza mucho en el análisis de genomas y metagenomas.
 
-![GTDB-tk Workflow](Figures/GTDB-tk_worflow.png){fig-align="center" width="944"}
+![](Figures/GTDB-tk_worflow.png){fig-align="center" width="944"}
 
 Recordemos que ya tenemos un *bin* refinado y desreplicado. Ahora vamos a asignarle identidad taxonómica, para ello vamos a correr GTDB-tk
 
@@ -540,7 +582,7 @@ nohup gtdbtk classify_wf \
 
 
 
-## 03. Filogenómica
+## 05. Filogenómica
 
 La sección anterior termina con una tabla de taxonomía para cada MAG del pozol. Este módulo va un paso más allá: construye un árbol con los mismos genes marcadores que usa GTDB-Tk, lo lee de forma crítica y lo compara con esa taxonomía.
 
