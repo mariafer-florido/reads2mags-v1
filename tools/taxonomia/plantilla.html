@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Clasificación taxonómica de metagenomas con Kaiju, Kraken2 y Bracken. Material de la práctica.">
+<title>$pagetitle$</title>
+$for(css)$<link rel="stylesheet" href="$css$">$endfor$
+$if(highlighting-css)$<style>$highlighting-css$</style>$endif$
+</head>
+<body id="inicio">
+<a class="skip-link" href="#contenido">Ir al contenido</a>
+<div class="course-bar"><a class="course-name" href="00.Contenido.html">DE LECTURAS A MAGs</a><!--COURSE_NAVIGATION--></div>
+<div class="page-grid">
+<aside class="contents" aria-label="Índice de la página"><p>En esta página</p>$toc$</aside>
+<main id="contenido">
+<header><h1 class="title">$title$</h1></header>
+$body$
+<footer class="page-footer">Material del curso <a href="https://github.com/mariafer-florido/reads2mags-v1">reads2mags-v1</a>. Adaptación para el servidor y VS Code. Código y resultados de la práctica en esta página. <a href="#inicio">Volver al inicio</a>.</footer>
+</main>
+</div>
+<dialog id="figure-view" aria-label="Figura ampliada"><button type="button">Cerrar</button><img alt=""><p></p></dialog>
+<script>
+document.querySelectorAll('table').forEach(table=>{const wrap=document.createElement('div');wrap.className='table-scroll';table.before(wrap);wrap.append(table);});
+document.querySelectorAll('pre').forEach(pre=>{let wrap=pre.parentElement;if(!wrap.classList.contains('sourceCode')){wrap=document.createElement('div');wrap.className='code-wrap';pre.before(wrap);wrap.append(pre);}const bar=document.createElement('div');bar.className='code-tools';const language=document.createElement('span');const cls=pre.className+' '+(pre.querySelector('code')?.className||'');language.textContent=/\bbash\b/.test(cls)?(pre.textContent.trimStart().startsWith('#!/usr/bin/env bash')?'Bash · archivo .sh':'Bash · terminal'):/\br\b/i.test(cls)?'R · archivo .R':'Texto';const button=document.createElement('button');button.type='button';button.className='copy-button';button.textContent='Copiar';button.setAttribute('aria-label','Copiar bloque de código');button.onclick=async()=>{const text=pre.querySelector('code')?.textContent??pre.textContent;try{if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(text);else throw Error();button.textContent='Copiado';}catch{const area=document.createElement('textarea');area.value=text;area.style.position='fixed';area.style.opacity='0';document.body.append(area);area.select();const ok=document.execCommand('copy');area.remove();button.textContent=ok?'Copiado':'Selecciona el código';}setTimeout(()=>button.textContent='Copiar',1800);};bar.append(language,button);wrap.append(bar);});
+const viewer=document.querySelector('#figure-view');document.querySelectorAll('main img').forEach(img=>{img.tabIndex=0;img.setAttribute('role','button');img.setAttribute('aria-label','Ampliar figura: '+(img.alt||'figura de la práctica'));const open=()=>{viewer.querySelector('img').src=img.src;viewer.querySelector('img').alt=img.alt;viewer.querySelector('p').textContent=img.alt;viewer.showModal();};img.onclick=open;img.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}};});viewer.querySelector('button').onclick=()=>viewer.close();viewer.onclick=e=>{if(e.target===viewer)viewer.close();};
+</script>
+</body>
+</html>

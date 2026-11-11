@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Clasificación taxonómica de metagenomas con Kaiju, Kraken2 y Bracken. Material de la práctica.">
+<title>08.1. Taxonomía: ¿qué hay en mi metagenoma?</title>
+<link rel="stylesheet" href="taxonomia/estilo_taxonomia.css">
+<style>pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */</style>
+</head>
+<body id="inicio">
+<a class="skip-link" href="#contenido">Ir al contenido</a>
+<div class="course-bar"><a class="course-name" href="00.Contenido.html">DE LECTURAS A MAGs</a><nav class="course-navigation" aria-label="Secciones del curso"><a href="00.Contenido.html">Contenido</a><a href="01.Presentacion_pozol.html">El pozol</a><a href="02.Espacio_de_trabajo.html">Preparación del proyecto</a><a href="03.Filtrados.html">Filtrados</a><a href="04.Ensambles.html">Ensambles</a><a href="05.Binning.html">Binning</a><a href="06.Anotacion.html">Anotación</a><a href="07.Global.html">Analisis global</a><a href="08.1.ReadsTaxonomy.html" aria-current="page">Taxonomía de lecturas</a><a href="Creditos.html">Creditos</a><a href="Recursos_extra.html">Recursos</a></nav></div>
+<div class="page-grid">
+<aside class="contents" aria-label="Índice de la página"><p>En esta página</p><ul>
+<li><a href="#qué-hicieron-kaiju-kraken-y-bracken"
+id="toc-qué-hicieron-kaiju-kraken-y-bracken">¿Qué hicieron Kaiju, Kraken
+y Bracken?</a></li>
+<li><a href="#inicio-practica" id="toc-inicio-practica">1. Ubícate en tu
+proyecto</a></li>
+<li><a href="#copiar-insumos" id="toc-copiar-insumos">2. Copia los
+resultados preparados</a></li>
+<li><a href="#reconoce-las-tablas-antes-de-graficar"
+id="toc-reconoce-las-tablas-antes-de-graficar">3. Reconoce las tablas
+antes de graficar</a></li>
+<li><a href="#prepara-y-guarda-el-script-de-r-desde-la-terminal"
+id="toc-prepara-y-guarda-el-script-de-r-desde-la-terminal">4. Prepara y
+guarda el script de R desde la terminal</a></li>
+<li><a href="#ejecuta-y-abre-tus-figuras"
+id="toc-ejecuta-y-abre-tus-figuras">5. Ejecuta y abre tus
+figuras</a></li>
+<li><a href="#explora-la-jerarquía-de-kraken-en-pavian"
+id="toc-explora-la-jerarquía-de-kraken-en-pavian">6. Explora la
+jerarquía de Kraken en Pavian</a></li>
+<li><a href="#interpreta-y-registra-lo-que-aprendiste"
+id="toc-interpreta-y-registra-lo-que-aprendiste">7. Interpreta y
+registra lo que aprendiste</a></li>
+<li><a href="#ejecutar-clasificadores"
+id="toc-ejecutar-clasificadores">8. Ejecuta los clasificadores en tus
+propios proyectos</a></li>
+<li><a href="#referencias-y-procedencia"
+id="toc-referencias-y-procedencia">Referencias y procedencia</a></li>
+</ul></aside>
+<main id="contenido">
+<header><h1 class="title">08.1. Taxonomía: ¿qué hay en mi
+metagenoma?</h1></header>
+<p>En las prácticas anteriores trabajamos con lecturas de
+<strong>metagenómica shotgun del pozol</strong>: ADN de una comunidad
+asociada a una fermentación de maíz. Aquí exploraremos los perfiles
+taxonómicos de <strong>0, 9, 24 y 48 horas</strong>. Los archivos
+conservan sus nombres originales: <code>0hrs</code>, <code>9hrs</code>,
+<code>24hrs</code> y <code>48hrs</code>.</p>
+<p>La pregunta es <strong>qué organismos están representados en esas
+secuencias y cómo cambia su representación entre tiempos</strong>. Una
+asignación taxonómica es una comparación contra referencias; no
+constituye por sí sola una medición del número de células ni demuestra
+que un organismo esté vivo.</p>
+<p><strong>Recorrido de la práctica:</strong> copiar reportes →
+reconocer sus tablas → producir dos gráficos en R → explorar la
+jerarquía taxonómica en Pavian → interpretar los límites de los
+resultados.</p>
+<section id="aquí-empieza-la-parte-ejecutable"
+class="callout-important">
+<h3>Aquí empieza la parte ejecutable</h3>
+<p>Los clasificadores <strong>ya se ejecutaron</strong>. Esta práctica
+comienza en <a href="#inicio-practica">1. Ubícate en tu proyecto</a>, y
+continúa con <a href="#copiar-insumos">2. Copia los resultados
+preparados</a>. Trabajaremos con esos reportes desde nuestra cuenta del
+servidor. Los <a href="#ejecutar-clasificadores">ejemplos completos de
+ejecución de Kaiju y Kraken2–Bracken</a> quedan disponibles al final
+para utilizarlos en tus propios proyectos; <strong>no se ejecutan
+durante esta clase</strong>.</p>
+</section>
+<h2 id="qué-hicieron-kaiju-kraken-y-bracken">¿Qué hicieron Kaiju, Kraken
+y Bracken?</h2>
+<p>Un metagenoma contiene <strong>fragmentos de ADN de muchos organismos
+mezclados</strong>. Las lecturas no vienen con el nombre de su
+organismo: lo inferimos comparándolas con secuencias conocidas,
+organizadas en una <strong>base de referencia</strong>. En esta práctica
+analizamos ADN shotgun; no estamos agrupando amplicones de 16S.</p>
+<p>Conviene separar dos preguntas: <strong>«¿de dónde puede venir este
+fragmento?»</strong> y <strong>«¿cuánto representa cada grupo en la
+muestra?»</strong>. Clasificar ayuda a responder la primera; resumir y
+estimar abundancias, la segunda. Una lectura no equivale a una
+célula.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Herramienta</th>
+<th>Qué hace</th>
+<th>Qué tenemos para esta práctica</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Kaiju</strong></td>
+<td>Traduce lecturas y busca coincidencias con proteínas de referencia.
+Puede reconocer similitudes que se han conservado a nivel proteico.</td>
+<td>Resumen por taxón, matriz de conteos y metadatos.</td>
+</tr>
+<tr class="even">
+<td><strong>Kraken2</strong></td>
+<td>Usa coincidencias de secuencia basadas en k-mers/minimizadores para
+asignar fragmentos a la taxonomía de su base de referencia.</td>
+<td>Un reporte <code>.kreport</code> por tiempo, con una jerarquía de
+clados.</td>
+</tr>
+<tr class="odd">
+<td><strong>Bracken</strong></td>
+<td>Reestima abundancias a un rango elegido a partir de resultados de
+Kraken y distribuciones precalculadas para su base de datos.</td>
+<td>Se explica como paso posterior. <strong>Los <code>.kreport</code>
+disponibles son resultados de Kraken, no resultados de
+Bracken.</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>La idea de cada método, en palabras sencillas:</strong></p>
+<ul>
+<li><strong>Kraken2 reúne pistas del ADN.</strong> Busca pequeñas partes
+representativas de la secuencia —minimizadores de los <em>k-mers</em>— y
+combina su apoyo para asignar un taxón. Es una forma rápida de consultar
+la referencia. El parámetro <code>confidence</code> exige apoyo a la
+asignación; no expresa la probabilidad de que una especie esté
+presente.</li>
+<li><strong>Kaiju busca semejanzas en proteínas.</strong> Traduce el ADN
+en los seis marcos de lectura posibles y compara los fragmentos
+resultantes con proteínas conocidas. ADN diferente puede codificar los
+mismos aminoácidos: eso ayuda a reconocer relaciones conservadas, aunque
+no siempre distingue especies cercanas. Traducir ADN no demuestra
+actividad ni expresión.</li>
+<li><strong>Bracken reestima cantidades después de Kraken.</strong>
+Algunas lecturas solo se asignan a un grupo amplio. Bracken combina esos
+conteos con cómo se espera que Kraken clasifique fragmentos de los
+genomas de referencia. Así estima abundancias a un rango elegido; no
+confirma el origen individual de cada lectura ambigua.</li>
+</ul>
+<figure>
+<img src="images/taxonomia/00_clasificacion_y_abundancia.png"
+alt="Dos vías de clasificación de lecturas y el paso posterior de estimación con Bracken. Las flechas representan el flujo de información, no resultados ni comparaciones de exactitud." />
+<figcaption aria-hidden="true">Dos vías de clasificación de lecturas y
+el paso posterior de estimación con Bracken. Las flechas representan el
+flujo de información, no resultados ni comparaciones de
+exactitud.</figcaption>
+</figure>
+<p><strong>¿Por qué una lectura puede quedar en género y no en
+especie?</strong> Si dos especies comparten el fragmento observado, la
+evidencia puede respaldar únicamente el grupo que las contiene: su
+ancestro común más bajo, o <strong>LCA</strong>. Mantener esa asignación
+más amplia evita forzar una precisión que los datos no permiten.</p>
+<p><strong>¿Cuál elegir?</strong> Depende de la pregunta y de las
+referencias disponibles. Kraken2–Bracken es una opción para construir
+perfiles de abundancia; Kaiju aporta una comparación complementaria
+mediante proteínas. Comprueba los resultados con controles o comunidades
+conocidas y compara el mismo rango y denominador. <strong>Una lista más
+larga de especies no demuestra un análisis mejor:</strong> puede incluir
+asignaciones falsas. Ninguno compensa por completo una base
+inadecuada.</p>
+<p>Esta síntesis sigue los fundamentos de <a
+href="https://doi.org/10.1186/s13059-019-1891-0">Kraken2</a>, <a
+href="https://doi.org/10.1038/ncomms11257">Kaiju</a> y <a
+href="https://doi.org/10.7717/peerj-cs.104">Bracken</a>; los manuales de
+ejecución se enlazan al final.</p>
+<details>
+<summary>
+Para profundizar: búsqueda proteica, sensibilidad y precisión de Kaiju
+</summary>
+<figure>
+<img src="images/taxonomia/clipboard-2171130064.png"
+alt="Cómo busca Kaiju coincidencias proteicas: modos MEM y Greedy. Esquema recuperado del material del curso." />
+<figcaption aria-hidden="true">Cómo busca Kaiju coincidencias proteicas:
+modos MEM y Greedy. Esquema recuperado del material del
+curso.</figcaption>
+</figure>
+<p>Cambiar el modo de búsqueda o la longitud mínima de coincidencia
+modifica el equilibrio entre encontrar más coincidencias y evitar
+asignaciones erróneas. Esta figura del material original ilustra una
+evaluación del método; <strong>no es un resultado de nuestras cuatro
+muestras de pozol</strong>. Consulta el <a
+href="https://github.com/bioinformatics-centre/kaiju">manual de
+Kaiju</a> para los parámetros y la publicación original.</p>
+<figure>
+<img src="images/taxonomia/clipboard-2712580348.png" width="560"
+alt="Comparación de sensibilidad y precisión incluida en el material original de Kaiju." />
+<figcaption aria-hidden="true">Comparación de sensibilidad y precisión
+incluida en el material original de Kaiju.</figcaption>
+</figure>
+</details>
+<h2 id="inicio-practica">1. Ubícate en tu proyecto</h2>
+<p>En <strong>Visual Studio Code conectado al servidor</strong>, abre la
+carpeta <code>reads2mags_pozol</code> que ya utilizaste para filtrado,
+ensamble y binning. Luego abre <strong>Terminal → New Terminal</strong>.
+Comprueba que la ventana indique una conexión remota por SSH y que la
+terminal corresponda a tu cuenta.</p>
+<p>Si seguiste la organización de la sección de espacio de trabajo, el
+proyecto estará dentro de
+<code>~/curso_metagenomica_2026/bitacora/reads2mags_pozol/</code>. Los
+bloques de esta página usan esa organización y <code>$HOME</code>, que
+se sustituye por la carpeta de tu propia cuenta. No escribas el nombre
+de usuario de otra persona. Si tu proyecto está en otra ubicación,
+confirma la ruta con el docente antes de continuar.</p>
+<p><strong>Terminal de VS Code — Bash:</strong></p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/curso_metagenomica_2026/bitacora/reads2mags_pozol&quot;</span> <span class="kw">&amp;&amp;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span> <span class="kw">&amp;&amp;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-d</span> data results</span></code></pre></div>
+<p><code>pwd</code> debe terminar en <code>/reads2mags_pozol</code>, y
+debes reconocer <code>data/</code> y <code>results/</code>. Si estás
+dentro de otra carpeta del proyecto, vuelve a abrir la raíz y crea allí
+la terminal.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Carpeta del proyecto</th>
+<th>Uso en esta sección</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>data/</code></td>
+<td>Conserva los insumos iniciales de las otras prácticas.</td>
+</tr>
+<tr class="even">
+<td><code>results/07.kaiju/</code></td>
+<td>Reportes de Kaiju y las tablas y figuras que produciremos a partir
+de ellos.</td>
+</tr>
+<tr class="odd">
+<td><code>results/08.kraken/</code></td>
+<td>Reportes de Kraken y sus nuevas tablas y figuras.</td>
+</tr>
+<tr class="even">
+<td><code>scripts/</code></td>
+<td>Nuestro archivo <code>08_taxonomia.R</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>outs/</code></td>
+<td>Registro de ejecución y versiones de R y sus paquetes.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Todos los comandos siguientes parten de esta raíz.</strong>
+No cambiaremos de directorio dentro de R ni entraremos a
+<code>results/07.kaiju/</code> para ejecutar el script.</p>
+<h2 id="copiar-insumos">2. Copia los resultados preparados</h2>
+<p>Copia los reportes preparados a la carpeta de resultados de tu
+proyecto.</p>
+<p><strong>Terminal de VS Code — Bash:</strong></p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/curso_metagenomica_2026/bitacora/reads2mags_pozol/results&quot;</span> <span class="dt">\</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/curso_metagenomica_2026/bitacora/reads2mags_pozol/scripts&quot;</span> <span class="dt">\</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/curso_metagenomica_2026/bitacora/reads2mags_pozol/outs&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> <span class="at">--update</span><span class="op">=</span>none /home/pcb_01/reads2mags_pozol/results/07.kaiju <span class="dt">\</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                    /home/pcb_01/reads2mags_pozol/results/08.kraken <span class="dt">\</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/curso_metagenomica_2026/bitacora/reads2mags_pozol/results/&quot;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/curso_metagenomica_2026/bitacora/reads2mags_pozol/results/07.kaiju/&quot;</span> <span class="dt">\</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/curso_metagenomica_2026/bitacora/reads2mags_pozol/results/08.kraken/&quot;</span></span></code></pre></div>
+<p><code>mkdir -p</code> crea las carpetas que falten y conserva las
+existentes. <code>--update=none</code> conserva también los archivos que
+ya existan con el mismo nombre; esta copia <strong>no elimina otros
+resultados</strong>. Los nuevos archivos pertenecen a tu cuenta.</p>
+<p>Debes encontrar estos <strong>ocho archivos iniciales</strong>:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>En <code>results/07.kaiju/</code></th>
+<th>Qué contiene</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>kaiju_summary.tsv</code></td>
+<td>Una tabla larga: muestra, porcentaje, conteo, identificador y nombre
+taxonómico.</td>
+</tr>
+<tr class="even">
+<td><code>matrix.tsv</code></td>
+<td>Una fila por entrada taxonómica y una columna de conteos por
+tiempo.</td>
+</tr>
+<tr class="odd">
+<td><code>metadata.tsv</code></td>
+<td>Correspondencia entre los nombres de las muestras y sus etapas.</td>
+</tr>
+<tr class="even">
+<td><code>generate_matrix.R</code></td>
+<td>Script con el que se reorganizó el resumen como matriz. La matriz ya
+está incluida.</td>
+</tr>
+</tbody>
+</table>
+<p>En <code>results/08.kraken/</code>: <code>0hrs_sm.kreport</code>,
+<code>9hrs_sm.kreport</code>, <code>24hrs_sm.kreport</code> y
+<code>48hrs_sm.kreport</code>.</p>
+<p>Si aparece <code>Permission denied</code> al leer
+<code>/home/pcb_01/</code>, comparte el mensaje con el docente. Ese
+problema corresponde al acceso a los insumos compartidos.</p>
+<h2 id="reconoce-las-tablas-antes-de-graficar">3. Reconoce las tablas
+antes de graficar</h2>
+<p><strong>Terminal de VS Code — Bash:</strong></p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">column</span> <span class="at">-t</span> <span class="at">-s</span> <span class="st">$&#39;</span><span class="dt">\t</span><span class="st">&#39;</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/curso_metagenomica_2026/bitacora/reads2mags_pozol/results/07.kaiju/kaiju_summary.tsv&quot;</span> <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
+<p><code>column</code> alinea las columnas separadas por tabulaciones,
+conservando los espacios de los nombres. Usa las flechas para
+desplazarte y <strong><code>q</code> para salir</strong>.
+<code>less -S</code> conserva cada registro en una línea; los linajes
+largos se recorren con <strong>← y →</strong>. Si no se ve el
+encabezado, pulsa <strong><code>g</code></strong> para volver al
+comienzo. Identifica las columnas <code>file</code>,
+<code>percent</code>, <code>reads</code>, <code>taxon_id</code> y
+<code>taxon_name</code>.</p>
+<p>Después abre la matriz:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">column</span> <span class="at">-t</span> <span class="at">-s</span> <span class="st">$&#39;</span><span class="dt">\t</span><span class="st">&#39;</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/curso_metagenomica_2026/bitacora/reads2mags_pozol/results/07.kaiju/matrix.tsv&quot;</span> <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
+<p>Sal con <strong><code>q</code></strong> y consulta los metadatos:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">column</span> <span class="at">-t</span> <span class="at">-s</span> <span class="st">$&#39;</span><span class="dt">\t</span><span class="st">&#39;</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/curso_metagenomica_2026/bitacora/reads2mags_pozol/results/07.kaiju/metadata.tsv&quot;</span> <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
+<p>Sal de los metadatos con <strong><code>q</code></strong> para
+recuperar la terminal.</p>
+<p>La matriz tiene <strong>1,180 filas de datos</strong> y las columnas
+<code>Taxonomy</code>, <code>0hrs</code>, <code>9hrs</code>,
+<code>24hrs</code> y <code>48hrs</code>. Son entradas del resumen,
+<strong>no 1,180 especies confirmadas</strong>: también hay categorías
+como <code>unclassified</code> y <code>Viruses</code>.</p>
+<p><strong>Dos preguntas para leer correctamente estos
+datos:</strong></p>
+<ol type="1">
+<li><strong>¿Qué significa un cero?</strong> Que esa entrada no tiene
+conteos en la matriz de esa muestra. El resumen preparado aplicó un
+filtro de conteo; un cero puede representar una entrada excluida por el
+filtro. No demuestra ausencia biológica.</li>
+<li><strong>¿Cuál es el denominador?</strong> Los porcentajes guardados
+en <code>kaiju_summary.tsv</code> se refieren al total analizado por
+Kaiju. Las filas disponibles suman aproximadamente <strong>45.08%,
+25.23%, 23.53% y 34.69%</strong>, respectivamente. Por eso, dividir cada
+columna de <code>matrix.tsv</code> entre su suma cambiaría la pregunta a
+«¿cómo se reparte lo que quedó en esta tabla?».</li>
+</ol>
+<section
+id="la-taxonomía-tiene-jerarquía-pero-los-linajes-no-tienen-una-longitud-fija"
+class="callout-note">
+<h3>La taxonomía tiene jerarquía, pero los linajes no tienen una
+longitud fija</h3>
+<p>Las cadenas de <code>Taxonomy</code> incluyen entre 1 y 16
+componentes separados por <code>;</code>. No podemos llamar «familia» a
+la sexta posición o «género» a la séptima de todas las filas. Para un
+gráfico por familia necesitaríamos una correspondencia explícita entre
+identificadores y rangos. Aquí conservaremos el <strong>nombre terminal
+de cada entrada del resumen</strong>, sin inventar sus rangos.</p>
+</section>
+<h2 id="prepara-y-guarda-el-script-de-r-desde-la-terminal">4. Prepara y
+guarda el script de R desde la terminal</h2>
+<h3 id="activa-el-entorno-compartido">Activa el entorno compartido</h3>
+<p>Todos los bloques ejecutables de este apartado se pegan
+<strong>abajo, en la terminal Bash de VS Code</strong>, donde aparece el
+nombre de tu cuenta y el signo <code>$</code>. Activamos el entorno que
+contiene R y sus paquetes. Usarlo aquí no ejecuta un análisis de QIIME
+2.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate /data/env/qiime2</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">command</span> <span class="at">-v</span> Rscript</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--version</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">&#39;p &lt;- c(&quot;ggplot2&quot;, &quot;dplyr&quot;, &quot;scales&quot;); print(sapply(p, requireNamespace, quietly = TRUE))&#39;</span></span></code></pre></div>
+<p>La ruta debe ser <code>/data/env/qiime2/bin/Rscript</code>, y los
+tres paquetes deben indicar <code>TRUE</code>. Repite la activación al
+abrir una terminal nueva. Si falta un paquete, avisa al docente para
+resolverlo en la instalación compartida.</p>
+<p><strong>No abras una consola interactiva con <code>R</code>.</strong>
+Ejecutaremos el archivo completo con <code>Rscript</code>. Tampoco hay
+que pegar las líneas de R individualmente en Bash.</p>
+<h3 id="crea-y-guarda-el-archivo-con-un-solo-bloque">Crea y guarda el
+archivo con un solo bloque</h3>
+<p>El bloque siguiente <strong>crea y guarda</strong>
+<code>scripts/08_taxonomia.R</code> en tu proyecto. Púlsalo con
+<strong>Copiar</strong>, pégalo completo en la terminal y pulsa
+<strong>Enter</strong>. Incluye la línea final <code>RSCRIPT</code>,
+sola y sin espacios delante. Las líneas entre <code>cat</code> y
+<code>RSCRIPT</code> son el contenido del archivo R; no se ejecutan
+durante este paso.</p>
+<p>El primer gráfico utiliza los porcentajes del resumen de Kaiju y
+muestra en gris la fracción no desglosada. El segundo utiliza las filas
+<code>R</code> y <code>U</code> de Kraken para distinguir fragmentos
+clasificados y sin clasificar sin contar varias veces los clados.</p>
+<p><strong>Terminal de VS Code — crear y guardar el script:</strong></p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/curso_metagenomica_2026/bitacora/reads2mags_pozol/scripts&quot;</span> <span class="dt">\</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/curso_metagenomica_2026/bitacora/reads2mags_pozol/outs&quot;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/curso_metagenomica_2026/bitacora/reads2mags_pozol/scripts/08_taxonomia.R&quot;</span> <span class="op">&lt;&lt;&#39;RSCRIPT&#39;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="st"># Ejecutar desde la raíz del proyecto reads2mags_pozol.</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="st">library(ggplot2)</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="st">library(dplyr)</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="st">stopifnot(capabilities(&quot;png&quot;), capabilities(&quot;cairo&quot;))</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="st">theme_set(theme_minimal(base_size = 13))</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="st"># 1. Leer las tablas y comprobar el orden de las cuatro muestras.</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="st">matriz &lt;- read.delim(&quot;results/07.kaiju/matrix.tsv&quot;, check.names = FALSE)</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="st">meta &lt;- read.delim(&quot;results/07.kaiju/metadata.tsv&quot;, check.names = FALSE)</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="st">muestras &lt;- c(&quot;0hrs&quot;, &quot;9hrs&quot;, &quot;24hrs&quot;, &quot;48hrs&quot;)</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="st">stopifnot(identical(names(matriz)[-1], muestras),</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="st">          setequal(meta[[1]], muestras), !anyDuplicated(meta[[1]]))</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="st">print(dim(matriz))</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="st">print(meta)</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="st"># 2. Usar los porcentajes originales del resumen de Kaiju.</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="st">kaiju &lt;- read.delim(&quot;results/07.kaiju/kaiju_summary.tsv&quot;)</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="st">kaiju$sample &lt;- sub(&quot;\\.out$&quot;, &quot;&quot;, basename(kaiju$file))</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="st">kaiju$Taxon &lt;- sub(&quot;.*;&quot;, &quot;&quot;, sub(&quot;;+$&quot;, &quot;&quot;, kaiju$taxon_name))</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="st">kaiju$Taxon[kaiju$Taxon == &quot;unclassified&quot;] &lt;- &quot;Sin clasificar&quot;</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="st">kaiju$Taxon[kaiju$Taxon == &quot;Viruses&quot;] &lt;- &quot;Virus (categoría agregada)&quot;</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="st">print(aggregate(percent ~ sample, kaiju, sum))</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="st">principales &lt;- kaiju |&gt;</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="st">  filter(!Taxon %in% c(&quot;Sin clasificar&quot;, &quot;Virus (categoría agregada)&quot;)) |&gt;</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="st">  group_by(Taxon) |&gt;</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="st">  summarise(total = sum(percent), .groups = &quot;drop&quot;) |&gt;</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="st">  slice_max(total, n = 8, with_ties = FALSE) |&gt;</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="st">  pull(Taxon)</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="st">perfil &lt;- kaiju |&gt;</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="st">  mutate(Taxon = if_else(Taxon %in% c(principales, &quot;Sin clasificar&quot;,</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="st">    &quot;Virus (categoría agregada)&quot;), Taxon, &quot;Otros taxones del resumen&quot;)) |&gt;</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="st">  group_by(sample, Taxon) |&gt;</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="st">  summarise(Porcentaje = sum(percent), .groups = &quot;drop&quot;)</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="st">resto &lt;- perfil |&gt;</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="st">  group_by(sample) |&gt;</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="st">  summarise(Porcentaje = 100 - sum(Porcentaje),</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a><span class="st">    Taxon = &quot;No desglosado en el resumen&quot;, .groups = &quot;drop&quot;)</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a><span class="st">stopifnot(all(resto$Porcentaje &gt;= 0))</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="st">perfil &lt;- bind_rows(perfil, resto)</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a><span class="st">perfil$sample &lt;- factor(perfil$sample, levels = muestras)</span></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a><span class="st">perfil$Taxon &lt;- factor(perfil$Taxon, levels = c(&quot;No desglosado en el resumen&quot;,</span></span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;Sin clasificar&quot;, &quot;Virus (categoría agregada)&quot;, &quot;Otros taxones del resumen&quot;, principales))</span></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a><span class="st">colores &lt;- c(setNames(hcl.colors(8, &quot;Dark 3&quot;), principales),</span></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;Otros taxones del resumen&quot; = &quot;#9CBEB5&quot;, &quot;Sin clasificar&quot; = &quot;#596976&quot;,</span></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;Virus (categoría agregada)&quot; = &quot;#AA77AA&quot;, &quot;No desglosado en el resumen&quot; = &quot;#E1E5E8&quot;)</span></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a><span class="st">p_kaiju &lt;- ggplot(perfil, aes(sample, Porcentaje / 100, fill = Taxon)) +</span></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a><span class="st">  geom_col(width = 0.7) +</span></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a><span class="st">  scale_fill_manual(values = colores) +</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a><span class="st">  scale_y_continuous(labels = scales::label_percent()) +</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a><span class="st">  labs(x = &quot;Tiempo de fermentación&quot;, y = &quot;Porcentaje del total analizado&quot;,</span></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a><span class="st">    fill = NULL, title = &quot;Kaiju: qué muestra el resumen disponible&quot;,</span></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a><span class="st">    caption = &quot;Se conservan los porcentajes del reporte. El gris claro completa la fracción no desglosada.&quot;) +</span></span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a><span class="st">  theme(legend.position = &quot;bottom&quot;, legend.text = element_text(size = 9)) +</span></span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a><span class="st">  guides(fill = guide_legend(ncol = 2))</span></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a><span class="st">ggsave(&quot;results/07.kaiju/01_perfil_kaiju.png&quot;, p_kaiju, device = grDevices::png,</span></span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a><span class="st">       width = 11, height = 8, dpi = 160, bg = &quot;white&quot;, type = &quot;cairo&quot;)</span></span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a><span class="st">write.csv(perfil, &quot;results/07.kaiju/perfil_kaiju.csv&quot;, row.names = FALSE)</span></span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a><span class="st"># 3. Leer los cuatro reportes de Kraken sin contar dos veces los clados.</span></span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a><span class="st">kraken &lt;- data.frame()</span></span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a><span class="st">for (muestra in muestras) {</span></span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a><span class="st">  archivo &lt;- paste0(&quot;results/08.kraken/&quot;, muestra, &quot;_sm.kreport&quot;)</span></span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a><span class="st">  reporte &lt;- read.delim(archivo, header = FALSE, quote = &quot;&quot;, comment.char = &quot;&quot;)</span></span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a><span class="st">  names(reporte) &lt;- c(&quot;Porcentaje&quot;, &quot;Clado&quot;, &quot;Directas&quot;, &quot;Rango&quot;, &quot;TaxID&quot;, &quot;Nombre&quot;)</span></span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a><span class="st">  resumen &lt;- subset(reporte, Rango %in% c(&quot;U&quot;, &quot;R&quot;))</span></span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a><span class="st">  stopifnot(nrow(resumen) == 2, setequal(resumen$Rango, c(&quot;U&quot;, &quot;R&quot;)))</span></span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a><span class="st">  kraken &lt;- rbind(kraken, data.frame(sample = muestra,</span></span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a><span class="st">    Estado = ifelse(resumen$Rango == &quot;U&quot;, &quot;Sin clasificar&quot;, &quot;Clasificadas&quot;),</span></span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a><span class="st">    Fragmentos = resumen$Clado))</span></span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a><span class="st">kraken &lt;- kraken |&gt;</span></span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a><span class="st">  group_by(sample) |&gt;</span></span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a><span class="st">  mutate(Proporcion = Fragmentos / sum(Fragmentos)) |&gt;</span></span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a><span class="st">  ungroup()</span></span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a><span class="st">kraken$sample &lt;- factor(kraken$sample, levels = muestras)</span></span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a><span class="st">print(kraken)</span></span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a><span class="st">p_kraken &lt;- ggplot(kraken, aes(sample, Proporcion, fill = Estado)) +</span></span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a><span class="st">  geom_col(width = 0.7) +</span></span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a><span class="st">  scale_y_continuous(labels = scales::label_percent()) +</span></span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a><span class="st">  scale_fill_manual(values = c(&quot;Clasificadas&quot; = &quot;#097F5F&quot;, &quot;Sin clasificar&quot; = &quot;#C5CDD3&quot;)) +</span></span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a><span class="st">  labs(x = &quot;Tiempo de fermentación&quot;, y = &quot;Porcentaje de fragmentos&quot;, fill = NULL,</span></span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a><span class="st">    title = &quot;Kraken: fracción con asignación taxonómica&quot;) +</span></span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a><span class="st">  theme(legend.position = &quot;bottom&quot;)</span></span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a><span class="st">ggsave(&quot;results/08.kraken/02_clasificacion_kraken.png&quot;, p_kraken, device = grDevices::png,</span></span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a><span class="st">       width = 9, height = 5, dpi = 160, bg = &quot;white&quot;, type = &quot;cairo&quot;)</span></span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a><span class="st">write.csv(kraken, &quot;results/08.kraken/resumen_clasificacion.csv&quot;, row.names = FALSE)</span></span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a><span class="st">writeLines(capture.output(sessionInfo()), &quot;outs/08_taxonomia_sesion.txt&quot;)</span></span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a><span class="st">stopifnot(all(file.info(c(&quot;results/07.kaiju/01_perfil_kaiju.png&quot;,</span></span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a><span class="st">                         &quot;results/08.kraken/02_clasificacion_kraken.png&quot;))$size &gt; 0))</span></span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a><span class="st">cat(&quot;LISTO: se guardaron las dos figuras y las dos tablas.\n&quot;)</span></span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a><span class="op">RSCRIPT</span></span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/curso_metagenomica_2026/bitacora/reads2mags_pozol/scripts/08_taxonomia.R&quot;</span></span></code></pre></div>
+<p>La última instrucción debe mostrar el archivo con un tamaño mayor que
+cero. <strong>Ya está guardado; no necesitas Ctrl + S para este
+método.</strong> Si la terminal sigue mostrando <code>&gt;</code> y no
+regresa al indicador de tu cuenta, comprueba que pegaste también la
+línea final <code>RSCRIPT</code>. Ese <code>&gt;</code> puede ser la
+continuación de Bash, no una consola de R.</p>
+<p>Puedes abrir después <code>scripts/08_taxonomia.R</code> desde el
+Explorador de VS Code para leerlo. Si editas su contenido arriba, guarda
+con <strong>Ctrl + S</strong> antes de repetir la ejecución. Volver a
+pegar el bloque de creación sustituye el contenido de ese script; los
+reportes de entrada se conservan.</p>
+<h2 id="ejecuta-y-abre-tus-figuras">5. Ejecuta y abre tus figuras</h2>
+<p>Una vez creado el archivo, pega el siguiente bloque <strong>en la
+misma terminal Bash</strong>, con el entorno <code>qiime2</code> activo.
+<code>cd</code> establece la carpeta de trabajo; <code>Rscript</code>
+inicia R, ejecuta todo el archivo y termina. El registro se guarda en
+<code>outs/</code> y después se muestra en pantalla:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/curso_metagenomica_2026/bitacora/reads2mags_pozol&quot;</span> <span class="kw">&amp;&amp;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/curso_metagenomica_2026/bitacora/reads2mags_pozol/scripts/08_taxonomia.R&quot;</span> <span class="dt">\</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/curso_metagenomica_2026/bitacora/reads2mags_pozol/outs/08_taxonomia.log&quot;</span> <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/curso_metagenomica_2026/bitacora/reads2mags_pozol/outs/08_taxonomia.log&quot;</span></span></code></pre></div>
+<p>La última línea debe decir
+<strong><code>LISTO: se guardaron las dos figuras y las dos tablas.</code></strong>
+Si aparece un error, el registro contiene el mensaje que necesitamos
+para resolverlo. Si aparece <code>No such file or directory</code> para
+el script, vuelve al bloque de creación del apartado 4; no hay un
+análisis en marcha. Los mensajes de <code>dplyr</code> sobre funciones
+con nombres coincidentes son informativos. Mientras R trabaja puede no
+aparecer texto en pantalla. Guarda siempre el script si lo editaste
+antes de repetir la ejecución.</p>
+<p>En el <strong>Explorador de VS Code</strong>, abre con un clic:</p>
+<ol type="1">
+<li><code>results/07.kaiju/01_perfil_kaiju.png</code>.</li>
+<li><code>results/08.kraken/02_clasificacion_kraken.png</code>.</li>
+</ol>
+<p>Las figuras se guardan en PNG para verlas directamente desde VS Code.
+El mismo script genera <code>perfil_kaiju.csv</code>,
+<code>resumen_clasificacion.csv</code> y el registro
+<code>outs/08_taxonomia_sesion.txt</code>. Al repetirlo se actualizan
+<strong>esas salidas del ejercicio</strong>, conservando los reportes de
+entrada.</p>
+<h3 id="qué-deberías-observar">¿Qué deberías observar?</h3>
+<figure>
+<img src="images/taxonomia/01_perfil_kaiju.png"
+alt="Figura producida por el código visible de esta práctica a partir del resumen de Kaiju." />
+<figcaption aria-hidden="true">Figura producida por el código visible de
+esta práctica a partir del resumen de Kaiju.</figcaption>
+</figure>
+<p>La fracción gris clara domina parte de las barras porque el resumen
+disponible no desglosa todo el material analizado. <strong>No es una
+comunidad compuesta principalmente por un taxón llamado
+«Otros»</strong>. Es una limitación del resumen que debe quedar visible
+al interpretar las proporciones.</p>
+<figure>
+<img src="images/taxonomia/02_clasificacion_kraken.png"
+alt="Figura producida por el código visible de esta práctica a partir de los cuatro reportes de Kraken." />
+<figcaption aria-hidden="true">Figura producida por el código visible de
+esta práctica a partir de los cuatro reportes de Kraken.</figcaption>
+</figure>
+<p>Kraken clasifica aproximadamente <strong>54.21%, 80.83%, 84.36% y
+66.71%</strong> de los fragmentos en 0, 9, 24 y 48 horas. Es una
+propiedad de la combinación muestra–referencia–clasificador, <strong>no
+un índice de diversidad ni una medida de biomasa</strong>. Con lecturas
+pareadas, el reporte contabiliza fragmentos o pares, no necesariamente
+cada extremo R1/R2 por separado.</p>
+<p><strong>Discute:</strong> ¿el cambio entre barras refleja un cambio
+de comunidad, de posibilidad de clasificar las secuencias o de ambos?
+¿Qué información adicional necesitaríamos para distinguirlos?</p>
+<h2 id="explora-la-jerarquía-de-kraken-en-pavian">6. Explora la
+jerarquía de Kraken en Pavian</h2>
+<figure>
+<img src="images/taxonomia/clipboard-1850437980.png"
+alt="Esquema de clasificación de Kraken recuperado del material del curso." />
+<figcaption aria-hidden="true">Esquema de clasificación de Kraken
+recuperado del material del curso.</figcaption>
+</figure>
+<p>Un <code>.kreport</code> contiene seis columnas sin encabezado:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Columna</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Porcentaje del total asignado al clado.</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Fragmentos del clado, incluyendo sus descendientes.</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Fragmentos asignados directamente a ese nodo.</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Rango: <code>U</code> sin clasificar, <code>R</code> raíz,
+<code>D</code> dominio, <code>P</code> filo, <code>C</code> clase,
+<code>O</code> orden, <code>F</code> familia, <code>G</code> género y
+<code>S</code> especie, entre otros.</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Identificador taxonómico.</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Nombre, con sangría para representar la jerarquía.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>No sumes todos los clados del reporte</strong>: una especie
+está incluida en su género, familia y demás ancestros. Para comparar
+familias se selecciona un mismo rango, no todos los niveles a la
+vez.</p>
+<ol type="1">
+<li>En el explorador remoto de VS Code, abre
+<code>results/08.kraken/</code>.</li>
+<li>Selecciona <strong>los cuatro archivos
+<code>.kreport</code></strong>, pulsa el botón derecho y elige
+<strong>Download / Descargar</strong>. Guarda las copias en una carpeta
+local que puedas reconocer.</li>
+<li>En el navegador de tu computadora, abre <a
+href="https://fbreitwieser.shinyapps.io/pavian/">Pavian</a>.</li>
+<li>En <strong>Data Input → Upload files / Browse</strong>, carga los
+cuatro reportes. Usa tus archivos, no el conjunto de ejemplo de la
+aplicación.</li>
+<li>Revisa <strong>Results Overview</strong> para reconocer las muestras
+y sus fracciones clasificadas. En <strong>Sample</strong>, selecciona
+una muestra y explora el diagrama de Sankey. Usa
+<strong>Comparison</strong> para contrastar las muestras a un mismo
+rango.</li>
+</ol>
+<p>El grosor de una rama representa la cantidad asignada a ese clado; no
+implica interacción ecológica entre organismos. Comprueba el rango y el
+denominador mostrados antes de comparar paneles.</p>
+<p>Si el servicio web no está disponible, las dos figuras generadas en R
+y los reportes locales permiten continuar la discusión. Pavian es un
+visor de estos resultados; no vuelve a ejecutar Kraken.</p>
+<h2 id="interpreta-y-registra-lo-que-aprendiste">7. Interpreta y
+registra lo que aprendiste</h2>
+<p>Las muestras permiten <strong>describir diferencias de representación
+taxonómica entre los cuatro tiempos</strong>. Esas diferencias son
+compatibles con cambios de la comunidad durante la fermentación, pero
+los reportes por sí solos no establecen su causa ni la actividad de cada
+organismo.</p>
+<p>Tenemos un perfil por tiempo y los metadatos entregados no documentan
+réplicas biológicas independientes. <strong>Estas cuatro muestras no
+bastan para una prueba del efecto general del tiempo de
+fermentación</strong>. Para inferir ese efecto necesitaríamos
+fermentaciones independientes, un diseño que contemple las mediciones
+repetidas y metadatos pertinentes.</p>
+<p>En tu bitácora escribe respuestas breves:</p>
+<ol type="1">
+<li>¿Qué entradas del reporte cambian más entre tiempos? Distingue lo
+observado de la explicación biológica que propones.</li>
+<li>¿Qué significan y qué no significan «sin clasificar» y «no
+desglosado»?</li>
+<li>¿Qué tendría que cambiar en los insumos para comparar familias de
+Kaiju con familias de Kraken o Bracken?</li>
+</ol>
+<p><strong>Conclusión defendible:</strong> podemos comparar los perfiles
+reportados y reconocer sus límites de cobertura y resolución. No podemos
+convertir estos porcentajes en abundancias celulares absolutas,
+interpretar un cero como ausencia comprobada ni atribuir diferencias al
+tiempo con una prueba inferencial sin el diseño y la replicación
+necesarios.</p>
+<h3 id="síntesis-por-equipos">Síntesis por equipos</h3>
+<p>Formen <strong>tres equipos</strong>. Si son dos, el primero combina
+las tareas A y B y el segundo desarrolla C; ambos deben revisar las dos
+figuras.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Equipo</th>
+<th>Evidencia que revisa</th>
+<th>Pregunta que debe resolver</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>Perfil de Kaiju y sus porcentajes</td>
+<td>¿Qué cambia entre tiempos y qué limita el resumen parcial?</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>Kraken y Pavian al mismo rango</td>
+<td>¿Qué linajes cambian y cómo influye la fracción sin clasificar?</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>Evidencias de ambos equipos</td>
+<td>¿Qué proceso podría explicarlo y qué experimento permitiría
+distinguirlo de otra explicación?</td>
+</tr>
+</tbody>
+</table>
+<p>Cada equipo prepara una síntesis de <strong>150 a 200
+palabras</strong> y una explicación oral de <strong>tres
+minutos</strong>. Incluyan dos observaciones con tiempo, taxón, valor y
+denominador; una interpretación ecológica; una explicación alternativa;
+y una hipótesis futura con una predicción medible. Distingan las
+fermentaciones independientes de las lecturas y de las submuestras.</p>
+<p>Al final, elaboren entre todos una conclusión y una propuesta de
+muestreo: qué medirían, qué compararían, qué repetirían de forma
+independiente y qué resultado debilitaría su hipótesis. Las
+observaciones de este ejercicio sirven para formularla; su comprobación
+requiere nuevos datos con replicación.</p>
+<h2 id="ejecutar-clasificadores">8. Ejecuta los clasificadores en tus
+propios proyectos</h2>
+<section id="material-de-referencia-no-se-ejecuta-en-esta-clase"
+class="callout-note">
+<h3>Material de referencia: no se ejecuta en esta clase</h3>
+<p>Estos ejemplos conservan la organización <code>data/</code>,
+<code>results/</code>, <code>scripts/</code> y <code>outs/</code>. En VS
+Code, crea el archivo <code>.sh</code> indicado, pega el código y guarda
+con <strong>Ctrl + S</strong>. Después se ejecuta con <strong>Bash en la
+terminal remota</strong>, desde la raíz del proyecto. VS Code es el
+editor; el cómputo ocurre en el servidor.</p>
+</section>
+<p>Antes de usarlos, activa el entorno que contenga cada herramienta.
+Por ejemplo, <code>conda activate kaiju</code> corresponde únicamente a
+un entorno que se llame <code>kaiju</code>; los nombres disponibles
+dependen del servidor. Sustituye las rutas <code>/ruta/real/...</code>
+por las bases instaladas y ajusta los nombres de las muestras. Los
+ejemplos usan pares <code>data/0hrs_sm_R1.fastq</code> y
+<code>data/0hrs_sm_R2.fastq</code>, y el mismo patrón para 9, 24 y 48
+horas. En tu proyecto deben ser las lecturas que hayas seleccionado
+después del control de calidad.</p>
+<p><strong>Usa estos bloques en el proyecto de tus nuevos
+datos:</strong> producen archivos con los nombres indicados y pueden
+sustituir salidas previas. Los reportes del taller se conservan para el
+recorrido de las secciones 1–7. Los dos hilos del ejemplo deben
+ajustarse a los recursos asignados; la memoria requerida depende de la
+base. Si el clúster utiliza un gestor de trabajos, ejecuta los scripts
+mediante ese sistema.</p>
+<details>
+<summary>
+Kaiju: clasificar pares, añadir nombres y generar el resumen
+</summary>
+<p><strong>Editor de VS Code — archivo
+<code>scripts/07_kaiju.sh</code>:</strong></p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-euo</span> pipefail</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="va">db</span><span class="op">=</span><span class="st">&quot;/ruta/real/base_kaiju&quot;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="va">indice</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$db</span><span class="st">/kaiju_db_nr_euk.fmi&quot;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="va">out</span><span class="op">=</span><span class="st">&quot;results/07.kaiju&quot;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="va">hilos</span><span class="op">=</span>2</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$out</span><span class="st">&quot;</span> outs</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sample <span class="kw">in</span> 0hrs 9hrs 24hrs 48hrs<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="ex">kaiju</span> <span class="at">-t</span> <span class="st">&quot;</span><span class="va">$db</span><span class="st">/nodes.dmp&quot;</span> <span class="at">-f</span> <span class="st">&quot;</span><span class="va">$indice</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">-i</span> <span class="st">&quot;data/</span><span class="va">${sample}</span><span class="st">_sm_R1.fastq&quot;</span> <span class="dt">\</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">-j</span> <span class="st">&quot;data/</span><span class="va">${sample}</span><span class="st">_sm_R2.fastq&quot;</span> <span class="dt">\</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">-o</span> <span class="st">&quot;</span><span class="va">$out</span><span class="st">/</span><span class="va">${sample}</span><span class="st">.out&quot;</span> <span class="dt">\</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">-z</span> <span class="st">&quot;</span><span class="va">$hilos</span><span class="st">&quot;</span> <span class="at">-a</span> mem <span class="at">-m</span> 13</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="ex">kaiju-addTaxonNames</span> <span class="at">-t</span> <span class="st">&quot;</span><span class="va">$db</span><span class="st">/nodes.dmp&quot;</span> <span class="at">-n</span> <span class="st">&quot;</span><span class="va">$db</span><span class="st">/names.dmp&quot;</span> <span class="dt">\</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">-i</span> <span class="st">&quot;</span><span class="va">$out</span><span class="st">/</span><span class="va">${sample}</span><span class="st">.out&quot;</span> <span class="at">-u</span> <span class="at">-p</span> <span class="dt">\</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">-o</span> <span class="st">&quot;</span><span class="va">$out</span><span class="st">/</span><span class="va">${sample}</span><span class="st">_names.out&quot;</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="ex">kaiju2table</span> <span class="at">-t</span> <span class="st">&quot;</span><span class="va">$db</span><span class="st">/nodes.dmp&quot;</span> <span class="at">-n</span> <span class="st">&quot;</span><span class="va">$db</span><span class="st">/names.dmp&quot;</span> <span class="dt">\</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">-p</span> <span class="at">-c</span> 50 <span class="at">-r</span> species <span class="at">-o</span> <span class="st">&quot;</span><span class="va">$out</span><span class="st">/kaiju_summary.tsv&quot;</span> <span class="dt">\</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;</span><span class="va">$out</span><span class="st">/0hrs.out&quot;</span> <span class="st">&quot;</span><span class="va">$out</span><span class="st">/9hrs.out&quot;</span> <span class="dt">\</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;</span><span class="va">$out</span><span class="st">/24hrs.out&quot;</span> <span class="st">&quot;</span><span class="va">$out</span><span class="st">/48hrs.out&quot;</span></span></code></pre></div>
+<p><strong>Terminal de VS Code — Bash, después de guardar:</strong></p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> outs</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/07_kaiju.sh <span class="op">&gt;</span> outs/07_kaiju.log <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span></code></pre></div>
+<p><code>-a mem -m 13</code> selecciona MEM y una coincidencia mínima de
+13 aminoácidos. Ajusta <code>indice</code> al archivo <code>.fmi</code>
+de tu base; <code>nodes.dmp</code> y <code>names.dmp</code> deben
+corresponder a ella. En <code>kaiju-addTaxonNames</code>,
+<code>-u</code> omite los no clasificados <strong>solo del archivo con
+nombres</strong>; el resumen utiliza los <code>.out</code>
+originales.</p>
+<p>En <code>kaiju2table</code>, <code>-r species</code> resume a nivel
+de especie, <code>-p</code> incluye el linaje y <code>-c 50</code>
+filtra por conteo mínimo. No se añade <code>-u</code> a este comando:
+los no clasificados siguen formando parte del denominador de sus
+porcentajes. Conserva el resumen completo recién generado; no supongas
+que contiene exactamente las mismas filas que el archivo parcial del
+taller.</p>
+<p>Si tienes el script <code>generate_matrix.R</code> distribuido en
+esta práctica, la transformación del resumen a matriz se ejecuta desde
+la raíz:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> results/07.kaiju/generate_matrix.R <span class="dt">\</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  results/07.kaiju/kaiju_summary.tsv <span class="op">&gt;</span> results/07.kaiju/matrix.tsv</span></code></pre></div>
+<p>Este conversor requiere el paquete <code>tidyr</code> y usa los
+nombres de los archivos para las columnas. Comprueba esas columnas y
+prepara metadatos que coincidan con las muestras de tu proyecto.</p>
+</details>
+<details>
+<summary>
+Kraken2: clasificar pares y guardar un reporte por muestra
+</summary>
+<p><strong>Editor de VS Code — archivo
+<code>scripts/08_kraken2.sh</code>:</strong></p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-euo</span> pipefail</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="va">db</span><span class="op">=</span><span class="st">&quot;/ruta/real/base_kraken2&quot;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="va">out</span><span class="op">=</span><span class="st">&quot;results/08.kraken&quot;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="va">hilos</span><span class="op">=</span>2</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$out</span><span class="st">&quot;</span> outs</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sample <span class="kw">in</span> 0hrs 9hrs 24hrs 48hrs<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="ex">kraken2</span> <span class="at">--db</span> <span class="st">&quot;</span><span class="va">$db</span><span class="st">&quot;</span> <span class="at">--threads</span> <span class="st">&quot;</span><span class="va">$hilos</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">--paired</span> <span class="at">--use-names</span> <span class="at">--confidence</span> 0.10 <span class="dt">\</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">--report</span> <span class="st">&quot;</span><span class="va">$out</span><span class="st">/</span><span class="va">${sample}</span><span class="st">_sm.kreport&quot;</span> <span class="dt">\</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">--output</span> <span class="st">&quot;</span><span class="va">$out</span><span class="st">/</span><span class="va">${sample}</span><span class="st">_sm.kraken.reads.tsv&quot;</span> <span class="dt">\</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;data/</span><span class="va">${sample}</span><span class="st">_sm_R1.fastq&quot;</span> <span class="st">&quot;data/</span><span class="va">${sample}</span><span class="st">_sm_R2.fastq&quot;</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p><strong>Terminal de VS Code — Bash, después de guardar:</strong></p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> outs</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/08_kraken2.sh <span class="op">&gt;</span> outs/08_kraken2.log <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span></code></pre></div>
+<p><code>--paired</code> procesa juntos R1 y R2; <code>--report</code>
+produce el resumen jerárquico y <code>--output</code> conserva las
+asignaciones por fragmento. El umbral <code>--confidence 0.10</code> es
+un parámetro del ejemplo, <strong>no una probabilidad de que la especie
+esté presente</strong> ni un valor universal. Mantén el formato estándar
+del reporte para usarlo con Bracken. Las lecturas pareadas deben
+corresponderse y estar en el mismo orden.</p>
+</details>
+<details>
+<summary>
+Bracken: reestimar abundancias a un rango taxonómico
+</summary>
+<p>Bracken necesita <strong>la misma base de Kraken2 que originó el
+reporte</strong> y una distribución preparada para la longitud de
+lectura elegida. El ejemplo de 75 bases requiere
+<code>database75mers.kmer_distrib</code>; cambia <code>longitud</code>
+según tus lecturas y la distribución correspondiente. Si esta falta,
+debe prepararse para esa misma base siguiendo el <a
+href="https://github.com/jenniferlu717/Bracken">manual de Bracken</a>.
+No se puede usar cualquier base disponible con los reportes del
+taller.</p>
+<p><strong>Editor de VS Code — archivo
+<code>scripts/08_bracken.sh</code>:</strong></p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-euo</span> pipefail</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="va">db</span><span class="op">=</span><span class="st">&quot;/ruta/real/base_kraken2&quot;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="va">longitud</span><span class="op">=</span>75</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="va">nivel</span><span class="op">=</span><span class="st">&quot;C&quot;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="va">out</span><span class="op">=</span><span class="st">&quot;results/08.kraken/bracken&quot;</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="bu">test</span> <span class="at">-r</span> <span class="st">&quot;</span><span class="va">$db</span><span class="st">/database</span><span class="va">${longitud}</span><span class="st">mers.kmer_distrib&quot;</span> <span class="kw">||</span> <span class="kw">{</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> <span class="st">&quot;Falta la distribución de Bracken para esta longitud y base.&quot;</span> <span class="op">&gt;&amp;</span><span class="dv">2</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="bu">exit</span> 1</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$out</span><span class="st">&quot;</span> outs</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sample <span class="kw">in</span> 0hrs 9hrs 24hrs 48hrs<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="ex">bracken</span> <span class="at">-d</span> <span class="st">&quot;</span><span class="va">$db</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">-i</span> <span class="st">&quot;results/08.kraken/</span><span class="va">${sample}</span><span class="st">_sm.kreport&quot;</span> <span class="dt">\</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">-o</span> <span class="st">&quot;</span><span class="va">$out</span><span class="st">/</span><span class="va">${sample}</span><span class="st">_sm.bracken.</span><span class="va">${nivel}</span><span class="st">.tsv&quot;</span> <span class="dt">\</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">-r</span> <span class="st">&quot;</span><span class="va">$longitud</span><span class="st">&quot;</span> <span class="at">-l</span> <span class="st">&quot;</span><span class="va">$nivel</span><span class="st">&quot;</span> <span class="at">-t</span> 10</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p><strong>Terminal de VS Code — Bash, después de guardar:</strong></p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> outs</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/08_bracken.sh <span class="op">&gt;</span> outs/08_bracken.log <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span></code></pre></div>
+<p><code>C</code> indica clase; puedes elegir <code>F</code> para
+familia, <code>G</code> para género o <code>S</code> para especie.
+<code>-t 10</code> fija el umbral de conteo previo a la reestimación.
+Compara resultados al mismo rango y revisa su denominador: la fracción
+estimada de Bracken no es una abundancia celular absoluta.</p>
+</details>
+<p>En cualquier ejecución, revisa el archivo <code>.log</code>
+correspondiente en <code>outs/</code>. Para que tu análisis pueda
+repetirse, registra las versiones de los programas, la fecha y
+composición de las bases de referencia, los archivos de entrada y los
+parámetros. <strong>Estos ejemplos muestran cómo ejecutar el flujo; no
+afirman reproducir exactamente los reportes históricos con otra base o
+versión.</strong></p>
+<h2 id="referencias-y-procedencia">Referencias y procedencia</h2>
+<ul>
+<li><a
+href="https://mariafer-florido.github.io/reads2mags-v1/02.Espacio_de_trabajo.html">Organización
+del proyecto y VS Code</a>, <a
+href="https://mariafer-florido.github.io/reads2mags-v1/03.Filtrados.html">filtrado</a>,
+<a
+href="https://mariafer-florido.github.io/reads2mags-v1/04.Ensambles.html">ensambles</a>
+y <a
+href="https://mariafer-florido.github.io/reads2mags-v1/05.Binning.html">binning</a>:
+se conserva su estructura <code>data/</code>, <code>results/</code>,
+<code>scripts/</code> y <code>outs/</code>.</li>
+<li><a href="https://github.com/bioinformatics-centre/kaiju">Kaiju:
+manual y formato de resúmenes</a>.</li>
+<li><a
+href="https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown">Kraken2:
+formato de los reportes</a>.</li>
+<li><a href="https://github.com/jenniferlu717/Bracken">Bracken:
+requisitos para reestimar abundancias</a>.</li>
+<li><a
+href="https://github.com/fbreitwieser/pavian/blob/master/vignettes/MANUAL.md">Pavian:
+manual de exploración</a>.</li>
+<li><a href="https://code.visualstudio.com/docs/remote/ssh">VS Code:
+trabajo remoto por SSH</a>.</li>
+</ul>
+<p>Las figuras de los algoritmos se conservaron del material original
+del curso. Las dos figuras de resultados de esta versión se regeneran
+con el código visible y los ocho archivos distribuidos desde
+<code>pcb_01</code>. Los parámetros históricos de preparación indicaban
+<code>kaiju2table -r species -p -c 50</code>; el resumen conservado es
+parcial y se utiliza tal como está, sin reconstruir categorías no
+disponibles.</p>
+<footer class="page-footer">Material del curso <a href="https://github.com/mariafer-florido/reads2mags-v1">reads2mags-v1</a>. Adaptación para el servidor y VS Code. Código y resultados de la práctica en esta página. <a href="#inicio">Volver al inicio</a>.</footer>
+</main>
+</div>
+<dialog id="figure-view" aria-label="Figura ampliada"><button type="button">Cerrar</button><img alt=""><p></p></dialog>
+<script>
+document.querySelectorAll('table').forEach(table=>{const wrap=document.createElement('div');wrap.className='table-scroll';table.before(wrap);wrap.append(table);});
+document.querySelectorAll('pre').forEach(pre=>{let wrap=pre.parentElement;if(!wrap.classList.contains('sourceCode')){wrap=document.createElement('div');wrap.className='code-wrap';pre.before(wrap);wrap.append(pre);}const bar=document.createElement('div');bar.className='code-tools';const language=document.createElement('span');const cls=pre.className+' '+(pre.querySelector('code')?.className||'');language.textContent=/\bbash\b/.test(cls)?(pre.textContent.trimStart().startsWith('#!/usr/bin/env bash')?'Bash · archivo .sh':'Bash · terminal'):/\br\b/i.test(cls)?'R · archivo .R':'Texto';const button=document.createElement('button');button.type='button';button.className='copy-button';button.textContent='Copiar';button.setAttribute('aria-label','Copiar bloque de código');button.onclick=async()=>{const text=pre.querySelector('code')?.textContent??pre.textContent;try{if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(text);else throw Error();button.textContent='Copiado';}catch{const area=document.createElement('textarea');area.value=text;area.style.position='fixed';area.style.opacity='0';document.body.append(area);area.select();const ok=document.execCommand('copy');area.remove();button.textContent=ok?'Copiado':'Selecciona el código';}setTimeout(()=>button.textContent='Copiar',1800);};bar.append(language,button);wrap.append(bar);});
+const viewer=document.querySelector('#figure-view');document.querySelectorAll('main img').forEach(img=>{img.tabIndex=0;img.setAttribute('role','button');img.setAttribute('aria-label','Ampliar figura: '+(img.alt||'figura de la práctica'));const open=()=>{viewer.querySelector('img').src=img.src;viewer.querySelector('img').alt=img.alt;viewer.querySelector('p').textContent=img.alt;viewer.showModal();};img.onclick=open;img.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}};});viewer.querySelector('button').onclick=()=>viewer.close();viewer.onclick=e=>{if(e.target===viewer)viewer.close();};
+</script>
+</body>
+</html>
