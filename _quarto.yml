@@ -1,6 +1,8 @@
 project:
   type: website
   output-dir: docs
+  post-render:
+    - python3 tools/taxonomia/renderizar.py
 
 
 website:
@@ -36,6 +38,9 @@ website:
       # - href: 09.Rbims_Hidrocarburos.qmd
       #   text: Hidrocarburos
       #   icon: droplet
+      - href: 08.1.ReadsTaxonomy.qmd
+        text: Taxonomía de lecturas
+        icon: diagram-2
       - href: Creditos.qmd
         text: Creditos
         icon: bezier2

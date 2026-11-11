@@ -4,6 +4,8 @@ title: "Contenido del taller"
 
 Este es el programa del taller **De lecturas a MAGs**. Está diseñado para que los procesos más pesados (ensamble, mapeo, binning, refinamiento) se **dejen corriendo durante los refrigerios y almuerzos**, aprovechando esos descansos como tiempo de cómputo. Los tiempos son aproximados y pueden ajustarse según el ritmo del grupo.
 
+**Práctica de taxonomía de lecturas:** [abrir la versión para el servidor y VS Code](08.1.ReadsTaxonomy.qmd).
+
 ## Día 1 · Del dato crudo al ensamble
 
 | Jornada | Hora | Tema | Modalidad |

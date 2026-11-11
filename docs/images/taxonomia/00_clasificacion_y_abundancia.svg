@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="870" viewBox="0 0 1200 870" role="img" aria-labelledby="titulo descripcion">
+<title id="titulo">De una lectura a un perfil taxonómico</title>
+<desc id="descripcion">Las mismas lecturas de ADN shotgun pueden clasificarse con Kraken2 mediante ADN o con Kaiju mediante traducciones a proteínas. Ambos producen asignaciones y resúmenes. Después de Kraken2, Bracken utiliza su reporte y una calibración de la misma base para estimar abundancias a un rango taxonómico. Kaiju no es una entrada de Bracken.</desc>
+<defs>
+ <marker id="flecha" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#617680" stroke-width="1.2"/></marker>
+ <style>
+ text{font-family:"DejaVu Sans",Arial,sans-serif;fill:#173746}
+ .titulo{font-size:32px;font-weight:700}.subtitulo{font-size:20px;fill:#586d76}
+ .nombre{font-size:28px;font-weight:700}.cuerpo{font-size:21px}.nota{font-size:19px;fill:#586d76}
+ .rotulo{font-size:17px;font-weight:700;letter-spacing:1.3px;fill:#586d76}
+ .linea{fill:none;stroke:#617680;stroke-width:2;marker-end:url(#flecha)}
+ </style>
+</defs>
+<rect width="1200" height="870" fill="white"/>
+<text x="40" y="44" class="titulo">De una lectura a un perfil taxonómico</text>
+<text x="40" y="78" class="subtitulo">Dos vías para asignar el origen; un paso posterior para estimar abundancias.</text>
+<rect x="350" y="110" width="500" height="86" fill="#f3f7fa" stroke="#b8cbd3"/>
+<text x="600" y="145" text-anchor="middle" font-size="25" font-weight="700">Lecturas de ADN shotgun</text>
+<text x="600" y="176" text-anchor="middle" class="nota">Fragmentos obtenidos de una comunidad</text>
+<path d="M600 196 V210 H305 V230" class="linea"/>
+<path d="M600 210 H895 V230" class="linea"/>
+<text x="40" y="251" class="rotulo">COMPARACIÓN CON ADN</text>
+<text x="630" y="251" class="rotulo">COMPARACIÓN CON PROTEÍNAS</text>
+<rect x="40" y="270" width="530" height="140" fill="#f3f7fa" stroke="#c7d6dc"/>
+<rect x="40" y="270" width="5" height="140" fill="#4d7b93"/>
+<text x="64" y="313" class="nombre">Kraken2</text>
+<text x="64" y="348" class="cuerpo">Consulta fragmentos representativos del ADN</text>
+<text x="64" y="380" class="cuerpo">y reúne su apoyo en el árbol taxonómico.</text>
+<rect x="630" y="270" width="530" height="140" fill="#f2f8f5" stroke="#c7dcd7"/>
+<rect x="630" y="270" width="5" height="140" fill="#097f5f"/>
+<text x="654" y="313" class="nombre">Kaiju</text>
+<text x="654" y="348" class="cuerpo">Traduce el ADN y busca coincidencias</text>
+<text x="654" y="380" class="cuerpo">con proteínas de la base de referencia.</text>
+<path d="M305 410 V454" class="linea"/>
+<path d="M895 410 V454" class="linea"/>
+<rect x="40" y="467" width="530" height="93" fill="white" stroke="#b8cbd3"/>
+<text x="64" y="504" font-size="25" font-weight="700">Reporte de Kraken2</text>
+<text x="64" y="537" class="cuerpo">Conteos por nodo del árbol taxonómico.</text>
+<rect x="630" y="467" width="530" height="93" fill="white" stroke="#b8cbd3"/>
+<text x="654" y="504" font-size="25" font-weight="700">Resumen de Kaiju</text>
+<text x="654" y="537" class="cuerpo">Conteos y porcentajes por taxón.</text>
+<path d="M305 560 V614" class="linea"/>
+<text x="328" y="590" font-size="17" fill="#586d76">+ calibración de la misma base</text>
+<rect x="40" y="627" width="530" height="140" fill="#f3f7fa" stroke="#c7d6dc"/>
+<rect x="40" y="627" width="5" height="140" fill="#4d7b93"/>
+<text x="64" y="669" class="nombre">Bracken</text>
+<text x="64" y="704" class="cuerpo">Reestima cantidades a un rango elegido.</text>
+<text x="64" y="736" class="cuerpo">Usa el reporte y la calibración de la base.</text>
+<path d="M630 627 H1160" stroke="#c7d6dc" stroke-width="1.5"/>
+<text x="630" y="662" class="rotulo">AL INTERPRETAR</text>
+<text x="630" y="697" class="cuerpo">Una señal compartida puede resolver el</text>
+<text x="630" y="729" class="cuerpo">género, sin distinguir sus especies.</text>
+<text x="630" y="761" class="nota">El rango de la etiqueta importa.</text>
+<path d="M40 798 H1160" stroke="#b8cbd3" stroke-width="1.5"/>
+<text x="40" y="832" font-size="22" font-weight="700">Las abundancias de lecturas no equivalen a números de células.</text>
+<text x="40" y="859" font-size="16" fill="#586d76">Esquema conceptual · Kraken2: búsqueda nucleotídica · Bracken se aplica después de Kraken, no a una tabla de Kaiju.</text>
+</svg>
