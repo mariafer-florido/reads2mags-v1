@@ -15,7 +15,7 @@ La pregunta es **qué organismos están representados en esas secuencias y cómo
 
 **Recorrido de la práctica:** copiar reportes → reconocer sus tablas → producir dos gráficos en R → explorar la jerarquía taxonómica en Pavian → interpretar los límites de los resultados.
 
-::: {.callout-important}
+::: callout-important
 ### Aquí empieza la parte ejecutable
 
 Los clasificadores **ya se ejecutaron**. Esta práctica comienza en [1. Ubícate en tu proyecto](#inicio-practica), y continúa con [2. Copia los resultados preparados](#copiar-insumos). Trabajaremos con esos reportes desde nuestra cuenta del servidor. Los [ejemplos completos de ejecución de Kaiju y Kraken2–Bracken](#ejecutar-clasificadores) quedan disponibles al final para utilizarlos en tus propios proyectos; **no se ejecutan durante esta clase**.
@@ -28,16 +28,16 @@ Un metagenoma contiene **fragmentos de ADN de muchos organismos mezclados**. Las
 Conviene separar dos preguntas: **«¿de dónde puede venir este fragmento?»** y **«¿cuánto representa cada grupo en la muestra?»**. Clasificar ayuda a responder la primera; resumir y estimar abundancias, la segunda. Una lectura no equivale a una célula.
 
 | Herramienta | Qué hace | Qué tenemos para esta práctica |
-|---|---|---|
+|----|----|----|
 | **Kaiju** | Traduce lecturas y busca coincidencias con proteínas de referencia. Puede reconocer similitudes que se han conservado a nivel proteico. | Resumen por taxón, matriz de conteos y metadatos. |
 | **Kraken2** | Usa coincidencias de secuencia basadas en k-mers/minimizadores para asignar fragmentos a la taxonomía de su base de referencia. | Un reporte `.kreport` por tiempo, con una jerarquía de clados. |
 | **Bracken** | Reestima abundancias a un rango elegido a partir de resultados de Kraken y distribuciones precalculadas para su base de datos. | Se explica como paso posterior. **Los `.kreport` disponibles son resultados de Kraken, no resultados de Bracken.** |
 
 **La idea de cada método, en palabras sencillas:**
 
-- **Kraken2 reúne pistas del ADN.** Busca pequeñas partes representativas de la secuencia —minimizadores de los *k-mers*— y combina su apoyo para asignar un taxón. Es una forma rápida de consultar la referencia. El parámetro `confidence` exige apoyo a la asignación; no expresa la probabilidad de que una especie esté presente.
-- **Kaiju busca semejanzas en proteínas.** Traduce el ADN en los seis marcos de lectura posibles y compara los fragmentos resultantes con proteínas conocidas. ADN diferente puede codificar los mismos aminoácidos: eso ayuda a reconocer relaciones conservadas, aunque no siempre distingue especies cercanas. Traducir ADN no demuestra actividad ni expresión.
-- **Bracken reestima cantidades después de Kraken.** Algunas lecturas solo se asignan a un grupo amplio. Bracken combina esos conteos con cómo se espera que Kraken clasifique fragmentos de los genomas de referencia. Así estima abundancias a un rango elegido; no confirma el origen individual de cada lectura ambigua.
+-   **Kraken2 reúne pistas del ADN.** Busca pequeñas partes representativas de la secuencia —minimizadores de los *k-mers*— y combina su apoyo para asignar un taxón. Es una forma rápida de consultar la referencia. El parámetro `confidence` exige apoyo a la asignación; no expresa la probabilidad de que una especie esté presente.
+-   **Kaiju busca semejanzas en proteínas.** Traduce el ADN en los seis marcos de lectura posibles y compara los fragmentos resultantes con proteínas conocidas. ADN diferente puede codificar los mismos aminoácidos: eso ayuda a reconocer relaciones conservadas, aunque no siempre distingue especies cercanas. Traducir ADN no demuestra actividad ni expresión.
+-   **Bracken reestima cantidades después de Kraken.** Algunas lecturas solo se asignan a un grupo amplio. Bracken combina esos conteos con cómo se espera que Kraken clasifique fragmentos de los genomas de referencia. Así estima abundancias a un rango elegido; no confirma el origen individual de cada lectura ambigua.
 
 ![Dos vías de clasificación de lecturas y el paso posterior de estimación con Bracken. Las flechas representan el flujo de información, no resultados ni comparaciones de exactitud.](images/taxonomia/00_clasificacion_y_abundancia.png)
 
@@ -48,13 +48,14 @@ Conviene separar dos preguntas: **«¿de dónde puede venir este fragmento?»** 
 Esta síntesis sigue los fundamentos de [Kraken2](https://doi.org/10.1186/s13059-019-1891-0), [Kaiju](https://doi.org/10.1038/ncomms11257) y [Bracken](https://doi.org/10.7717/peerj-cs.104); los manuales de ejecución se enlazan al final.
 
 <details>
+
 <summary>Para profundizar: búsqueda proteica, sensibilidad y precisión de Kaiju</summary>
 
 ![Cómo busca Kaiju coincidencias proteicas: modos MEM y Greedy. Esquema recuperado del material del curso.](images/taxonomia/clipboard-2171130064.png)
 
 Cambiar el modo de búsqueda o la longitud mínima de coincidencia modifica el equilibrio entre encontrar más coincidencias y evitar asignaciones erróneas. Esta figura del material original ilustra una evaluación del método; **no es un resultado de nuestras cuatro muestras de pozol**. Consulta el [manual de Kaiju](https://github.com/bioinformatics-centre/kaiju) para los parámetros y la publicación original.
 
-![Comparación de sensibilidad y precisión incluida en el material original de Kaiju.](images/taxonomia/clipboard-2712580348.png){width=560}
+![Comparación de sensibilidad y precisión incluida en el material original de Kaiju.](images/taxonomia/clipboard-2712580348.png){width="560"}
 
 </details>
 
@@ -66,7 +67,7 @@ Si seguiste la organización de la sección de espacio de trabajo, el proyecto e
 
 **Terminal de VS Code — Bash:**
 
-```bash
+``` bash
 cd "$HOME/curso_metagenomica_2026/bitacora/reads2mags_pozol" &&
 pwd &&
 ls -d data results
@@ -75,7 +76,7 @@ ls -d data results
 `pwd` debe terminar en `/reads2mags_pozol`, y debes reconocer `data/` y `results/`. Si estás dentro de otra carpeta del proyecto, vuelve a abrir la raíz y crea allí la terminal.
 
 | Carpeta del proyecto | Uso en esta sección |
-|---|---|
+|----|----|
 | `data/` | Conserva los insumos iniciales de las otras prácticas. |
 | `results/07.kaiju/` | Reportes de Kaiju y las tablas y figuras que produciremos a partir de ellos. |
 | `results/08.kraken/` | Reportes de Kraken y sus nuevas tablas y figuras. |
@@ -90,7 +91,7 @@ Copia los reportes preparados a la carpeta de resultados de tu proyecto.
 
 **Terminal de VS Code — Bash:**
 
-```bash
+``` bash
 mkdir -p "$HOME/curso_metagenomica_2026/bitacora/reads2mags_pozol/results" \
          "$HOME/curso_metagenomica_2026/bitacora/reads2mags_pozol/scripts" \
          "$HOME/curso_metagenomica_2026/bitacora/reads2mags_pozol/outs"
@@ -106,7 +107,7 @@ ls -lh "$HOME/curso_metagenomica_2026/bitacora/reads2mags_pozol/results/07.kaiju
 Debes encontrar estos **ocho archivos iniciales**:
 
 | En `results/07.kaiju/` | Qué contiene |
-|---|---|
+|----|----|
 | `kaiju_summary.tsv` | Una tabla larga: muestra, porcentaje, conteo, identificador y nombre taxonómico. |
 | `matrix.tsv` | Una fila por entrada taxonómica y una columna de conteos por tiempo. |
 | `metadata.tsv` | Correspondencia entre los nombres de las muestras y sus etapas. |
@@ -120,7 +121,7 @@ Si aparece `Permission denied` al leer `/home/pcb_01/`, comparte el mensaje con 
 
 **Terminal de VS Code — Bash:**
 
-```bash
+``` bash
 column -t -s $'\t' "$HOME/curso_metagenomica_2026/bitacora/reads2mags_pozol/results/07.kaiju/kaiju_summary.tsv" | less -S
 ```
 
@@ -128,13 +129,13 @@ column -t -s $'\t' "$HOME/curso_metagenomica_2026/bitacora/reads2mags_pozol/resu
 
 Después abre la matriz:
 
-```bash
+``` bash
 column -t -s $'\t' "$HOME/curso_metagenomica_2026/bitacora/reads2mags_pozol/results/07.kaiju/matrix.tsv" | less -S
 ```
 
 Sal con **`q`** y consulta los metadatos:
 
-```bash
+``` bash
 column -t -s $'\t' "$HOME/curso_metagenomica_2026/bitacora/reads2mags_pozol/results/07.kaiju/metadata.tsv" | less -S
 ```
 
@@ -144,10 +145,10 @@ La matriz tiene **1,180 filas de datos** y las columnas `Taxonomy`, `0hrs`, `9hr
 
 **Dos preguntas para leer correctamente estos datos:**
 
-1. **¿Qué significa un cero?** Que esa entrada no tiene conteos en la matriz de esa muestra. El resumen preparado aplicó un filtro de conteo; un cero puede representar una entrada excluida por el filtro. No demuestra ausencia biológica.
-2. **¿Cuál es el denominador?** Los porcentajes guardados en `kaiju_summary.tsv` se refieren al total analizado por Kaiju. Las filas disponibles suman aproximadamente **45.08%, 25.23%, 23.53% y 34.69%**, respectivamente. Por eso, dividir cada columna de `matrix.tsv` entre su suma cambiaría la pregunta a «¿cómo se reparte lo que quedó en esta tabla?».
+1.  **¿Qué significa un cero?** Que esa entrada no tiene conteos en la matriz de esa muestra. El resumen preparado aplicó un filtro de conteo; un cero puede representar una entrada excluida por el filtro. No demuestra ausencia biológica.
+2.  **¿Cuál es el denominador?** Los porcentajes guardados en `kaiju_summary.tsv` se refieren al total analizado por Kaiju. Las filas disponibles suman aproximadamente **45.08%, 25.23%, 23.53% y 34.69%**, respectivamente. Por eso, dividir cada columna de `matrix.tsv` entre su suma cambiaría la pregunta a «¿cómo se reparte lo que quedó en esta tabla?».
 
-::: {.callout-note}
+::: callout-note
 ### La taxonomía tiene jerarquía, pero los linajes no tienen una longitud fija
 
 Las cadenas de `Taxonomy` incluyen entre 1 y 16 componentes separados por `;`. No podemos llamar «familia» a la sexta posición o «género» a la séptima de todas las filas. Para un gráfico por familia necesitaríamos una correspondencia explícita entre identificadores y rangos. Aquí conservaremos el **nombre terminal de cada entrada del resumen**, sin inventar sus rangos.
@@ -159,7 +160,7 @@ Las cadenas de `Taxonomy` incluyen entre 1 y 16 componentes separados por `;`. N
 
 Todos los bloques ejecutables de este apartado se pegan **abajo, en la terminal Bash de VS Code**, donde aparece el nombre de tu cuenta y el signo `$`. Activamos el entorno que contiene R y sus paquetes. Usarlo aquí no ejecuta un análisis de QIIME 2.
 
-```bash
+``` bash
 conda activate /data/env/qiime2
 command -v Rscript
 Rscript --version
@@ -178,7 +179,7 @@ El primer gráfico utiliza los porcentajes del resumen de Kaiju y muestra en gri
 
 **Terminal de VS Code — crear y guardar el script:**
 
-```bash
+``` bash
 mkdir -p "$HOME/curso_metagenomica_2026/bitacora/reads2mags_pozol/scripts" \
          "$HOME/curso_metagenomica_2026/bitacora/reads2mags_pozol/outs"
 
@@ -289,7 +290,7 @@ Puedes abrir después `scripts/08_taxonomia.R` desde el Explorador de VS Code pa
 
 Una vez creado el archivo, pega el siguiente bloque **en la misma terminal Bash**, con el entorno `qiime2` activo. `cd` establece la carpeta de trabajo; `Rscript` inicia R, ejecuta todo el archivo y termina. El registro se guarda en `outs/` y después se muestra en pantalla:
 
-```bash
+``` bash
 cd "$HOME/curso_metagenomica_2026/bitacora/reads2mags_pozol" &&
 Rscript --vanilla "$HOME/curso_metagenomica_2026/bitacora/reads2mags_pozol/scripts/08_taxonomia.R" \
   > "$HOME/curso_metagenomica_2026/bitacora/reads2mags_pozol/outs/08_taxonomia.log" 2>&1
@@ -301,8 +302,8 @@ La última línea debe decir **`LISTO: se guardaron las dos figuras y las dos ta
 
 En el **Explorador de VS Code**, abre con un clic:
 
-1. `results/07.kaiju/01_perfil_kaiju.png`.
-2. `results/08.kraken/02_clasificacion_kraken.png`.
+1.  `results/07.kaiju/01_perfil_kaiju.png`.
+2.  `results/08.kraken/02_clasificacion_kraken.png`.
 
 Las figuras se guardan en PNG para verlas directamente desde VS Code. El mismo script genera `perfil_kaiju.csv`, `resumen_clasificacion.csv` y el registro `outs/08_taxonomia_sesion.txt`. Al repetirlo se actualizan **esas salidas del ejercicio**, conservando los reportes de entrada.
 
@@ -325,7 +326,7 @@ Kraken clasifica aproximadamente **54.21%, 80.83%, 84.36% y 66.71%** de los frag
 Un `.kreport` contiene seis columnas sin encabezado:
 
 | Columna | Significado |
-|---|---|
+|----|----|
 | 1 | Porcentaje del total asignado al clado. |
 | 2 | Fragmentos del clado, incluyendo sus descendientes. |
 | 3 | Fragmentos asignados directamente a ese nodo. |
@@ -335,11 +336,11 @@ Un `.kreport` contiene seis columnas sin encabezado:
 
 **No sumes todos los clados del reporte**: una especie está incluida en su género, familia y demás ancestros. Para comparar familias se selecciona un mismo rango, no todos los niveles a la vez.
 
-1. En el explorador remoto de VS Code, abre `results/08.kraken/`.
-2. Selecciona **los cuatro archivos `.kreport`**, pulsa el botón derecho y elige **Download / Descargar**. Guarda las copias en una carpeta local que puedas reconocer.
-3. En el navegador de tu computadora, abre [Pavian](https://fbreitwieser.shinyapps.io/pavian/).
-4. En **Data Input → Upload files / Browse**, carga los cuatro reportes. Usa tus archivos, no el conjunto de ejemplo de la aplicación.
-5. Revisa **Results Overview** para reconocer las muestras y sus fracciones clasificadas. En **Sample**, selecciona una muestra y explora el diagrama de Sankey. Usa **Comparison** para contrastar las muestras a un mismo rango.
+1.  En el explorador remoto de VS Code, abre `results/08.kraken/`.
+2.  Selecciona **los cuatro archivos `.kreport`**, pulsa el botón derecho y elige **Download / Descargar**. Guarda las copias en una carpeta local que puedas reconocer.
+3.  En el navegador de tu computadora, abre [Pavian](https://fbreitwieser.shinyapps.io/pavian/).
+4.  En **Data Input → Upload files / Browse**, carga los cuatro reportes. Usa tus archivos, no el conjunto de ejemplo de la aplicación.
+5.  Revisa **Results Overview** para reconocer las muestras y sus fracciones clasificadas. En **Sample**, selecciona una muestra y explora el diagrama de Sankey. Usa **Comparison** para contrastar las muestras a un mismo rango.
 
 El grosor de una rama representa la cantidad asignada a ese clado; no implica interacción ecológica entre organismos. Comprueba el rango y el denominador mostrados antes de comparar paneles.
 
@@ -353,9 +354,9 @@ Tenemos un perfil por tiempo y los metadatos entregados no documentan réplicas 
 
 En tu bitácora escribe respuestas breves:
 
-1. ¿Qué entradas del reporte cambian más entre tiempos? Distingue lo observado de la explicación biológica que propones.
-2. ¿Qué significan y qué no significan «sin clasificar» y «no desglosado»?
-3. ¿Qué tendría que cambiar en los insumos para comparar familias de Kaiju con familias de Kraken o Bracken?
+1.  ¿Qué entradas del reporte cambian más entre tiempos? Distingue lo observado de la explicación biológica que propones.
+2.  ¿Qué significan y qué no significan «sin clasificar» y «no desglosado»?
+3.  ¿Qué tendría que cambiar en los insumos para comparar familias de Kaiju con familias de Kraken o Bracken?
 
 **Conclusión defendible:** podemos comparar los perfiles reportados y reconocer sus límites de cobertura y resolución. No podemos convertir estos porcentajes en abundancias celulares absolutas, interpretar un cero como ausencia comprobada ni atribuir diferencias al tiempo con una prueba inferencial sin el diseño y la replicación necesarios.
 
@@ -364,7 +365,7 @@ En tu bitácora escribe respuestas breves:
 Formen **tres equipos**. Si son dos, el primero combina las tareas A y B y el segundo desarrolla C; ambos deben revisar las dos figuras.
 
 | Equipo | Evidencia que revisa | Pregunta que debe resolver |
-|---|---|---|
+|----|----|----|
 | A | Perfil de Kaiju y sus porcentajes | ¿Qué cambia entre tiempos y qué limita el resumen parcial? |
 | B | Kraken y Pavian al mismo rango | ¿Qué linajes cambian y cómo influye la fracción sin clasificar? |
 | C | Evidencias de ambos equipos | ¿Qué proceso podría explicarlo y qué experimento permitiría distinguirlo de otra explicación? |
@@ -375,7 +376,7 @@ Al final, elaboren entre todos una conclusión y una propuesta de muestreo: qué
 
 ## 8. Ejecuta los clasificadores en tus propios proyectos {#ejecutar-clasificadores}
 
-::: {.callout-note}
+::: callout-note
 ### Material de referencia: no se ejecuta en esta clase
 
 Estos ejemplos conservan la organización `data/`, `results/`, `scripts/` y `outs/`. En VS Code, crea el archivo `.sh` indicado, pega el código y guarda con **Ctrl + S**. Después se ejecuta con **Bash en la terminal remota**, desde la raíz del proyecto. VS Code es el editor; el cómputo ocurre en el servidor.
@@ -386,11 +387,12 @@ Antes de usarlos, activa el entorno que contenga cada herramienta. Por ejemplo, 
 **Usa estos bloques en el proyecto de tus nuevos datos:** producen archivos con los nombres indicados y pueden sustituir salidas previas. Los reportes del taller se conservan para el recorrido de las secciones 1–7. Los dos hilos del ejemplo deben ajustarse a los recursos asignados; la memoria requerida depende de la base. Si el clúster utiliza un gestor de trabajos, ejecuta los scripts mediante ese sistema.
 
 <details>
+
 <summary>Kaiju: clasificar pares, añadir nombres y generar el resumen</summary>
 
 **Editor de VS Code — archivo `scripts/07_kaiju.sh`:**
 
-```bash
+``` bash
 #!/usr/bin/env bash
 set -euo pipefail
 
@@ -420,7 +422,7 @@ kaiju2table -t "$db/nodes.dmp" -n "$db/names.dmp" \
 
 **Terminal de VS Code — Bash, después de guardar:**
 
-```bash
+``` bash
 mkdir -p outs
 bash scripts/07_kaiju.sh > outs/07_kaiju.log 2>&1
 ```
@@ -431,7 +433,7 @@ En `kaiju2table`, `-r species` resume a nivel de especie, `-p` incluye el linaje
 
 Si tienes el script `generate_matrix.R` distribuido en esta práctica, la transformación del resumen a matriz se ejecuta desde la raíz:
 
-```bash
+``` bash
 Rscript results/07.kaiju/generate_matrix.R \
   results/07.kaiju/kaiju_summary.tsv > results/07.kaiju/matrix.tsv
 ```
@@ -441,11 +443,12 @@ Este conversor requiere el paquete `tidyr` y usa los nombres de los archivos par
 </details>
 
 <details>
+
 <summary>Kraken2: clasificar pares y guardar un reporte por muestra</summary>
 
 **Editor de VS Code — archivo `scripts/08_kraken2.sh`:**
 
-```bash
+``` bash
 #!/usr/bin/env bash
 set -euo pipefail
 
@@ -465,7 +468,7 @@ done
 
 **Terminal de VS Code — Bash, después de guardar:**
 
-```bash
+``` bash
 mkdir -p outs
 bash scripts/08_kraken2.sh > outs/08_kraken2.log 2>&1
 ```
@@ -475,13 +478,14 @@ bash scripts/08_kraken2.sh > outs/08_kraken2.log 2>&1
 </details>
 
 <details>
+
 <summary>Bracken: reestimar abundancias a un rango taxonómico</summary>
 
 Bracken necesita **la misma base de Kraken2 que originó el reporte** y una distribución preparada para la longitud de lectura elegida. El ejemplo de 75 bases requiere `database75mers.kmer_distrib`; cambia `longitud` según tus lecturas y la distribución correspondiente. Si esta falta, debe prepararse para esa misma base siguiendo el [manual de Bracken](https://github.com/jenniferlu717/Bracken). No se puede usar cualquier base disponible con los reportes del taller.
 
 **Editor de VS Code — archivo `scripts/08_bracken.sh`:**
 
-```bash
+``` bash
 #!/usr/bin/env bash
 set -euo pipefail
 
@@ -506,7 +510,7 @@ done
 
 **Terminal de VS Code — Bash, después de guardar:**
 
-```bash
+``` bash
 mkdir -p outs
 bash scripts/08_bracken.sh > outs/08_bracken.log 2>&1
 ```
@@ -519,11 +523,11 @@ En cualquier ejecución, revisa el archivo `.log` correspondiente en `outs/`. Pa
 
 ## Referencias y procedencia
 
-- [Organización del proyecto y VS Code](https://mariafer-florido.github.io/reads2mags-v1/02.Espacio_de_trabajo.html), [filtrado](https://mariafer-florido.github.io/reads2mags-v1/03.Filtrados.html), [ensambles](https://mariafer-florido.github.io/reads2mags-v1/04.Ensambles.html) y [binning](https://mariafer-florido.github.io/reads2mags-v1/05.Binning.html): se conserva su estructura `data/`, `results/`, `scripts/` y `outs/`.
-- [Kaiju: manual y formato de resúmenes](https://github.com/bioinformatics-centre/kaiju).
-- [Kraken2: formato de los reportes](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown).
-- [Bracken: requisitos para reestimar abundancias](https://github.com/jenniferlu717/Bracken).
-- [Pavian: manual de exploración](https://github.com/fbreitwieser/pavian/blob/master/vignettes/MANUAL.md).
-- [VS Code: trabajo remoto por SSH](https://code.visualstudio.com/docs/remote/ssh).
+-   [Organización del proyecto y VS Code](https://mariafer-florido.github.io/reads2mags-v1/02.Espacio_de_trabajo.html), [filtrado](https://mariafer-florido.github.io/reads2mags-v1/03.Filtrados.html), [ensambles](https://mariafer-florido.github.io/reads2mags-v1/04.Ensambles.html) y [binning](https://mariafer-florido.github.io/reads2mags-v1/05.Binning.html): se conserva su estructura `data/`, `results/`, `scripts/` y `outs/`.
+-   [Kaiju: manual y formato de resúmenes](https://github.com/bioinformatics-centre/kaiju).
+-   [Kraken2: formato de los reportes](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown).
+-   [Bracken: requisitos para reestimar abundancias](https://github.com/jenniferlu717/Bracken).
+-   [Pavian: manual de exploración](https://github.com/fbreitwieser/pavian/blob/master/vignettes/MANUAL.md).
+-   [VS Code: trabajo remoto por SSH](https://code.visualstudio.com/docs/remote/ssh).
 
 Las figuras de los algoritmos se conservaron del material original del curso. Las dos figuras de resultados de esta versión se regeneran con el código visible y los ocho archivos distribuidos desde `pcb_01`. Los parámetros históricos de preparación indicaban `kaiju2table -r species -p -c 50`; el resumen conservado es parcial y se utiliza tal como está, sin reconstruir categorías no disponibles.

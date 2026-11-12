@@ -4,12 +4,10 @@ title: "Contenido del taller"
 
 Este es el programa del taller **De lecturas a MAGs**. Está diseñado para que los procesos más pesados (ensamble, mapeo, binning, refinamiento) se **dejen corriendo durante los refrigerios y almuerzos**, aprovechando esos descansos como tiempo de cómputo. Los tiempos son aproximados y pueden ajustarse según el ritmo del grupo.
 
-**Práctica de taxonomía de lecturas:** [abrir la versión para el servidor y VS Code](08.1.ReadsTaxonomy.qmd).
-
 ## Día 1 · Del dato crudo al ensamble
 
 | Jornada | Hora | Tema | Modalidad |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | Mañana | 9:00–10:00 | Charla: Pregunta biológica, diseño y datos | Charla |
 |  | 10:00–10:45 | Charla: Espacio de trabajo y trazabilidad | Teoria + práctica |
 |  | 10:45–11:00 | ☕**Refrigerio** | Descanso |
@@ -24,7 +22,7 @@ Este es el programa del taller **De lecturas a MAGs**. Está diseñado para que 
 ## Día 2 · Binning y refinamiento
 
 | Jornada | Hora | Tema | Modalidad |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | Mañana | 9:00–10:00 | Charla: Principios del binning | Charla |
 |  | 10:00–10:45 | Comparación de algoritmos de binning | Teoria + práctica |
 |  | 10:45–11:00 | ☕ **Refrigerio** | Descanso |
@@ -39,7 +37,7 @@ Este es el programa del taller **De lecturas a MAGs**. Está diseñado para que 
 ## Día 3 · Anotación funcional y reconstrucción metabólica
 
 | Jornada | Hora | Tema | Modalidad |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | Mañana | 9:00–10:00 | Charla: Predicción de genes y anotación estructural | Teoria + práctica |
 |  | 10:00–10:45 | Anotación con Bakta | Teoria + práctica |
 |  | 10:45–11:00 | ☕ **Refrigerio** | Descanso |
@@ -54,7 +52,7 @@ Este es el programa del taller **De lecturas a MAGs**. Está diseñado para que 
 ## Día 4 · Taxonomía, filogenómica y análisis global
 
 | Jornada | Hora | Tema | Modalidad |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | Mañana | 9:00–10:00 | Taxonomía y filogenómica con GTDB-Tk | Teoria + práctica |
 |  | 10:00–10:45 | Charla: Viromas y genes metabólicos auxiliares: panorama | Charla |
 |  | 10:45-11:00 | ☕ **Refrigerio** | Descanso |
@@ -69,7 +67,7 @@ Este es el programa del taller **De lecturas a MAGs**. Está diseñado para que 
 ## Día 5 · Ejercicio de integración
 
 | Jornada | Hora | Tema | Modalidad |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | Mañana | 9:00–10:00 | Inferencia y conclusión ecológica de Baxter | Teoria + práctica |
 |  | 10:00–10:45 | Ejercicio de integración | Práctica |
 |  | 10:45-11:00 | ☕ **Refrigerio** | Descanso |
@@ -83,10 +81,6 @@ Este es el programa del taller **De lecturas a MAGs**. Está diseñado para que 
 
 ::: callout-note
 ## Leyenda
-
-🚀 Proceso que se **lanza antes de un descanso** para que corra durante el mismo
-
-🔧 Resultado **pre-computado** que ya está en tu directorio
 
 ☕🍽️ Descansos.
 :::

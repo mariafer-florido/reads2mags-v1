@@ -32,6 +32,9 @@ website:
       - href: 06.Anotacion.qmd
         text: Anotación
         icon: diagram-3
+      - href: 07.Asignacion.qmd
+        text: Asignación
+        icon: droplet
       - href: 07.Global.qmd
         text: Analisis global
         icon: lightning-charge

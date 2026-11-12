@@ -12,7 +12,7 @@ Vamos a responder esa pregunta usando dos enfoques complementarios:
 Aproximaciones a la clasificación taxonómica
 
 | Características | **Kaiju** | **Kraken2** | **Bracken** |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | Principio | Búsqueda en **proteínas** (lecturas traducidas) | Asignación por **k-mers** exactos de ADN | Reestima abundancias de Kraken por **longitud de lectura** y **distribución de k-mers** |
 | Fortaleza | Detecta homología lejana; útil para genes conservados y organismos divergentes | **Muy rápido** y escalable; excelente para screening inicial | Reduce **sobre/infraasignación** de Kraken; produce perfiles más **estables** |
 | Limitación | Más lento; depende de bases proteicas; puede perder regiones no codificantes | Sensible a contaminación de la BD; puede inflar taxones cercanos | Depende de **Kraken + DB** y parámetros (-l, -r) |
@@ -133,7 +133,7 @@ less -S matrix.tsv
 
 Y ahora podemos hacer un plot de abundancias
 
-``` R
+``` r
 # Cargar librerías
 library(tidyverse)
 library(readr)
@@ -226,7 +226,7 @@ Podríamos utilizar otros programas de asignación taxonómica por ejemplo Krake
 ![](images/clipboard-1850437980.png)
 
 ::: callout-warning
-## Ejemplo de como correr kraken 
+## Ejemplo de como correr kraken
 
 El siguiente bloque no lo corras, es un ejemplo de como correr kraken2
 :::
@@ -257,7 +257,7 @@ bracken \
 - `-l`: nivel taxonómico objetivo de Bracken (**C**=Class, **G**=Genus, **S**=Species).\
 - `-r`: longitud de lectura usada en la construcción de la BD o aproximada (impacta la reestimación).
 
----
+------------------------------------------------------------------------
 
 Vamos a copiar los resultados de kraken para explorarlos
 
