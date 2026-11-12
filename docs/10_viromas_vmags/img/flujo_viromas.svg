@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 690" width="820" height="690" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="flecha" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#555555"/>
+    </marker>
+  </defs>
+  <rect width="820" height="690" fill="#ffffff"/>
+
+  <!-- Entrada -->
+  <rect x="30" y="20" width="760" height="50" rx="10" fill="#f1f3f4" stroke="#9aa0a6" stroke-width="1.5"/>
+  <text x="410" y="51" text-anchor="middle" font-size="16" font-weight="bold" fill="#222222">Ensambles de MEGAHIT (v2) · 0, 9, 24 y 48 h · contigs ≥ 3 kb</text>
+  <line x1="145" y1="70" x2="145" y2="97" stroke="#555555" stroke-width="2" marker-end="url(#flecha)"/>
+
+  <!-- 22 VirSorter2 -->
+  <rect x="30" y="100" width="230" height="62" rx="10" fill="#2e7d32"/>
+  <text x="145" y="127" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">22 · VirSorter2</text>
+  <text x="145" y="148" text-anchor="middle" font-size="13" fill="#ffffff">busca contigs virales</text>
+  <text x="285" y="127" font-size="16" font-weight="bold" fill="#222222">¿Qué contigs del ensamble son virales?</text>
+  <text x="285" y="149" font-size="13" fill="#555555">Produce: final-viral-combined.fa</text>
+  <line x1="145" y1="162" x2="145" y2="189" stroke="#555555" stroke-width="2" marker-end="url(#flecha)"/>
+
+  <!-- 23 CheckV -->
+  <rect x="30" y="192" width="230" height="62" rx="10" fill="#3f72a8"/>
+  <text x="145" y="219" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">23 · CheckV</text>
+  <text x="145" y="240" text-anchor="middle" font-size="13" fill="#ffffff">evalúa la calidad</text>
+  <text x="285" y="219" font-size="16" font-weight="bold" fill="#222222">¿Qué tan completo y limpio está cada uno?</text>
+  <text x="285" y="241" font-size="13" fill="#555555">Produce: quality_summary.tsv · viruses.fna</text>
+  <line x1="145" y1="254" x2="145" y2="281" stroke="#555555" stroke-width="2" marker-end="url(#flecha)"/>
+
+  <!-- 24 VIBRANT -->
+  <rect x="30" y="284" width="230" height="62" rx="10" fill="#2e7d32"/>
+  <text x="145" y="311" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">24 · VIBRANT</text>
+  <text x="145" y="332" text-anchor="middle" font-size="13" fill="#ffffff">segunda opinión</text>
+  <text x="285" y="311" font-size="16" font-weight="bold" fill="#222222">¿Es un fago? ¿Lítico o lisogénico?</text>
+  <text x="285" y="333" font-size="13" fill="#555555">Produce: phages_combined.fna</text>
+  <line x1="145" y1="346" x2="145" y2="373" stroke="#555555" stroke-width="2" marker-end="url(#flecha)"/>
+
+  <!-- 25 CheckV -->
+  <rect x="30" y="376" width="230" height="62" rx="10" fill="#3f72a8"/>
+  <text x="145" y="403" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">25 · CheckV</text>
+  <text x="145" y="424" text-anchor="middle" font-size="13" fill="#ffffff">revalida</text>
+  <text x="285" y="403" font-size="16" font-weight="bold" fill="#222222">¿Cambió la calidad de lo que confirmó VIBRANT?</text>
+  <text x="285" y="425" font-size="13" fill="#555555">Produce: quality_summary.tsv</text>
+  <line x1="145" y1="438" x2="145" y2="465" stroke="#555555" stroke-width="2" marker-end="url(#flecha)"/>
+
+  <!-- 26 CD-HIT-EST -->
+  <rect x="30" y="468" width="230" height="62" rx="10" fill="#b8620f"/>
+  <text x="145" y="495" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">26 · CD-HIT-EST</text>
+  <text x="145" y="516" text-anchor="middle" font-size="13" fill="#ffffff">agrupa en vOTUs</text>
+  <text x="285" y="495" font-size="16" font-weight="bold" fill="#222222">¿Qué virus se repiten entre tiempos?</text>
+  <text x="285" y="517" font-size="13" fill="#555555">Produce: vOTUs_representatives.fna · catalogo_vOTUs.tsv</text>
+  <line x1="145" y1="530" x2="145" y2="557" stroke="#555555" stroke-width="2" marker-end="url(#flecha)"/>
+
+  <!-- 27 geNomad -->
+  <rect x="30" y="560" width="230" height="62" rx="10" fill="#6d4c91"/>
+  <text x="145" y="587" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">27 · geNomad</text>
+  <text x="145" y="608" text-anchor="middle" font-size="13" fill="#ffffff">clasifica</text>
+  <text x="285" y="587" font-size="16" font-weight="bold" fill="#222222">¿A qué grupo taxonómico pertenece cada vOTU?</text>
+  <text x="285" y="609" font-size="13" fill="#555555">Produce: *_taxonomy.tsv</text>
+
+  <!-- Leyenda -->
+  <circle cx="40" cy="656" r="7" fill="#2e7d32"/>
+  <text x="54" y="661" font-size="13" fill="#333333">detección de virus</text>
+  <circle cx="230" cy="656" r="7" fill="#3f72a8"/>
+  <text x="244" y="661" font-size="13" fill="#333333">calidad</text>
+  <circle cx="340" cy="656" r="7" fill="#b8620f"/>
+  <text x="354" y="661" font-size="13" fill="#333333">agrupación</text>
+  <circle cx="480" cy="656" r="7" fill="#6d4c91"/>
+  <text x="494" y="661" font-size="13" fill="#333333">taxonomía</text>
+</svg>

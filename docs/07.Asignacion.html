@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Anotación – De lecturas a MAGs</title>
+<title>Asignación – De lecturas a MAGs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -197,39 +197,56 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#predicción-de-genes-y-anotación-estructural" id="toc-predicción-de-genes-y-anotación-estructural" class="nav-link active" data-scroll-target="#predicción-de-genes-y-anotación-estructural">01. Predicción de genes y anotación estructural</a>
+  <li><a href="#asignación-taxonómica" id="toc-asignación-taxonómica" class="nav-link active" data-scroll-target="#asignación-taxonómica">Asignación taxonómica</a>
   <ul class="collapse">
-  <li><a href="#qué-es-la-anotación" id="toc-qué-es-la-anotación" class="nav-link" data-scroll-target="#qué-es-la-anotación">01.1. ¿Qué es la anotación?</a></li>
-  <li><a href="#consideraciones-generales" id="toc-consideraciones-generales" class="nav-link" data-scroll-target="#consideraciones-generales">01.2. Consideraciones generales</a></li>
-  <li><a href="#el-código-genético" id="toc-el-código-genético" class="nav-link" data-scroll-target="#el-código-genético">01.3. El código genético</a></li>
-  <li><a href="#cómo-funciona-un-anotador" id="toc-cómo-funciona-un-anotador" class="nav-link" data-scroll-target="#cómo-funciona-un-anotador">01.4. ¿Cómo funciona un anotador?</a></li>
-  <li><a href="#prokka" id="toc-prokka" class="nav-link" data-scroll-target="#prokka">02. Prokka</a></li>
-  <li><a href="#bakta" id="toc-bakta" class="nav-link" data-scroll-target="#bakta">03. Bakta</a></li>
-  <li><a href="#archivos-de-salida" id="toc-archivos-de-salida" class="nav-link" data-scroll-target="#archivos-de-salida">03.1 Archivos de salida</a></li>
+  <li><a href="#gtdb-tk" id="toc-gtdb-tk" class="nav-link" data-scroll-target="#gtdb-tk">01. GTDB-tk</a></li>
+  <li><a href="#filogenómica" id="toc-filogenómica" class="nav-link" data-scroll-target="#filogenómica">02. Filogenómica</a></li>
+  <li><a href="#objetivos" id="toc-objetivos" class="nav-link" data-scroll-target="#objetivos">Objetivos</a></li>
+  <li><a href="#conceptos-clave" id="toc-conceptos-clave" class="nav-link" data-scroll-target="#conceptos-clave">Conceptos clave</a></li>
   </ul></li>
-  <li><a href="#ortología-y-anotación-de-ko-kegg-eggnog-y-pfam" id="toc-ortología-y-anotación-de-ko-kegg-eggnog-y-pfam" class="nav-link" data-scroll-target="#ortología-y-anotación-de-ko-kegg-eggnog-y-pfam">04.Ortología y anotación de KO, KEGG, eggNOG y Pfam</a>
+  <li><a href="#práctica" id="toc-práctica" class="nav-link" data-scroll-target="#práctica">Práctica</a>
   <ul class="collapse">
-  <li><a href="#ortología-homología-y-paralogía" id="toc-ortología-homología-y-paralogía" class="nav-link" data-scroll-target="#ortología-homología-y-paralogía">04.1. Ortología, homología y paralogía</a></li>
-  <li><a href="#bases-de-datos." id="toc-bases-de-datos." class="nav-link" data-scroll-target="#bases-de-datos.">04.2. Bases de datos.</a></li>
-  <li><a href="#ejecución-de-los-anotación-especializada" id="toc-ejecución-de-los-anotación-especializada" class="nav-link" data-scroll-target="#ejecución-de-los-anotación-especializada">04.3. Ejecución de los anotación especializada</a></li>
-  <li><a href="#kofamscan" id="toc-kofamscan" class="nav-link" data-scroll-target="#kofamscan">05. KofamScan</a></li>
-  <li><a href="#eggnog" id="toc-eggnog" class="nav-link" data-scroll-target="#eggnog">06. EggNOG</a></li>
-  <li><a href="#cazy" id="toc-cazy" class="nav-link" data-scroll-target="#cazy">07. CAZy</a></li>
-  <li><a href="#antismash" id="toc-antismash" class="nav-link" data-scroll-target="#antismash">08. antiSMASH</a></li>
+  <li><a href="#insumos-necesarios" id="toc-insumos-necesarios" class="nav-link" data-scroll-target="#insumos-necesarios">02.1 Insumos necesarios</a></li>
+  <li><a href="#marcadores-identificación" id="toc-marcadores-identificación" class="nav-link" data-scroll-target="#marcadores-identificación">02.2 Marcadores: identificación</a></li>
+  <li><a href="#alineamiento-de-marcadores" id="toc-alineamiento-de-marcadores" class="nav-link" data-scroll-target="#alineamiento-de-marcadores">02.3 Alineamiento de marcadores</a></li>
+  <li><a href="#árbol-de-máxima-verosimilitud" id="toc-árbol-de-máxima-verosimilitud" class="nav-link" data-scroll-target="#árbol-de-máxima-verosimilitud">02.4 Árbol de máxima verosimilitud</a></li>
+  <li><a href="#leer-y-enraizar-el-árbol" id="toc-leer-y-enraizar-el-árbol" class="nav-link" data-scroll-target="#leer-y-enraizar-el-árbol">02.5 Leer y enraizar el árbol</a></li>
+  <li><a href="#taxonomía-frente-a-filogenia" id="toc-taxonomía-frente-a-filogenia" class="nav-link" data-scroll-target="#taxonomía-frente-a-filogenia">02.6 Taxonomía frente a filogenia</a></li>
+  <li><a href="#límites-de-la-inferencia" id="toc-límites-de-la-inferencia" class="nav-link" data-scroll-target="#límites-de-la-inferencia">02.7 Límites de la inferencia</a></li>
   </ul></li>
-  <li><a href="#reconstrucción-metabólica" id="toc-reconstrucción-metabólica" class="nav-link" data-scroll-target="#reconstrucción-metabólica">09. Reconstrucción metabólica</a>
+  <li><a href="#inputs" id="toc-inputs" class="nav-link" data-scroll-target="#inputs">Inputs</a></li>
+  <li><a href="#outputs" id="toc-outputs" class="nav-link" data-scroll-target="#outputs">Outputs</a></li>
+  <li><a href="#preguntas-de-interpretación" id="toc-preguntas-de-interpretación" class="nav-link" data-scroll-target="#preguntas-de-interpretación">Preguntas de interpretación</a></li>
+  <li><a href="#referencias" id="toc-referencias" class="nav-link" data-scroll-target="#referencias">Referencias</a></li>
+  <li><a href="#viromas-genomas-virales-a-partir-de-metagenomas" id="toc-viromas-genomas-virales-a-partir-de-metagenomas" class="nav-link" data-scroll-target="#viromas-genomas-virales-a-partir-de-metagenomas">03. Viromas: genomas virales a partir de metagenomas</a>
   <ul class="collapse">
-  <li><a href="#herramientas-para-reconstrucción-metabólica" id="toc-herramientas-para-reconstrucción-metabólica" class="nav-link" data-scroll-target="#herramientas-para-reconstrucción-metabólica">09.1. Herramientas para reconstrucción metabólica</a></li>
+  <li><a href="#objetivos-1" id="toc-objetivos-1" class="nav-link" data-scroll-target="#objetivos-1">Objetivos</a></li>
   </ul></li>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link" data-scroll-target="#introducción">Introducción</a></li>
+  <li><a href="#el-flujo-de-trabajo" id="toc-el-flujo-de-trabajo" class="nav-link" data-scroll-target="#el-flujo-de-trabajo">El flujo de trabajo</a></li>
+  <li><a href="#insumos-necesarios-1" id="toc-insumos-necesarios-1" class="nav-link" data-scroll-target="#insumos-necesarios-1">Insumos necesarios</a></li>
+  <li><a href="#preparación" id="toc-preparación" class="nav-link" data-scroll-target="#preparación">Preparación</a>
+  <ul class="collapse">
+  <li><a href="#identificar-contigs-virales" id="toc-identificar-contigs-virales" class="nav-link" data-scroll-target="#identificar-contigs-virales">03.1 Identificar contigs virales</a></li>
+  <li><a href="#evaluar-la-calidad" id="toc-evaluar-la-calidad" class="nav-link" data-scroll-target="#evaluar-la-calidad">03.2 Evaluar la calidad</a></li>
+  <li><a href="#validar-con-una-segunda-herramienta" id="toc-validar-con-una-segunda-herramienta" class="nav-link" data-scroll-target="#validar-con-una-segunda-herramienta">03.3 Validar con una segunda herramienta</a></li>
+  <li><a href="#revalidar-con-checkv" id="toc-revalidar-con-checkv" class="nav-link" data-scroll-target="#revalidar-con-checkv">03.4 Revalidar con CheckV</a></li>
+  <li><a href="#catálogo-no-redundante-los-votus" id="toc-catálogo-no-redundante-los-votus" class="nav-link" data-scroll-target="#catálogo-no-redundante-los-votus">03.5 Catálogo no redundante: los vOTUs</a></li>
+  <li><a href="#clasificar-taxonómicamente" id="toc-clasificar-taxonómicamente" class="nav-link" data-scroll-target="#clasificar-taxonómicamente">03.6 Clasificar taxonómicamente</a></li>
+  <li><a href="#genes-auxiliares-del-metabolismo" id="toc-genes-auxiliares-del-metabolismo" class="nav-link" data-scroll-target="#genes-auxiliares-del-metabolismo">03.7 Genes auxiliares del metabolismo</a></li>
+  </ul></li>
+  <li><a href="#resultados-de-referencia" id="toc-resultados-de-referencia" class="nav-link" data-scroll-target="#resultados-de-referencia">Resultados de referencia</a></li>
+  <li><a href="#tarea" id="toc-tarea" class="nav-link" data-scroll-target="#tarea">Tarea</a></li>
+  <li><a href="#referencias-1" id="toc-referencias-1" class="nav-link" data-scroll-target="#referencias-1">Referencias</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Anotación</h1>
+<h1 class="title">Asignación</h1>
 </div>
 
 
@@ -246,196 +263,502 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="predicción-de-genes-y-anotación-estructural" class="level2">
-<h2 class="anchored" data-anchor-id="predicción-de-genes-y-anotación-estructural">01. Predicción de genes y anotación estructural</h2>
-<section id="qué-es-la-anotación" class="level3">
-<h3 class="anchored" data-anchor-id="qué-es-la-anotación">01.1. ¿Qué es la anotación?</h3>
-<p>La anotación funcional nos permite conocer qué es lo que nuestros microorganismos pueden producir. Es decir, nos permite saber que proteínas, enzimas y metabolitos contienen. A pesar de que comúnmente nos enfocamos únicamente en los genes durante el proceso de anotación, este también nos permite ver varias otras cosas. En general, el proceso de anotación nos ayuda a identificar:</p>
-<ul>
-<li><p><strong>Elementos transcribibles:</strong> Genes (llamados CDS), subunidades del RNA ribosomal (como el 16S) y RNA de transporte (tRNA)</p></li>
-<li><p><strong>Elementos de control:</strong> Promotores, sitios de unión de represores/activadores, codones de inicio y paro, secuencias Shine-Dalgarno, terminadores y riboswitches.</p></li>
-<li><p><strong>Elementos de arquitectura:</strong> Secuencias ori y ter y telómeros (en caso de los cromosomas lineales).</p></li>
-<li><p><strong>Elementos móviles:</strong> Transposones, ICEs y profagos.</p></li>
-<li><p><strong>Otros elementos:</strong> Sistemas CRISPR-Cas, pseudogenes y proteínas hipotéticas.</p></li>
-</ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="Figures/dna_3d.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1044"></p>
+<section id="asignación-taxonómica" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="asignación-taxonómica">Asignación taxonómica</h2>
+<section id="gtdb-tk" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="gtdb-tk">01. GTDB-tk</h3>
+<p>GTDB-Tk es una herramienta que asigna taxonomía a genomas utilizando la base de datos <a href="https://gtdb.ecogenomic.org/">GTDB</a> (Genome Taxonomy Database). Basado en árboles filogenéticos y medidas de ANI (Average Nucleotide Identity), GTDB-Tk clasifica genomas bacterianos y arqueanos, proporciona una taxonomía coherente y actualizada. Se utiliza mucho en el análisis de genomas y metagenomas.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="Figures/GTDB-tk_worflow.png" class="img-fluid figure-img" width="944"></p>
+<figcaption class="margin-caption">GTDB-tk Workflow</figcaption>
 </figure>
 </div>
-</section>
-<section id="consideraciones-generales" class="level3">
-<h3 class="anchored" data-anchor-id="consideraciones-generales">01.2. Consideraciones generales</h3>
-<p>La doble hélice de ADN está conformada por dos cadenas individuales pero complementarias. Estas cadenas están conformadas de nucleótidos, los cuales tienen un azúcar de 5 carbonos como base. En el quinto carbono del anillo de la azúcar, se encuentra siempre un fosfato. En el tercer carbono se encuentra un grupo hidroxilo. Al formarse la cadena de ADN, el extremo del nucleótido A que contiene el grupo fosfato (5’) se una al extremo que tiene el grupo hidroxilo del nucleótido B (3’). Este proceso se repite hasta terminar la cadena, por lo que al final quedan un grupo 5’ y un 3’ libres en los extremos.</p>
-<p>En la cadena ”líder” estos extremos van del <strong>5’ -&gt; 3’</strong></p>
-<p>En cadena complementaria, van del <strong>3’ -&gt; 5’</strong></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="Figures/DNA_chemical_structure.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="944"></p>
-</figure>
-</div>
-<p>Esto es importante porque, en general, las bases que nosotros encontramos en nuestros archivos fasta y fastq se encuentran siempre en dirección <strong>5’ -&gt; 3’</strong>.</p>
-<hr>
+<p>Recordemos que ya tenemos un <em>bin</em> refinado y desreplicado. Ahora vamos a asignarle identidad taxonómica, para ello vamos a correr GTDB-tk</p>
+<p>Creamos el directorio de resultados para GTDB-tk</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> results/13.gtdbtk/0h/bins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Y copiamos con un nuevo nombre</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> results/12.drep/0h/dereplicated_genomes/0h_cleanbin_000001.fasta  results/13.gtdbtk/0h/bins/0hBin01.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Ejercicio 1
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Ahora a te toca a ti</strong></p>
-<p>Vamos a empezar un pequeño ejercicio de anotación. Imaginen que ustedes tienen la siguiente secuencia dentro de su archivo fasta:</p>
-<p><strong>5’ - ATGAATCGGTACCTGCGAGCAGTGGTAA - 3’</strong></p>
-<p>¿Cual sería la cadena complementaria? ¿Por qué es importante mantener la dirección constante en nuestros archivos?</p>
-<p>Tiempo 5 min</p>
-</div>
-</div>
-<hr>
-</section>
-<section id="el-código-genético" class="level3">
-<h3 class="anchored" data-anchor-id="el-código-genético">01.3. El código genético</h3>
-<p>Para crear proteínas, es necesario pasar de la secuencia de nucleótidos (leída siempre en sentido 5’ -&gt; 3’) a una secuencia de aminoácidos. Esto se usando al mRNA como intermediario. Como recordaran, la única diferencia entre el DNA y el mRNA es que este último utiliza la base Uracilo (U) en lugar de Timina (T).</p>
-<p>Ahora, dado que la cantidad de aminoácidos (al menos 20) es mayor a la cantidad de nucleótidos (sólo 4), es necesario usar combinaciones de 3 nucleótidos para representar cada aminoácido. A la lista de equivalencias de grupos de 3 nucleótidos a aminoácidos es lo que conocemos como el código genético.</p>
-<p>Aunque en algún momento se creyó que el código genético era universal, ahora sabemos que existen variantes, pero la gran mayoría de la bacterias usan la variante 11.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="Figures/genetic_code.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="944"></p>
-</figure>
-</div>
-<p>Durante la anotación es necesario encontrar los marcos de lectura de un gen. Estos están definidos como la secuencia de nucleótidos que se encuentra entre un codón de inicio (AUG, GUG o UUG) y un codón de paro (UAA, UAG, UGA).</p>
-<hr>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Ejercicio 2
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Ahora a te toca a ti</strong></p>
-<p>Vamos a continuar con nuestro ejercicio. Nuestra cadena original era:</p>
-<p><strong>5’ - ATGAATCGGTACCTGCGAGCAGTGGTAA - 3’</strong></p>
-<p>Ahora vamos a convertirla a mRNA y buscar codones.</p>
-<p>¿Tenemos codones de inicio? ¿Y de paro? ¿Qué aminoácidos tenemos?</p>
-<p>Tiempo 10 min</p>
-</div>
-</div>
-<hr>
-<p>Durante la anotación es necesario encontrar los marcos de lectura de un gen. Estos están definidos como la secuencia de nucleótidos que se encuentra entre un codón de inicio (AUG, GUG o UUG) y un codón de paro (UAA, UAG, UGA). A estos les llamamos ORFs (open reading frames).</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="Figures/reading_frames.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="944"></p>
-</figure>
-</div>
-</section>
-<section id="cómo-funciona-un-anotador" class="level3">
-<h3 class="anchored" data-anchor-id="cómo-funciona-un-anotador">01.4. ¿Cómo funciona un anotador?</h3>
-<p>Los anotadores de genomas típicamente usan una variedad de programas de forma lineal (uno tras otro) para ir desde un archivo FASTA hasta los diferentes formatos de los archivos de anotación.</p>
-<ol type="1">
-<li><p>Detección de ORFs (Open Reading Frames) usando todos los marcos de lectura y el código genético adecuado. (<em>prodigal, glimmer3, GeneMarkS-2</em>)</p></li>
-<li><p>Detección de tRNAs, rRNAs y otros otros RNAs no codificantes (ncRNAs). (<em>barnap, infernal</em>)</p></li>
-<li><p>Asignación de funciones de los posibles CDS usando programas de comparación por homología y bases de datos de funciones (posterior a la curación de ORFs). (<em>diamond, mmseqs2</em>)</p></li>
-<li><p>Dependiendo de cada anotador, pasos extras son añadidos, como detección de secuencias CRISPR-Cas, péptidos señales o detección de pseudo-genes, por ejemplo.</p></li>
-</ol>
-<p><strong>¡Ojo!</strong></p>
-<p>Para asegurarse de tener una buena anotación es necesario tener un buen ensamble (principio Garbage In, Garbage Out).</p>
-<p>A pesar de que todas siguen el mismo flujo de trabajo, existen diferentes estrategias de anotación. Estas se pueden dividir en:</p>
-<p><strong>Anotación generalizada:</strong> Esta estrategia hace uso de herramientas con un buen balance entre potencia y velocidad. Hace uso de bases de datos generales para asignar funciones.</p>
-<p><strong>Anotación comprensiva:</strong> Esta estrategia hace uso de varias herramientas redundantes para asegurar que todo sea cubierto. Hace uso de múltiples bases de datos para cubrir la mayor cantidad de funciones.</p>
-<p><strong>Anotación especializada:</strong> Esta estrategia hace uso de herramientas generales en combinación con bases de datos diseñadas y curadas para propósitos específicos (reconstrucción de rutas metabólicas, identificación de factores de virulencia, etc.)</p>
-<p>En este ejercicio vamos a utilizar dos anotadores generales, Prokka y Bakta.</p>
-</section>
-<section id="prokka" class="level3">
-<h3 class="anchored" data-anchor-id="prokka">02. Prokka</h3>
-<p><a href="https://training.galaxyproject.org/training-material/topics/genome-annotation/tutorials/annotation-with-prokka/slides-plain.html">Prokka</a> es una herramienta útil, usa diferentes programas para predecir genes, secuencias codificantes, tRNAs, rRNAs. Hace la traducción de CDS a aminoácidos y asigna funciones usando diferentes bases de datos.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="Figures/Prokka_workflow.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="460"></p>
-</figure>
-</div>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Sólo para entender la predicción y anotación
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>En el taller vamos a correr prokka para entender como es el proceso de predicción genica y anotación, sin embargo cada vez se usa menos puesto que no tiene actualizaciones en su base de datos.</p>
-</div>
-</div>
-<p>Para correrlo vamos a activar el ambiente en el que se aloja.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Activa el ambiente para PROKKA
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate prokka</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-<p>Tenemos el ambiente activo, ahora vamos a crear un directorio de resultados para prokka.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> results/14.prokka/0h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Y ahora sí le pedimos a prokka que haga a predicción y anotación del MAG que obtuvimos</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">prokka</span> <span class="at">--locustag</span> 0hBin01_Scaffold <span class="dt">\</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--prefix</span> 0hBin01 <span class="at">--addgenes</span> <span class="at">--addmrna</span> <span class="dt">\</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--cpus</span> 6 <span class="at">--outdir</span> results/14.prokka/0h/0hBin01 <span class="dt">\</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  results/13.gtdbtk/0h/bins/0hBin01.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-¿Y si tuvieras más de un MAG?
+Script para más de un MAG
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Podemos hacer un ciclo que nos permita anotar todos los <em>bins.</em></p>
-<div class="callout callout-style-default callout-caution callout-titled">
+<p>Si tienes más de un MAG, que así será en las muestras de mayor tiempo de fermentación, puedes generar un ciclo for para copiar y renombrar todos.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> src/copiar_renombrarbins.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/bash</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">destination_dir</span><span class="op">=</span><span class="st">"results/13.gtdbtk/0h/bins"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="va">count</span><span class="op">=</span>1</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file <span class="kw">in</span> <span class="va">$(</span><span class="fu">ls</span> results/12.drep/0h/dereplicated_genomes/<span class="pp">*</span>.fasta<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="va">new_name</span><span class="op">=</span><span class="va">$(</span><span class="bu">printf</span> <span class="st">"0hBin%02d.fasta"</span> <span class="st">"</span><span class="va">$count</span><span class="st">"</span><span class="va">)</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cp</span> <span class="st">"</span><span class="va">$file</span><span class="st">"</span> <span class="st">"</span><span class="va">$destination_dir</span><span class="st">/</span><span class="va">$new_name</span><span class="st">"</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="va">count</span><span class="op">=</span><span class="va">$((count</span> <span class="op">+</span> <span class="dv">1</span><span class="va">))</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>Y ahora sí, ejecutamos gtdbtk</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate /home/dianao/.conda/envs/gtdbtk_2.5.2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">GTDBTK_DATA_PATH</span><span class="op">=</span>/data/BD/gtdbtk/release_gtdbtk_r226_full</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nohup</span> gtdbtk classify_wf <span class="dt">\</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--genome_dir</span> results/13.gtdbtk/0h/bins/ <span class="dt">\</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--out_dir</span> results/13.gtdbtk/0h/ <span class="dt">\</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--cpus</span> 6 <span class="dt">\</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">-x</span> fasta <span class="op">&gt;</span> outs/13.gtdbtk0h.out <span class="kw">&amp;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="filogenómica" class="level3">
+<h3 class="anchored" data-anchor-id="filogenómica">02. Filogenómica</h3>
+<p>La sección anterior termina con una tabla de taxonomía para cada MAG del pozol. Este módulo va un paso más allá: construye un árbol con los mismos genes marcadores que usa GTDB-Tk, lo lee de forma crítica y lo compara con esa taxonomía.</p>
+<p><strong>Pregunta guía:</strong> <em>¿qué tan bien concuerda la taxonomía asignada a los MAGs con su filogenia, y cuánta confianza podemos darle a esa comparación?</em></p>
+</section>
+<section id="objetivos" class="level3">
+<h3 class="anchored" data-anchor-id="objetivos">Objetivos</h3>
+<p>Al terminar este módulo podrás:</p>
+<ul>
+<li>Explicar qué marcadores usa GTDB-Tk y cuántos recuperó cada MAG.</li>
+<li>Construir un árbol de máxima verosimilitud a partir del alineamiento de marcadores.</li>
+<li>Leer un árbol enraizado: soportes, longitudes de rama y agrupaciones.</li>
+<li>Contrastar la taxonomía de GTDB con los clados del árbol.</li>
+<li>Reconocer los límites de esa inferencia.</li>
+</ul>
+</section>
+<section id="conceptos-clave" class="level3">
+<h3 class="anchored" data-anchor-id="conceptos-clave">Conceptos clave</h3>
+<p><strong>Marcadores de copia única.</strong> GTDB-Tk clasifica a las bacterias con 120 genes marcadores (bac120) que están presentes, en una sola copia, en casi todo el dominio. Son los mismos genes que sirven para construir un árbol. Que un MAG tenga pocos marcadores recuperados no es lo mismo que la completitud que estimó CheckM2 en el binning: CheckM2 usa modelos de aprendizaje automático, no cuenta estos genes.</p>
+<p><strong>Alineamiento concatenado.</strong> Cada marcador se alinea por separado y los 120 alineamientos se unen en uno solo por genoma. Después se enmascaran las columnas poco informativas (en este catálogo, de 41,084 a 5,036 aminoácidos).</p>
+<p><strong>Árbol de máxima verosimilitud.</strong> A partir de ese alineamiento, IQ-TREE busca el árbol que hace más probables los datos bajo un modelo de sustitución de aminoácidos. El modelo lo elige el propio programa (ModelFinder).</p>
+<p><strong>Soportes.</strong> Cada nodo trae dos valores, SH-aLRT y UFBoot, que indican qué tan estable es esa agrupación. Una regla habitual es confiar cuando SH-aLRT ≥ 80 y UFBoot ≥ 95.</p>
+<p><strong>Enraizar.</strong> Un árbol sin raíz no indica qué linaje divergió primero. Para leerlo en una dirección se elige un grupo externo.</p>
+<p><strong>Un dato para la comparación.</strong> La taxonomía de GTDB se definió sobre un árbol de genomas construido con estos mismos marcadores.</p>
+<hr>
+</section>
+</section>
+<section id="práctica" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="práctica">Práctica</h2>
+<section id="insumos-necesarios" class="level3">
+<h3 class="anchored" data-anchor-id="insumos-necesarios">02.1 Insumos necesarios</h3>
+<p>Partimos de lo que ya produjo el taller:</p>
+<ul>
+<li><p><strong>Los 17 MAGs desreplicados</strong></p></li>
+<li><p><strong>Tabla de GTDB-Tk</strong></p></li>
+</ul>
+<p>Todo está en tu directorio, dentro de <code>results/19.gtdbtk_global/</code>: la carpeta <code>mags/</code>, <code>gtdbtk.bac120.summary.tsv</code> y <code>quality_report.tsv</code>.</p>
+<ul>
+<li><strong>Ambientes.</strong> Esta práctica usa dos ambientes de conda que ya están instalados en el servidor: <code>gtdbtk</code> (pasos 2 y 3) y <code>qiime2</code> (pasos 4 a 6). El ambiente <code>qiime2</code> también trae R, con los paquetes <code>tidyverse</code> y <code>ape</code>. En cada paso de terminal se indica cuándo activar y desactivar el ambiente.</li>
+</ul>
+<hr>
+</section>
+<section id="marcadores-identificación" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="marcadores-identificación">02.2 Marcadores: identificación</h3>
+<p>Vamos a buscar en cada MAG los 120 genes marcadores que GTDB-Tk usa para clasificar. Primero activamos el ambiente de GTDB-Tk:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate gtdbtk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Y ahora sí, corremos <code>gtdbtk identify</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gtdbtk</span> identify <span class="at">--genome_dir</span> results/19.gtdbtk_global/mags <span class="dt">\</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">-x</span> fasta <span class="dt">\</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">--out_dir</span> results/22.gtdbtk_marcadores <span class="dt">\</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">--cpus</span> 4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><code>--genome_dir</code>: carpeta con los genomas</li>
+<li><code>-x</code>: extensión de los archivos</li>
+<li><code>--out_dir</code>: carpeta de resultados</li>
+<li><code>--cpus</code>: hilos</li>
+</ul>
+<p>La salida que nos interesa es <code>identify/gtdbtk.bac120.markers_summary.tsv</code>, con una fila por MAG. <code>number_unique_genes</code> cuenta los marcadores encontrados una sola vez y <code>number_multiple_genes</code> los que aparecen con más de una copia.</p>
+<p>Para ver las tablas en la terminal (desde <code>~/reads2mags_pozol</code>), primero la de marcadores. Las columnas son el nombre del MAG, los marcadores únicos y los marcadores con más de una copia:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-f1,2,3</span> results/22.gtdbtk_marcadores/identify/gtdbtk.bac120.markers_summary.tsv <span class="kw">|</span> <span class="ex">column</span> <span class="at">-t</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Y la calidad de CheckM2: nombre del MAG, completitud y contaminación:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-f1,2,3</span> results/19.gtdbtk_global/quality_report.tsv <span class="kw">|</span> <span class="ex">column</span> <span class="at">-t</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Un MAG con pocos de los 120 marcadores aporta poca información al árbol. Para ver cuáles son, comparamos los marcadores únicos de cada MAG con su completitud según CheckM2, que mide algo parecido con otro método. Esta es la gráfica, ya preparada:</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="Figures/marcadores.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption class="margin-caption">Marcadores bac120 únicos contra completitud CheckM2</figcaption>
+</figure>
+</div>
+<p><strong>Explora:</strong></p>
+<ol type="1">
+<li>¿Los dos valores van de la mano?</li>
+<li>¿Qué MAGs quedan lejos del grupo de puntos de arriba a la derecha?</li>
+<li>¿Hay algún MAG cuya completitud no corresponde a su número de marcadores?</li>
+</ol>
+<hr>
+</section>
+<section id="alineamiento-de-marcadores" class="level3">
+<h3 class="anchored" data-anchor-id="alineamiento-de-marcadores">02.3 Alineamiento de marcadores</h3>
+<p>Ahora alineamos los marcadores y los unimos en un solo alineamiento por genoma:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gtdbtk</span> align <span class="at">--identify_dir</span> results/22.gtdbtk_marcadores <span class="dt">\</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">--out_dir</span> results/22.gtdbtk_marcadores <span class="dt">\</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">--skip_gtdb_refs</span> <span class="dt">\</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">--cpus</span> 4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><code>--identify_dir</code>: salida del paso anterior</li>
+<li><code>--skip_gtdb_refs</code>: usa solo nuestros 17 MAGs, sin los genomas de referencia de GTDB</li>
+</ul>
+<p>GTDB-Tk enmascara las columnas poco informativas: aquí se pasó de 41,084 a 5,036 aminoácidos. El resultado, <code>align/gtdbtk.bac120.user_msa.fasta.gz</code>, es la entrada del árbol.</p>
+<p>Ya no necesitamos este ambiente, así que lo desactivamos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+<section id="árbol-de-máxima-verosimilitud" class="level3">
+<h3 class="anchored" data-anchor-id="árbol-de-máxima-verosimilitud">02.4 Árbol de máxima verosimilitud</h3>
+<p>Para el árbol usamos el ambiente <code>qiime2</code>, que trae IQ-TREE:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate qiime2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Descomprimimos el alineamiento:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> results/23.iqtree</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">zcat</span> results/22.gtdbtk_marcadores/align/gtdbtk.bac120.user_msa.fasta.gz <span class="op">&gt;</span> results/23.iqtree/bac120_17mags.faa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Y ahora sí, construimos el árbol con IQ-TREE:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">iqtree3</span> <span class="at">-s</span> results/23.iqtree/bac120_17mags.faa <span class="dt">\</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">-m</span> MFP <span class="dt">\</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">-B</span> 1000 <span class="at">--alrt</span> 1000 <span class="dt">\</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">-T</span> 4 <span class="at">--seed</span> 123 <span class="dt">\</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">--prefix</span> results/23.iqtree/bac120_17mags</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><code>-m MFP</code>: ModelFinder elige el modelo de sustitución (aquí, LG+F+I+R3 según BIC)</li>
+<li><code>-B 1000</code>: UFBoot con 1000 réplicas</li>
+<li><code>--alrt 1000</code>: SH-aLRT</li>
+<li><code>-T 4</code>: hilos</li>
+<li><code>--seed 123</code>: semilla, para que el resultado sea reproducible</li>
+<li><code>--prefix</code>: nombre base de las salidas</li>
+</ul>
+<p>Las salidas principales son <code>bac120_17mags.treefile</code> (el árbol con los soportes SH-aLRT/UFBoot en cada nodo) y <code>bac120_17mags.iqtree</code> (el reporte con el modelo y la verosimilitud). Con 4 hilos tarda unos 5 minutos (unos 3 de ellos en ModelFinder).</p>
+<hr>
+</section>
+<section id="leer-y-enraizar-el-árbol" class="level3">
+<h3 class="anchored" data-anchor-id="leer-y-enraizar-el-árbol">02.5 Leer y enraizar el árbol</h3>
+<p>Esta parte se hace en R, con <code>results</code> como directorio de trabajo. Usamos otra vez el ambiente <code>qiime2</code>, que también trae R (si ya lo tienes activo, no pasa nada). Entramos a <code>results</code> y abrimos R:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate qiime2</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> results</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Cargamos los paquetes que vamos a usar:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyverse' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tibble' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'purrr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'stringr' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'forcats' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'lubridate' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.2.0     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.2
+✔ ggplot2   3.5.2     ✔ tibble    3.2.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.0.4     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ape' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Adjuntando el paquete: 'ape'
+
+The following object is masked from 'package:dplyr':
+
+    where</code></pre>
+</div>
+</div>
+<p>Vamos a leer el árbol en R. IQ-TREE lo entrega sin raíz; para leerlo en una dirección hay que enraizarlo con un grupo externo, y <strong>enraizar no es trivial</strong>. Aquí usamos MAG07 (<em>Acinetobacter</em>), el único MAG de otro filo (Pseudomonadota), porque es el único candidato claro dentro de este catálogo. En un proyecto propio conviene elegir el grupo externo con cuidado, y no tiene que ser uno de tus MAGs: también puedes buscar un genoma adecuado en bases de datos de genomas y añadirlo al análisis. Otra raíz cambia cómo se dibuja el árbol y quién parece divergir primero, pero las agrupaciones que veremos no cambian mientras la raíz quede fuera de ellas. La opción <code>edgelabel = TRUE</code> mantiene cada soporte en su nodo al enraizar:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">read.tree</span>(<span class="st">"09_filogenomica_mags_entrega/23.iqtree/bac120_17mags.treefile"</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">root</span>(tr, <span class="at">outgroup =</span> <span class="st">"MAG07_09h"</span>, <span class="at">resolve.root =</span> <span class="cn">TRUE</span>, <span class="at">edgelabel =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ahora leemos la taxonomía de GTDB-Tk y separamos sus niveles:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>tax <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"09_filogenomica_mags_entrega/19.gtdbtk_global/gtdbtk.bac120.summary.tsv"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">Bin_name =</span> user_genome,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">Phylum =</span> <span class="fu">str_match</span>(classification, <span class="st">"p__([^;]*)"</span>)[, <span class="dv">2</span>],</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">Order  =</span> <span class="fu">str_match</span>(classification, <span class="st">"o__([^;]*)"</span>)[, <span class="dv">2</span>],</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">Family =</span> <span class="fu">str_match</span>(classification, <span class="st">"f__([^;]*)"</span>)[, <span class="dv">2</span>],</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">Genus  =</span> <span class="fu">str_match</span>(classification, <span class="st">"g__([^;]*)"</span>)[, <span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 17 Columns: 20
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: "\t"
+chr (20): user_genome, classification, closest_genome_reference, closest_gen...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<p>Preparamos las etiquetas (MAG y género) y un color por familia:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>tx <span class="ot">&lt;-</span> tax[<span class="fu">match</span>(tr<span class="sc">$</span>tip.label, tax<span class="sc">$</span>Bin_name), ]</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>etiquetas <span class="ot">&lt;-</span> <span class="fu">paste</span>(tx<span class="sc">$</span>Bin_name, tx<span class="sc">$</span>Genus, <span class="at">sep =</span> <span class="st">"  "</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>colores <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">hcl.colors</span>(<span class="fu">n_distinct</span>(tx<span class="sc">$</span>Family), <span class="st">"Dark 3"</span>), <span class="fu">sort</span>(<span class="fu">unique</span>(tx<span class="sc">$</span>Family)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Y dibujamos el árbol. Los números sobre los nodos son SH-aLRT/UFBoot y la barra de escala indica sustituciones por sitio:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>arbol <span class="ot">&lt;-</span> tr</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>arbol<span class="sc">$</span>tip.label <span class="ot">&lt;-</span> etiquetas</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(arbol, <span class="at">tip.color =</span> colores[tx<span class="sc">$</span>Family], <span class="at">cex =</span> <span class="fl">0.9</span>, <span class="at">label.offset =</span> <span class="fl">0.02</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">nodelabels</span>(arbol<span class="sc">$</span>node.label, <span class="at">frame =</span> <span class="st">"none"</span>, <span class="at">cex =</span> <span class="fl">0.6</span>, <span class="at">adj =</span> <span class="fu">c</span>(<span class="fl">1.1</span>, <span class="sc">-</span><span class="fl">0.4</span>), <span class="at">col =</span> <span class="st">"grey30"</span>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottomleft"</span>, <span class="at">legend =</span> <span class="fu">names</span>(colores), <span class="at">text.col =</span> colores, <span class="at">bty =</span> <span class="st">"n"</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="fu">add.scale.bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07.Asignacion_files/figure-html/arbol-1.png" class="img-fluid figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>El resultado esperado es el árbol de arriba. En la terminal del servidor no se abre ninguna ventana con la gráfica, así que hay que guardarla en un archivo. Corre el mismo bloque entre <code>png()</code> y <code>dev.off()</code>:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="st">"09_filogenomica_mags_entrega/23.iqtree/arbol.png"</span>, <span class="at">width =</span> <span class="dv">900</span>, <span class="at">height =</span> <span class="dv">700</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>arbol <span class="ot">&lt;-</span> tr</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>arbol<span class="sc">$</span>tip.label <span class="ot">&lt;-</span> etiquetas</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(arbol, <span class="at">tip.color =</span> colores[tx<span class="sc">$</span>Family], <span class="at">cex =</span> <span class="fl">0.9</span>, <span class="at">label.offset =</span> <span class="fl">0.02</span>)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">nodelabels</span>(arbol<span class="sc">$</span>node.label, <span class="at">frame =</span> <span class="st">"none"</span>, <span class="at">cex =</span> <span class="fl">0.6</span>, <span class="at">adj =</span> <span class="fu">c</span>(<span class="fl">1.1</span>, <span class="sc">-</span><span class="fl">0.4</span>), <span class="at">col =</span> <span class="st">"grey30"</span>)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottomleft"</span>, <span class="at">legend =</span> <span class="fu">names</span>(colores), <span class="at">text.col =</span> colores, <span class="at">bty =</span> <span class="st">"n"</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="fu">add.scale.bar</span>()</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>El árbol queda guardado como <code>23.iqtree/arbol.png</code>, dentro de la carpeta donde está trabajando R (<code>results</code>; <code>getwd()</code> te la muestra), junto a los demás archivos de IQ-TREE. Ábrelo desde el explorador de archivos de tu editor o descárgalo a tu computadora para verlo.</p>
+<p><strong>Explora:</strong> observa qué ramas son largas y qué nodos tienen soporte bajo. ¿Qué cambia si enraizas en otro MAG? Prueba con otro valor de <code>outgroup</code>.</p>
+<hr>
+</section>
+<section id="taxonomía-frente-a-filogenia" class="level3">
+<h3 class="anchored" data-anchor-id="taxonomía-frente-a-filogenia">02.6 Taxonomía frente a filogenia</h3>
+<p>Escribimos una función que, para un nivel taxonómico, revisa si los MAGs de cada grupo forman un clado (<code>is.monophyletic()</code>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>monofiletico <span class="ot">&lt;-</span> <span class="cf">function</span>(nivel) {</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  tax <span class="sc">|&gt;</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(<span class="at">Grupo =</span> .data[[nivel]]) <span class="sc">|&gt;</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">n_MAGs =</span> <span class="fu">n</span>(),</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">Monofiletico =</span> <span class="cf">if</span> (<span class="fu">n</span>() <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="fu">is.monophyletic</span>(tr, Bin_name) <span class="cf">else</span> <span class="cn">NA</span>,</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Nivel =</span> nivel, <span class="at">.before =</span> <span class="dv">1</span>)</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>La aplicamos a filo, orden, familia y género, y nos quedamos con los grupos de más de un MAG:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(<span class="fu">lapply</span>(<span class="fu">c</span>(<span class="st">"Phylum"</span>, <span class="st">"Order"</span>, <span class="st">"Family"</span>, <span class="st">"Genus"</span>), monofiletico)) <span class="sc">|&gt;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n_MAGs <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 4
+  Nivel  Grupo            n_MAGs Monofiletico
+  &lt;chr&gt;  &lt;chr&gt;             &lt;int&gt; &lt;lgl&gt;       
+1 Phylum Actinomycetota        2 TRUE        
+2 Phylum Bacillota            14 TRUE        
+3 Order  Actinomycetales       2 TRUE        
+4 Order  Bacillales            2 TRUE        
+5 Order  Lactobacillales      11 TRUE        
+6 Family Lactobacillaceae      4 TRUE        
+7 Family Micrococcaceae        2 TRUE        
+8 Family Streptococcaceae      5 TRUE        
+9 Genus  Streptococcus         4 TRUE        </code></pre>
+</div>
+</div>
+<p><strong>Explora:</strong> revisa los soportes de esos grupos en la figura anterior.</p>
+<p>Para terminar, salimos de R (si pregunta si guardas la sesión, responde <code>n</code>), volvemos a la raíz del proyecto y desactivamos el ambiente:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">q</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ..</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="límites-de-la-inferencia" class="level3">
+<h3 class="anchored" data-anchor-id="límites-de-la-inferencia">02.7 Límites de la inferencia</h3>
+<ul>
+<li>Son 17 genomas recuperados de un solo fermento: el árbol describe a estos MAGs, no a toda la diversidad del pozol.</li>
+<li>No se incluyeron genomas de referencia, así que no vemos cómo se relacionan con otros genomas conocidos.</li>
+<li>Un solo MAG representa a Pseudomonadota, y la raíz del árbol depende de él.</li>
+<li>Un soporte alto indica que la agrupación es estable con estos datos y este modelo, no que sea la historia evolutiva correcta.</li>
+<li>Los MAGs con pocos marcadores recuperados aportan menos señal al árbol, y los contaminados pueden meter ruido. Una forma de comprobarlo es repetir el árbol sin ellos y comparar.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="inputs" class="level2">
+<h2 class="anchored" data-anchor-id="inputs">Inputs</h2>
+<p>Los 17 MAGs (<code>results/19.gtdbtk_global/mags/</code>) y las tablas <code>19.gtdbtk_global/gtdbtk.bac120.summary.tsv</code> y <code>19.gtdbtk_global/quality_report.tsv</code>, que ya están en tu directorio.</p>
+</section>
+<section id="outputs" class="level2">
+<h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
+<p><code>results/22.gtdbtk_marcadores/</code> (marcadores y alineamiento) y <code>results/23.iqtree/</code> (árbol y reporte de IQ-TREE).</p>
+</section>
+<section id="preguntas-de-interpretación" class="level2">
+<h2 class="anchored" data-anchor-id="preguntas-de-interpretación">Preguntas de interpretación</h2>
+<ol type="1">
+<li>¿Qué MAGs recuperaron menos marcadores y qué implica para su lugar en el árbol?</li>
+<li>¿La taxonomía de GTDB coincide con los clados? ¿Por qué esa coincidencia no es una validación independiente?</li>
+<li>¿Qué nodo tiene soporte débil y qué conclusión no deberías sacar de él?</li>
+</ol>
+</section>
+<section id="referencias" class="level2">
+<h2 class="anchored" data-anchor-id="referencias">Referencias</h2>
+<p>Chaumeil, P.-A., Mussig, A. J., Hugenholtz, P., &amp; Parks, D. H. (2022). GTDB-Tk v2: memory friendly classification with the Genome Taxonomy Database. <em>Bioinformatics</em>, 38(23), 5315–5316. <a href="https://doi.org/10.1093/bioinformatics/btac672" class="uri">https://doi.org/10.1093/bioinformatics/btac672</a></p>
+<p>Chklovski, A., Parks, D. H., Woodcroft, B. J., &amp; Tyson, G. W. (2023). CheckM2: a rapid, scalable and accurate tool for assessing microbial genome quality using machine learning. <em>Nature Methods</em>, 20(8), 1203–1212. <a href="https://doi.org/10.1038/s41592-023-01940-w" class="uri">https://doi.org/10.1038/s41592-023-01940-w</a></p>
+<p>Guindon, S., Dufayard, J.-F., Lefort, V., Anisimova, M., Hordijk, W., &amp; Gascuel, O. (2010). New algorithms and methods to estimate maximum-likelihood phylogenies: Assessing the performance of PhyML 3.0. <em>Systematic Biology</em>, 59(3), 307–321. <a href="https://doi.org/10.1093/sysbio/syq010" class="uri">https://doi.org/10.1093/sysbio/syq010</a></p>
+<p>Hoang, D. T., Chernomor, O., von Haeseler, A., Minh, B. Q., &amp; Vinh, L. S. (2018). UFBoot2: Improving the ultrafast bootstrap approximation. <em>Molecular Biology and Evolution</em>, 35(2), 518–522. <a href="https://doi.org/10.1093/molbev/msx281" class="uri">https://doi.org/10.1093/molbev/msx281</a></p>
+<p>Kalyaanamoorthy, S., Minh, B. Q., Wong, T. K. F., von Haeseler, A., &amp; Jermiin, L. S. (2017). ModelFinder: fast model selection for accurate phylogenetic estimates. <em>Nature Methods</em>, 14, 587–589. <a href="https://doi.org/10.1038/nmeth.4285" class="uri">https://doi.org/10.1038/nmeth.4285</a></p>
+<p>Minh, B. Q., Schmidt, H. A., Chernomor, O., Schrempf, D., Woodhams, M. D., von Haeseler, A., &amp; Lanfear, R. (2020). IQ-TREE 2: New models and efficient methods for phylogenetic inference in the genomic era. <em>Molecular Biology and Evolution</em>, 37(5), 1530–1534. <a href="https://doi.org/10.1093/molbev/msaa015" class="uri">https://doi.org/10.1093/molbev/msaa015</a></p>
+<p>Paradis, E., &amp; Schliep, K. (2019). ape 5.0: an environment for modern phylogenetics and evolutionary analyses in R. <em>Bioinformatics</em>, 35, 526–528. <a href="https://doi.org/10.1093/bioinformatics/bty633" class="uri">https://doi.org/10.1093/bioinformatics/bty633</a></p>
+<p>Parks, D. H., Chaumeil, P.-A., Mussig, A. J., Rinke, C., Chuvochina, M., &amp; Hugenholtz, P. (2025). GTDB release 10: a complete and systematic taxonomy for 715 230 bacterial and 17 245 archaeal genomes. <em>Nucleic Acids Research</em>, 54(D1), D743–D754. <a href="https://doi.org/10.1093/nar/gkaf1040" class="uri">https://doi.org/10.1093/nar/gkaf1040</a></p>
+<p>Wong, T. K. F., Ly-Trong, N., Ren, H., Demotte, P., Baños, H., Roger, A. J., Susko, E., Bielow, C., De Maio, N., Goldman, N., et al.&nbsp;(2026). IQ-TREE 3: phylogenomic inference software using complex evolutionary models. <em>Molecular Biology and Evolution</em>, 43(5), msag117. <a href="https://doi.org/10.1093/molbev/msag117" class="uri">https://doi.org/10.1093/molbev/msag117</a></p>
+</section>
+<section id="viromas-genomas-virales-a-partir-de-metagenomas" class="level2">
+<h2 class="anchored" data-anchor-id="viromas-genomas-virales-a-partir-de-metagenomas">03. Viromas: genomas virales a partir de metagenomas</h2>
+<p>Este módulo es un recorrido por el flujo de identificación, evaluación de calidad, agrupación y clasificación de virus, revsando sus genes auxiliares del metabolismo, a partir de los ensambles de los cuatro tiempos de fermentación (0, 9, 24 y 48 h).</p>
+<p><strong>Pregunta guía:</strong> <em>¿Qué virus hay en el pozol y qué tan completos y confiables son sus genomas?</em></p>
+<section id="objetivos-1" class="level3">
+<h3 class="anchored" data-anchor-id="objetivos-1">Objetivos</h3>
+<p>Al terminar este módulo podrás: - Identificar contigs virales con VirSorter2 y explicar qué son el puntaje y los genes <em>hallmark</em>. - Evaluar la completitud y la contaminación de genomas virales con CheckV, e interpretar los estándares de calidad de CheckV y MIUViG. - Confirmar los candidatos con una segunda herramienta (VIBRANT) y distinguir fagos líticos de lisogénicos. - Agrupar genomas en vOTUs con el criterio MIUViG (CD-HIT-EST). - Asignar taxonomía con geNomad y revisar los genes auxiliares del metabolismo (AMGs).</p>
+</section>
+</section>
+<section id="introducción" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="introducción">Introducción</h2>
+<p>Un <strong>viroma</strong> es el conjunto de virus presentes en un ambiente. En un metagenoma, el ADN viral viene mezclado con el de bacterias, arqueas y del hospedador, así que el primer reto es <strong>encontrar</strong> qué contigs del ensamble son virales.</p>
+<p>Hasta ahora trabajamos con MAGs, donde la calidad se evalúa con genes de copia única que casi todas las bacterias comparten. <strong>Los virus no tienen un equivalente universal</strong>: no existe un gen presente en todos (como el 16S o los marcadores ribosomales), y sus genomas son pequeños, muy variables y poco representados en las bases de datos. Por eso la identificación y la evaluación de calidad se hacen con otras señales.</p>
+<p>En este taller trabajaremos con los ensambles de <strong>MEGAHIT (v2)</strong> del pozol de los cuatro tiempos de fermentación (0, 9, 24 y 48 h) y recuperaremos <strong>genomas virales completos o casi completos a partir de contigs individuales</strong>.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="10_viromas_vmags/img/genoma_fragmentado.svg" class="img-fluid figure-img"></p>
+<figcaption class="margin-caption">Figura 1. Un genoma viral de 40 kb partido en cuatro contigs.</figcaption>
+</figure>
+</div>
+<hr>
+</section>
+<section id="el-flujo-de-trabajo" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="el-flujo-de-trabajo">El flujo de trabajo</h2>
+<p>Cada paso <strong>lee la carpeta del paso anterior</strong> y escribe en su propia carpeta numerada dentro de <code>results/</code>. Así, el resultado de un paso es la entrada del siguiente.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Carpeta (<code>results/</code>)</th>
+<th>Lee</th>
+<th>Produce</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>22.virsorter2/</code></td>
+<td><code>03.ensambles/{t}/v2_megahit.fasta</code></td>
+<td><code>{t}_virsorter/final-viral-combined.fa</code></td>
+</tr>
+<tr class="even">
+<td><code>23.checkv/</code></td>
+<td>los cuatro <code>final-viral-combined.fa</code> (juntos)</td>
+<td><code>out/quality_summary.tsv</code>, <code>out/viruses.fna</code></td>
+</tr>
+<tr class="odd">
+<td><code>24.vibrant/</code></td>
+<td>los dos archivos de <code>23.checkv/out/</code></td>
+<td><code>phages_combined.{fna,faa}</code> y tablas de calidad</td>
+</tr>
+<tr class="even">
+<td><code>25.checkv_vibrant/</code></td>
+<td><code>phages_combined.fna</code></td>
+<td><code>quality_summary.tsv</code></td>
+</tr>
+<tr class="odd">
+<td><code>26.votus/</code></td>
+<td><code>phages_combined.fna</code></td>
+<td><code>vOTUs_representatives.fna</code>, <code>.clstr</code>, <code>catalogo_vOTUs.tsv</code></td>
+</tr>
+<tr class="even">
+<td><code>27.genomad/</code></td>
+<td><code>vOTUs_representatives.fna</code></td>
+<td><code>*_taxonomy.tsv</code>, <code>*_proteins.faa</code></td>
+</tr>
+<tr class="odd">
+<td><code>24.vibrant/</code> (lectura)</td>
+<td>tablas <code>VIBRANT_AMG_*</code> y <code>VIBRANT_annotations</code></td>
+<td>paso 28: genes auxiliares del metabolismo</td>
+</tr>
+</tbody>
+</table>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="10_viromas_vmags/img/flujo_viromas.svg" class="img-fluid figure-img"></p>
+<figcaption class="margin-caption">Figura 2. Flujo de análisis de viromas: cada paso lee la salida del anterior.</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Tip">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-No lo corras
+Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Este ciclo sólo es un ejemplo de cómo correrlo para todos los bins que tengas y lo podrás usar más adelante en un ejercicio o en los bins o genomas que estés estudiando.</p>
+<p>Los pasos 23 en adelante trabajan con <strong>los cuatro tiempos juntos</strong>, para obtener un solo catálogo.</p>
 </div>
 </div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 01. Definimos variables de ubicacion de directorios de entrada y de salida</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="va">input</span><span class="op">=</span><span class="st">"results/13.gtdbtk/0h/bins"</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="va">out</span><span class="op">=</span><span class="st">"results/14.prokka/0h"</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 02. Ejecutamos prokka en todos los fasta</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> FASTA <span class="kw">in</span> <span class="va">$(</span><span class="fu">ls</span> <span class="va">$input</span>/<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="va">LOCUSTAG</span><span class="op">=</span><span class="va">$(</span><span class="fu">basename</span> <span class="va">$FASTA</span> .fasta<span class="va">)</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="ex">prokka</span> <span class="at">--locustag</span> <span class="st">"</span><span class="va">${LOCUSTAG}</span><span class="st">_Scaffold"</span> <span class="dt">\</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">--prefix</span> <span class="va">$LOCUSTAG</span> <span class="at">--addgenes</span> <span class="at">--addmrna</span> <span class="dt">\</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">--cpus</span> 6 <span class="at">--outdir</span> <span class="st">"</span><span class="va">${out}</span><span class="st">/</span><span class="va">${LOCUSTAG}</span><span class="st">"</span> <span class="dt">\</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"</span><span class="va">${input}</span><span class="st">/</span><span class="va">${FASTA}</span><span class="st">"</span> <span class="kw">;</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled">
+<hr>
+</section>
+<section id="insumos-necesarios-1" class="level2">
+<h2 class="anchored" data-anchor-id="insumos-necesarios-1">Insumos necesarios</h2>
+<ul>
+<li><strong>Ensambles de MEGAHIT v2</strong> de los cuatro tiempos, del proyecto <code>reads2mags_pozol</code>: <code>results/03.ensambles/{0h,09h,24h,48h}/v2_megahit.fasta</code>.</li>
+<li><strong>Bases de datos del servidor:</strong> VirSorter2 en <code>/data/db/virsorter2</code> y geNomad en <code>/data/BD/phage_phylo/genomad_db</code>.</li>
+<li><strong>Ambientes de conda:</strong> los de la tabla de programas de la sección Preparación.</li>
+<li><strong>Resultados de respaldo (precomputados):</strong> <code>/home/dianao/reads2mags_pozol_resuelto/resuelto_viromas/</code>, con las salidas de los pasos 22 a 27 (<code>results/22.virsorter2</code> a <code>results/27.genomad</code>).</li>
+</ul>
+</section>
+<section id="preparación" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="preparación">Preparación</h2>
+<p>Todos los comandos se ejecutan <strong>desde la raíz del proyecto</strong> (<code>reads2mags_pozol/</code>). Verifica dónde estás:</p>
+<pre><code>pwd
+ls results
+ls results/03.ensambles/0h/v2_megahit.fasta</code></pre>
+<div class="callout callout-style-default callout-caution callout-titled" title="Explora">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -445,359 +768,771 @@ Explora
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Para tener una idea de lo que ocurre cuando ejecutas prokka, toma el ejemplo anterior y anota uno de los bins obtenidos en la muestra que le tocó a tu equipo, el que más te guste, procuren elegir bins distintos.</p>
+<p>¿Aparecen los directorios <code>01.fastqc</code> … <code>21.kofam</code>? ¿Existe <code>results/03.ensambles/0h/v2_megahit.fasta</code>?</p>
 </div>
 </div>
-<p>Desactivemos el ambiente:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<hr>
-</section>
-<section id="bakta" class="level3">
-<h3 class="anchored" data-anchor-id="bakta">03. Bakta</h3>
-<p><a href="https://github.com/oschwengers/bakta">Bakta</a> hace el mismo trabajo que Prokka —predice genes (CDS, tRNA, rRNA, ncRNA, CRISPR…) y les asigna función—, pero es una herramienta <strong>actual y activamente mantenida</strong> (Prokka lleva años prácticamente sin actualizarse), y su enfoque cambia en un punto clave. En vez de depender solo de búsquedas por homología, Bakta compara primero las proteínas contra una <strong>base de datos versionada de secuencias proteicas únicas pre-computadas</strong> (identificadas por su hash MD5): si una proteína ya está ahí, hereda de inmediato una anotación de alta confianza con sus referencias cruzadas (KEGG, COG, EC, GO, UniRef); las que no aparecen, pasan a una búsqueda por homología con Diamond.</p>
-<p>Las ventajas sobre Prokka son:</p>
-<ul>
-<li><p><strong>Menos “hypothetical protein”:</strong> al apoyarse en una base curada y grande, más genes reciben una función informativa en lugar de quedar como “proteína hipotética”.</p></li>
-<li><p><strong>Anotación más rica y trazable:</strong> cada gen trae identificadores estables y referencias cruzadas a varias bases, así que puedes ver anotaciones de KEGG, COG o EC directo en la salida.</p></li>
-<li><p><strong>Más tipos de elementos y salidas listas para downstream</strong> (<code>.faa</code>, <code>.gff3</code>, <code>.gbff</code>, <code>.tsv</code>, <code>.json</code>, además de un resumen legible).</p></li>
-</ul>
-<p>El costo es que Bakta necesita una <strong>base de datos grande</strong> (la completa pesa decenas de GB) y <strong>tarda más</strong>: en este MAG de 0 h corrió en ~15 minutos. Por eso en el taller <strong>no lo vamos a correr en vivo</strong>, ya dejamos sus resultados en el directorio de cada quien; de ahí tomaremos el <code>.faa</code> (las proteínas predichas) como insumo para las anotaciones que siguen, por ser la anotación más completa y actual.</p>
-<hr>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<p>Cada herramienta vive en su propio ambiente de conda. Los activaremos por nombre, como en los días anteriores, y los desactivaremos al terminar cada paso.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Herramienta</th>
+<th>Versión</th>
+<th>Ambiente</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>seqkit</td>
+<td></td>
+<td><code>seqkit_env</code></td>
+</tr>
+<tr class="even">
+<td>VirSorter2</td>
+<td>2.2.4</td>
+<td><code>virsorter2</code></td>
+</tr>
+<tr class="odd">
+<td>CheckV</td>
+<td>1.0.3 (base v1.5)</td>
+<td><code>checkv</code></td>
+</tr>
+<tr class="even">
+<td>VIBRANT</td>
+<td>1.2.0</td>
+<td><code>vibrant</code></td>
+</tr>
+<tr class="odd">
+<td>CD-HIT (<code>cd-hit-est</code>)</td>
+<td>4.8.1</td>
+<td><code>EukMS_run</code></td>
+</tr>
+<tr class="even">
+<td>geNomad</td>
+<td>1.13.0 (base v1.9)</td>
+<td><code>genomad</code></td>
+</tr>
+</tbody>
+</table>
+<p>Las cuentas del curso tienen un límite bajo de procesos. Algunos programas de Python intentan abrir un hilo por cada núcleo del servidor y, sin este ajuste, se caen al arrancar. Declaremos los núcleos:</p>
+<pre><code>export OPENBLAS_NUM_THREADS=1
+export OMP_NUM_THREADS=1</code></pre>
+<div class="callout callout-style-default callout-note callout-titled" title="Nota">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Asi se corrió (No lo ejecutes)
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Estas variables sólo valen en la terminal donde las declaras. Si abres otra terminal, vuelve a declararlas antes de correr cualquier herramienta.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="OJO">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+OJO
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Antes de correr cada programa, revisa su ayuda (<code>-h</code>) y piensa qué parámetros elegirías para tus datos. Aquí usamos los más sencillos para ahorrar tiempo y recursos.</p>
+</div>
+</div>
+<hr>
+<section id="identificar-contigs-virales" class="level3">
+<h3 class="anchored" data-anchor-id="identificar-contigs-virales">03.1 Identificar contigs virales</h3>
+<p><strong>VirSorter2</strong> busca señales virales en cada contig: genes característicos de virus (<em>hallmark</em>), el porcentaje de genes de aspecto viral frente a celular y la estructura del genoma. Con esas señales calcula un puntaje y clasifica el contig en uno de varios grupos virales. Nosotros pedimos contigs de al menos 3 kb y puntaje mínimo de 0.5.</p>
+<p>Vamos a crear los directorios de resultados:</p>
+<pre><code>mkdir -p results/22.virsorter2/input outs</code></pre>
+<p>Antes de correr VirSorter2 preparamos la entrada: limpiamos los encabezados, sin espacios y con el tiempo como prefijo, para que no haya nombres repetidos entre muestras. El filtro por longitud (≥ 3 kb) no hace falta aquí: lo aplica el propio VirSorter2 con <code>--min-length 3000</code>. Para practicar usaremos un solo tiempo, <strong>0 h</strong>:</p>
+<pre><code>conda activate seqkit_env
+t=0h
+
+seqkit replace -p "\s.+" -r "" results/03.ensambles/${t}/v2_megahit.fasta \
+  | seqkit replace -p "^" -r "${t}_" \
+  &gt; results/22.virsorter2/input/${t}_megahit.fa
+
+conda deactivate</code></pre>
+<div class="callout callout-style-default callout-note callout-titled" title="Nota">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Es normal que <code>seqkit</code> muestre un aviso <code>[WARN] you may switch on flag -g/--remove-gaps to remove spaces</code>. No afecta el resultado.</p>
+</div>
+</div>
+<p>VirSorter2 es el paso más lento del flujo. Lánzalo con la muestra de 0 h y déjalo corriendo mientras seguimos con la explicación del siguiente paso. Al empezar, VirSorter2 informa cuántos contigs descarta por ser menores de 3 kb y cuántos analiza:</p>
+<pre><code>conda activate virsorter2
+
+virsorter run -w results/22.virsorter2/${t}_virsorter \
+  -i results/22.virsorter2/input/${t}_megahit.fa \
+  -d /data/db/virsorter2 --min-length 3000 --min-score 0.5 \
+  -j 2 all --scheduler greedy 2&gt;&amp;1 | tee outs/22.virsorter2_${t}.log
+
+conda deactivate</code></pre>
+<div class="callout callout-style-default callout-warning callout-titled" title="Atención">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Atención
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Los otros tres tiempos (9, 24 y 48 h) ya están corridos. Cópialos del respaldo para tener los cuatro:</p>
+<pre><code>cp -r /home/dianao/reads2mags_pozol_resuelto/resuelto_viromas/results/22.virsorter2/{09h,24h,48h}_virsorter results/22.virsorter2/</code></pre>
+<p>Si tu corrida de 0 h no terminó, borra tu carpeta y copia también la de 0 h:</p>
+<pre><code>rm -rf results/22.virsorter2/0h_virsorter
+cp -r /home/dianao/reads2mags_pozol_resuelto/resuelto_viromas/results/22.virsorter2/0h_virsorter results/22.virsorter2/</code></pre>
+</div>
+</div>
+<p>Cuenta cuántos contigs virales salieron en cada tiempo y cuántos tienen al menos un gen <em>hallmark</em>:</p>
+<pre><code>for t in 0h 09h 24h 48h; do
+  awk -F'\t' -v t=$t 'NR&gt;1 {n++; if($7&gt;0) h++} END{print t, n" virales,", h" con hallmark"}' \
+    results/22.virsorter2/${t}_virsorter/final-viral-score.tsv
+done</code></pre>
+<p>El sufijo <code>||full</code> en el nombre indica que el contig tiene al menos 2 genes. El paso produce <code>final-viral-combined.fa</code> y <code>final-viral-score.tsv</code> por tiempo.</p>
+<div class="callout callout-style-default callout-caution callout-titled" title="Responde">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Responde
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En nuestros datos, sólo alrededor de un tercio de los contigs que VirSorter2 llama virales tiene algún gen <em>hallmark</em>. ¿Cómo interpretarías los que no lo tienen? ¿Los descartarías ya?</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ayuda">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Ayuda
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><code>head -1 results/22.virsorter2/0h_virsorter/final-viral-score.tsv | tr '\t' '\n' | cat -n</code> para ver qué columna es cada una.</li>
+<li><code>less -S results/22.virsorter2/0h_virsorter/final-viral-score.tsv</code> para abrir la tabla completa (sal con <code>q</code>).</li>
+</ol>
+</div>
+</div>
+<hr>
+</section>
+<section id="evaluar-la-calidad" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="evaluar-la-calidad">03.2 Evaluar la calidad</h3>
+<p>VirSorter2 es sensible: deja pasar candidatos débiles. <strong>CheckV</strong> los evalúa comparando cada secuencia contra una base de genomas virales de referencia. Estima:</p>
+<ul>
+<li><strong>Completitud</strong>, con dos métodos: por similitud de aminoácidos con genomas de referencia y con perfiles HMM de genes virales.</li>
+<li><strong>Contaminación</strong>, buscando regiones del hospedador en el contig.</li>
+<li><strong>Genomas completos</strong>, detectando repeticiones terminales (señal de genomas completos o circulares).</li>
+</ul>
+<p>Con esto clasifica cada secuencia como <em>Complete</em>, <em>High-quality</em>, <em>Medium-quality</em>, <em>Low-quality</em> o <em>Not-determined</em> (cuando no hay referencias suficientes para estimar la completitud), siguiendo el estándar <strong>MIUViG</strong>.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="10_viromas_vmags/img/checkv_calidad.svg" class="img-fluid figure-img"></p>
+<figcaption class="margin-caption">Figura 3. Cómo evalúa CheckV la calidad de una secuencia viral.</figcaption>
+</figure>
+</div>
+<p>Este paso trabaja con <strong>los cuatro tiempos juntos</strong>, para obtener un solo catálogo. Vamos a crear el directorio de resultados:</p>
+<pre><code>mkdir -p results/23.checkv</code></pre>
+<p>Los resultados de los cuatro tiempos del paso anterior deben estar en <code>results/22.virsorter2/</code>. Juntamos los cuatro tiempos, conservamos las secuencias de ≥ 3,000 pb y comprobamos que no haya encabezados repetidos:</p>
+<pre><code>conda activate seqkit_env
+
+cat results/22.virsorter2/*_virsorter/final-viral-combined.fa \
+  | seqkit seq -m 3000 &gt; results/23.checkv/all_viral_3kb.fa
+
+seqkit seq -n -i results/23.checkv/all_viral_3kb.fa | sort | uniq -d | wc -l
+
+conda deactivate</code></pre>
+<div class="callout callout-style-default callout-caution callout-titled" title="Responde">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Responde
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El último comando debe dar <code>0</code>. ¿Por qué esperamos cero encabezados repetidos?</p>
+</div>
+</div>
+<p>Y ahora corramos CheckV:</p>
+<pre><code>conda activate checkv
+
+checkv end_to_end results/23.checkv/all_viral_3kb.fa results/23.checkv/out \
+  -d /data/BD/checkv/db/checkv-db-v1.5 -t 2 2&gt;&amp;1 | tee outs/23.checkv.log
+
+conda deactivate</code></pre>
+<div class="callout callout-style-default callout-warning callout-titled" title="Atención">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Atención
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si algo falla, el resultado ya está en <code>/home/dianao/reads2mags_pozol_resuelto/resuelto_viromas/results/23.checkv/out/</code>. Borra la carpeta <code>out</code> de tu proyecto y copia esa:</p>
+<pre><code>rm -rf results/23.checkv/out
+cp -r /home/dianao/reads2mags_pozol_resuelto/resuelto_viromas/results/23.checkv/out results/23.checkv/</code></pre>
+</div>
+</div>
+<p>Veamos cuántas secuencias hay de cada calidad:</p>
+<pre><code>cut -f8 results/23.checkv/out/quality_summary.tsv | sort | uniq -c</code></pre>
+<p>La línea <code>checkv_quality</code> es el encabezado de la tabla, no una calidad. El paso produce <code>out/quality_summary.tsv</code>, <code>out/viruses.fna</code> y <code>out/proviruses.fna</code>.</p>
+<div class="callout callout-style-default callout-caution callout-titled" title="Explora">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Explora
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Abre la tabla con <code>less -S results/23.checkv/out/quality_summary.tsv</code>. Es una tabla con una fila por secuencia. Las columnas clave son:</p>
+<ul>
+<li><code>contig_length</code>: longitud en pb.</li>
+<li><code>viral_genes</code> y <code>host_genes</code>: cuántos genes se reconocieron como virales y como del hospedador.</li>
+<li><code>checkv_quality</code>: la clasificación de CheckV (columna 8).</li>
+<li><code>miuvig_quality</code>: la clasificación según el estándar MIUViG (columna 9).</li>
+<li><code>completeness</code> y <code>completeness_method</code>: el porcentaje estimado y cómo se calculó.</li>
+<li><code>contamination</code>: porcentaje de contaminación.</li>
+</ul>
+<p>Por ejemplo, tres filas de la tabla de referencia:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 35%">
+<col style="width: 21%">
+<col style="width: 22%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>contig_id</th>
+<th>contig_length</th>
+<th>checkv_quality</th>
+<th>completeness</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>09h_k89_21132\|\|full</code></td>
+<td>13,320</td>
+<td>Low-quality</td>
+<td>23.55</td>
+</tr>
+<tr class="even">
+<td><code>09h_k89_68046\|\|full</code></td>
+<td>4,424</td>
+<td>Not-determined</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td><code>09h_k89_68057\|\|full</code></td>
+<td>45,786</td>
+<td>High-quality</td>
+<td>95.03</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Tip">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>cut -f8,9 results/23.checkv/out/quality_summary.tsv | sort | uniq -c</code> cruza la clasificación de CheckV con la de MIUViG.</p>
+</div>
+</div>
+<p>En nuestros datos, las 9 secuencias <em>High-quality</em> de CheckV también son <em>High-quality</em> para MIUViG. Todas las demás (5 <em>Medium</em>, 271 <em>Low</em> y 103 <em>Not-determined</em>) quedan como <em>Genome-fragment</em>. Según el estándar, un fragmento de genoma es el que se estima completo en menos de 90 % o no tiene tamaño estimado. Por eso, para decidir qué secuencias conservar, usamos la clasificación de CheckV, que además separa las <em>Medium</em> (50 a 90 %) de las <em>Low</em> (menos de 50 %); la de MIUViG sirve sobre todo para reportar y comparar con otros estudios.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="10_viromas_vmags/img/fig2_checkv_por_tiempo.png" class="img-fluid figure-img"></p>
+<figcaption class="margin-caption">Figura 4. Calidad CheckV de las secuencias virales ≥ 3 kb en cada tiempo (resultados de referencia con MEGAHIT).</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Responde">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Responde
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La mayoría de las secuencias es <em>Low-quality</em> o <em>Not-determined</em>. ¿Qué significa <em>Not-determined</em>: que la secuencia es mala o que no se pudo evaluar? ¿Por qué esperarías muchas en un ambiente como el pozol?</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="validar-con-una-segunda-herramienta" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="validar-con-una-segunda-herramienta">03.3 Validar con una segunda herramienta</h3>
+<p>Nos quedamos con las secuencias <em>Complete</em>, <em>High-quality</em> y <em>Medium-quality</em>, y las revisamos con <strong>VIBRANT</strong>. Esta herramienta anota las proteínas contra bases de datos (KEGG, Pfam y VOG) y usa un modelo de aprendizaje automático para decidir si el contig es de un fago. Además, indica si es <strong>lítico</strong> o <strong>lisogénico</strong>. VIBRANT también busca genes auxiliares del metabolismo (AMGs); al final del taller, en el paso 28, revisaremos qué encontró.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="10_viromas_vmags/img/vibrant_logica.svg" class="img-fluid figure-img"></p>
+<figcaption class="margin-caption">Figura 5. Lógica de VIBRANT: del contig candidato a fago lítico o lisogénico.</figcaption>
+</figure>
+</div>
+<p>Vamos a crear el directorio de resultados:</p>
+<pre><code>mkdir -p results/24.vibrant</code></pre>
+<p>Primero seleccionamos las secuencias de calidad completa, alta o media. En <code>quality_summary.tsv</code> la calidad está en la columna 8:</p>
+<pre><code>awk -F'\t' 'NR&gt;1 &amp;&amp; ($8=="Complete"||$8=="High-quality"||$8=="Medium-quality"){print $1}' \
+  results/23.checkv/out/quality_summary.tsv &gt; results/24.vibrant/ids_CHM.txt</code></pre>
+<p>Y extraemos sus secuencias de <code>viruses.fna</code>:</p>
+<pre><code>conda activate seqkit_env
+
+seqkit grep -f results/24.vibrant/ids_CHM.txt results/23.checkv/out/viruses.fna \
+  &gt; results/24.vibrant/input_CHM.fna
+
+grep -c "&gt;" results/24.vibrant/input_CHM.fna
+
+conda deactivate</code></pre>
+<div class="callout callout-style-default callout-caution callout-titled" title="Responde">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Responde
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>¿Cuántas secuencias entraron a VIBRANT? Compara con la tabla de calidad del paso anterior: ¿cuántas hay de calidad completa, alta y media?</p>
+</div>
+</div>
+<p>Y ahora sí, corramos VIBRANT:</p>
+<pre><code>conda activate vibrant
+
+cd results/24.vibrant
+
+VIBRANT_run.py -i input_CHM.fna \
+  -d /data/BD/vibrant/db/vibrant_db_2026-01-30_020448/databases \
+  -m /data/env/vibrant/share/vibrant-1.2.0/files \
+  -folder $(pwd) -t 2 2&gt;&amp;1 | tee ../../outs/24.vibrant.log
+
+cd ../..
+conda deactivate</code></pre>
+<div class="callout callout-style-default callout-warning callout-titled" title="Atención">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Atención
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si algo falla, el resultado ya está en <code>/home/dianao/reads2mags_pozol_resuelto/resuelto_viromas/results/24.vibrant/</code>. Borra tu carpeta y copia esa:</p>
+<pre><code>rm -rf results/24.vibrant
+cp -r /home/dianao/reads2mags_pozol_resuelto/resuelto_viromas/results/24.vibrant results/</code></pre>
+</div>
+</div>
+<p>VIBRANT deja muchos archivos intermedios en la carpeta. Los resultados útiles quedan en <code>VIBRANT_input_CHM/</code>: las secuencias y proteínas en <code>VIBRANT_phages_input_CHM/</code> y las tablas en <code>VIBRANT_results_input_CHM/</code>.</p>
+<p>En esta corrida ninguna de las secuencias seleccionadas era provirus, así que todas salen de <code>viruses.fna</code>. Si hubiera provirus, hay que tomarlos de <code>proviruses.fna</code>, que lleva coordenadas en el encabezado.</p>
+<p>Cuenta cuántas secuencias confirmó VIBRANT y cuántas son líticas o lisogénicas:</p>
+<pre><code>F=results/24.vibrant/VIBRANT_input_CHM/VIBRANT_phages_input_CHM
+grep -c "&gt;" ${F}/input_CHM.phages_combined.fna
+grep -c "&gt;" ${F}/input_CHM.phages_lytic.fna ${F}/input_CHM.phages_lysogenic.fna</code></pre>
+<div class="callout callout-style-default callout-tip callout-titled" title="Ayuda">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Ayuda
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><code>ls results/24.vibrant/VIBRANT_input_CHM/</code></li>
+<li><code>less -S results/24.vibrant/VIBRANT_input_CHM/VIBRANT_results_input_CHM/VIBRANT_genome_quality_input_CHM.tsv</code></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Responde">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Responde
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>¿Por qué usar dos herramientas con criterios distintos (VirSorter2 y VIBRANT) y una tercera de calidad (CheckV)? ¿Qué ganas y qué pierdes si una secuencia corta de alta calidad es descartada por un filtro?</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="revalidar-con-checkv" class="level3">
+<h3 class="anchored" data-anchor-id="revalidar-con-checkv">03.4 Revalidar con CheckV</h3>
+<p>Corremos CheckV otra vez sobre lo que confirmó VIBRANT, para comprobar que la calidad no cambió.</p>
+<pre><code>conda activate checkv
+
+checkv end_to_end \
+  results/24.vibrant/VIBRANT_input_CHM/VIBRANT_phages_input_CHM/input_CHM.phages_combined.fna \
+  results/25.checkv_vibrant \
+  -d /data/BD/checkv/db/checkv-db-v1.5 -t 2 2&gt;&amp;1 | tee outs/25.checkv_vibrant.log
+
+conda deactivate</code></pre>
+<div class="callout callout-style-default callout-warning callout-titled" title="Atención">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Atención
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si algo falla, el resultado ya está en <code>/home/dianao/reads2mags_pozol_resuelto/resuelto_viromas/results/25.checkv_vibrant/</code>. Borra tu carpeta y copia esa:</p>
+<pre><code>rm -rf results/25.checkv_vibrant
+cp -r /home/dianao/reads2mags_pozol_resuelto/resuelto_viromas/results/25.checkv_vibrant results/</code></pre>
+</div>
+</div>
+<p>Veamos la calidad que asignó CheckV esta vez. Las columnas 1, 2, 8 y 9 son el nombre, la longitud, la calidad de CheckV y la de MIUViG:</p>
+<pre><code>cut -f1,2,8,9 results/25.checkv_vibrant/quality_summary.tsv</code></pre>
+<div class="callout callout-style-default callout-caution callout-titled" title="Responde">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Responde
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Compara esta tabla con la del paso 23 para las mismas secuencias. ¿Cambió la calidad de alguna?</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="catálogo-no-redundante-los-votus" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="catálogo-no-redundante-los-votus">03.5 Catálogo no redundante: los vOTUs</h3>
+<p>El mismo virus puede aparecer en varias muestras o tiempos. Para no contarlo dos veces, <strong>agrupamos</strong> las secuencias parecidas en <strong>vOTUs</strong> (unidades taxonómicas operacionales virales). El criterio MIUViG es 95 % de identidad sobre al menos 85 % de la longitud de la secuencia más corta. Usamos <strong>CD-HIT-EST</strong> con esos parámetros y nos quedamos con un representante por grupo.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="10_viromas_vmags/img/votus_criterio.svg" class="img-fluid figure-img"></p>
+<figcaption class="margin-caption">Figura 6. Criterio para agrupar secuencias en un mismo vOTU.</figcaption>
+</figure>
+</div>
+<p>Vamos a crear el directorio de resultados y a copiar las secuencias que confirmó VIBRANT, que son nuestras candidatas:</p>
+<pre><code>mkdir -p results/26.votus
+
+cp results/24.vibrant/VIBRANT_input_CHM/VIBRANT_phages_input_CHM/input_CHM.phages_combined.fna \
+  results/26.votus/candidatos.fna</code></pre>
+<div class="callout callout-style-default callout-caution callout-titled" title="Explora">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Explora
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Antes de correr CD-HIT-EST, revisa su ayuda con <code>cd-hit-est -h</code> (activa primero el ambiente <code>EukMS_run</code>). ¿Qué hacen las opciones <code>-c</code>, <code>-aS</code>, <code>-n</code> y <code>-M</code>? ¿Cuáles corresponden al criterio MIUViG?</p>
+</div>
+</div>
+<p>Y ahora sí, corramos CD-HIT-EST:</p>
+<pre><code>conda activate EukMS_run
+
+cd-hit-est -i results/26.votus/candidatos.fna \
+  -o results/26.votus/vOTUs_representatives.fna \
+  -c 0.95 -aS 0.85 -M 0 -T 2 -n 10 2&gt;&amp;1 | tee outs/26.cdhit.log
+
+conda deactivate</code></pre>
+<p>CD-HIT-EST deja un archivo <code>.clstr</code> con los grupos. Vamos a convertirlo en una tabla legible: qué secuencia pertenece a qué vOTU y cuál es su representante:</p>
+<pre><code>awk 'BEGIN{print "secuencia\tvOTU\trol"}
+     /^&gt;Cluster/{cl=$2; next}
+     {n=$3; sub(/^&gt;/,"",n); sub(/\.\.\..*/,"",n);
+      print n"\tvOTU_"cl"\t"($0 ~ /\*$/ ? "representante" : "miembro")}' \
+  results/26.votus/vOTUs_representatives.fna.clstr &gt; results/26.votus/catalogo_vOTUs.tsv
+
+cat results/26.votus/catalogo_vOTUs.tsv</code></pre>
+<p>El paso produce <code>vOTUs_representatives.fna</code>, el archivo <code>.clstr</code> con los grupos y <code>catalogo_vOTUs.tsv</code>.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="10_viromas_vmags/img/fig1_embudo.png" class="img-fluid figure-img"></p>
+<figcaption class="margin-caption">Figura 7. Número de secuencias que sobreviven en cada etapa (escala logarítmica).</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="10_viromas_vmags/img/fig3_votus.png" class="img-fluid figure-img"></p>
+<figcaption class="margin-caption">Figura 8. Catálogo de 12 vOTUs: longitud, calidad y tiempo de origen del representante; «(+0 h)» marca el vOTU que además agrupa una secuencia de 0 h.</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Responde">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Responde
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Revisa en <code>catalogo_vOTUs.tsv</code> las filas con rol <em>miembro</em>: ¿cuántos vOTUs agrupan secuencias de más de un tiempo? ¿Significa que los demás virus aparecen en un solo tiempo? ¿Qué te falta para saberlo?</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="clasificar-taxonómicamente" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="clasificar-taxonómicamente">03.6 Clasificar taxonómicamente</h3>
+<p><strong>geNomad</strong> asigna una taxonomía (siguiendo el ICTV) a cada vOTU. Predice los genes y busca, para cada uno, marcadores virales con taxonomía conocida; luego combina la información de todos los genes del contig. La columna <code>agreement</code> indica qué tan consistentes son las asignaciones entre genes, y <code>n_genes_with_taxonomy</code>, cuántos genes la respaldan.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="10_viromas_vmags/img/genomad_taxonomia.svg" class="img-fluid figure-img"></p>
+<figcaption class="margin-caption">Figura 9. Cómo asigna taxonomía geNomad a un vOTU.</figcaption>
+</figure>
+</div>
+<p>geNomad usa bastante memoria (alrededor de 5.6 GiB de RAM). La opción <code>--splits 4</code> reparte la búsqueda en partes para gastar menos memoria. Lánzalo:</p>
+<pre><code>conda activate genomad
+
+genomad annotate results/26.votus/vOTUs_representatives.fna \
+  results/27.genomad /data/BD/phage_phylo/genomad_db \
+  --threads 4 --splits 4 2&gt;&amp;1 | tee outs/27.genomad.log
+
+conda deactivate</code></pre>
+<div class="callout callout-style-default callout-warning callout-titled" title="Atención">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Atención
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El resultado ya está corrido. Borra tu carpeta y copia el del respaldo:</p>
+<pre><code>rm -rf results/27.genomad
+cp -r /home/dianao/reads2mags_pozol_resuelto/resuelto_viromas/results/27.genomad results/</code></pre>
+</div>
+</div>
+<p>El paso produce <code>*_taxonomy.tsv</code>, <code>*_genes.tsv</code> y <code>*_proteins.faa</code>. Veamos la taxonomía que asignó a cada vOTU:</p>
+<pre><code>cat results/27.genomad/*_annotate/*_taxonomy.tsv</code></pre>
+<div class="callout callout-style-default callout-caution callout-titled" title="Explora">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Explora
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>¿A qué clase pertenecen los 12 vOTUs? ¿Alguno tiene asignación de orden o de familia? Fíjate en <code>n_genes_with_taxonomy</code>: ¿qué vOTUs tienen pocos genes con taxonomía?</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Responde">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Responde
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>¿Qué dice sobre el ambiente que ningún vOTU baje de la clase?</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="genes-auxiliares-del-metabolismo" class="level3">
+<h3 class="anchored" data-anchor-id="genes-auxiliares-del-metabolismo">03.7 Genes auxiliares del metabolismo</h3>
+<p>Un <strong>gen auxiliar del metabolismo (AMG)</strong> es un gen viral que se parece a un gen metabólico del hospedador. Al expresarlo durante la infección, el virus puede modificar el metabolismo de la célula a su favor. VIBRANT los busca al mismo tiempo que anota las proteínas, así que no hay nada que correr: sólo leeremos las tablas del paso 24.</p>
+<p>Para no escribir la ruta larga cada vez, guárdala en una variable:</p>
+<pre><code>R=results/24.vibrant/VIBRANT_input_CHM/VIBRANT_results_input_CHM
+ls $R</code></pre>
+<p>Las tablas <code>VIBRANT_AMG_*</code> son las que reportan los AMGs. Cuenta sus líneas (la primera es el encabezado):</p>
+<pre><code>wc -l $R/VIBRANT_AMG_*.tsv</code></pre>
+<div class="callout callout-style-default callout-caution callout-titled" title="Explora">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Explora
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>¿Cuántas líneas tiene cada tabla? ¿Qué significa que sólo tengan el encabezado?</p>
+</div>
+</div>
+<p>En nuestros datos las tres tablas sólo tienen el encabezado: <strong>VIBRANT no encontró AMGs en los 13 fagos</strong>. Veamos qué sí hay en sus genes. La tabla <code>VIBRANT_annotations</code> tiene una fila por gen; la columna 3 es el KO de KEGG, la 4 marca los AMGs y la 5 es el nombre de la función:</p>
+<pre><code>wc -l $R/VIBRANT_annotations_input_CHM.tsv
+awk -F'\t' 'NR&gt;1 &amp;&amp; $3!="" {n++} END{print n" genes con KO"}' $R/VIBRANT_annotations_input_CHM.tsv
+cut -f4 $R/VIBRANT_annotations_input_CHM.tsv | sort | uniq -c</code></pre>
+<p>Ahora cuenta cuántas veces aparece cada función y mira las más frecuentes:</p>
+<pre><code>awk -F'\t' 'NR&gt;1 &amp;&amp; $3!="" {print $3 "\t" $5}' $R/VIBRANT_annotations_input_CHM.tsv \
+  | sort | uniq -c | sort -k1,1nr | head -20</code></pre>
+<div class="callout callout-style-default callout-note callout-titled" title="Nota">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La línea con el valor <code>AMG</code> en el conteo de la columna 4 es el encabezado; los demás genes (608) tienen esa columna vacía.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Responde">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Responde
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Las funciones más frecuentes son replicación del ADN, terminasas, integrasa y lisis. ¿Por qué la integrasa es coherente con que haya 3 fagos lisogénicos? ¿Por qué podría no haber AMGs en estos 13 genomas?</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="resultados-de-referencia" class="level2">
+<h2 class="anchored" data-anchor-id="resultados-de-referencia">Resultados de referencia</h2>
+<div class="callout callout-style-default callout-note callout-titled" title="Lo que obtuvimos en nuestra corrida">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-29-contents" aria-controls="callout-29" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Lo que obtuvimos en nuestra corrida
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-29" class="callout-29-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate bakta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> results/15.bakta/0h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bakta</span> <span class="dt">\</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">--db</span> /data/BD/bakta_db/db <span class="dt">\</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">--locus-tag</span> 0hBin01_Scaffold <span class="dt">\</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">--prefix</span> 0hBin01 <span class="dt">\</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">--threads</span> 6 <span class="dt">\</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">--output</span> results/15.bakta/0h/0hBin01/ <span class="dt">\</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    results/13.gtdbtk/0h/bins/0hBin01.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Compara con tus resultados:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Etapa</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Contigs de ≥ 3 kb que analiza VirSorter2 (0 / 9 / 24 / 48 h)</td>
+<td>154 / 2,697 / 3,186 / 1,904 (total 7,941)</td>
+</tr>
+<tr class="even">
+<td>Virales según VirSorter2</td>
+<td>15 / 159 / 157 / 99 (total 430)</td>
+</tr>
+<tr class="odd">
+<td>…con al menos un gen <em>hallmark</em></td>
+<td>5 / 53 / 57 / 36 (total 151)</td>
+</tr>
+<tr class="even">
+<td>Virales ≥ 3 kb antes de CheckV</td>
+<td>388</td>
+</tr>
+<tr class="odd">
+<td>CheckV</td>
+<td>0 <em>Complete</em>, 9 <em>High</em>, 5 <em>Medium</em>, 271 <em>Low</em>, 103 <em>Not-determined</em></td>
+</tr>
+<tr class="even">
+<td>Entran a VIBRANT (calidad completa, alta o media)</td>
+<td>14</td>
+</tr>
+<tr class="odd">
+<td>Confirmadas por VIBRANT</td>
+<td>13 (10 líticas, 3 lisogénicas)</td>
+</tr>
+<tr class="even">
+<td>vOTUs (CD-HIT-EST)</td>
+<td>12</td>
+</tr>
+<tr class="odd">
+<td>Taxonomía (geNomad)</td>
+<td>12 de 12 <em>Caudoviricetes</em></td>
+</tr>
+<tr class="even">
+<td>AMGs (VIBRANT)</td>
+<td>0; 76 de 608 genes con función KEGG, casi todos de maquinaria viral</td>
+</tr>
+</tbody>
+</table>
+<p>Las 13 secuencias confirmadas se reparten así por tiempo: 0 h, 1; 9 h, 3; 24 h, 7; 48 h, 2. La única fusión del catálogo agrupa <code>0h_k89_13161</code> con <code>09h_k89_68057</code> (96.91 % de identidad).</p>
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-important callout-titled">
+<hr>
+</section>
+<section id="tarea" class="level2">
+<h2 class="anchored" data-anchor-id="tarea">Tarea</h2>
+<div class="callout callout-style-default callout-warning callout-titled" title="Ejercicio">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Compara (2 min)
+Ejercicio
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Ya tienes el mismo MAG anotado con Prokka (que corriste) y con Bakta (en tu directorio de resultados). En sus resúmenes, ¿cuántos genes quedaron como <em>hypothetical protein</em> en cada uno? ¿Por qué crees que difieren, y qué le cuesta a Bakta esa mejora?</p>
+<p>Responde por tu cuenta (puedes comentarlo con tus compañeros):</p>
+<ol type="1">
+<li>De 7,941 contigs ≥ 3 kb sobreviven 12 vOTUs de calidad alta o media. ¿Qué filtro explica la mayor pérdida y qué implica para lo que sabemos del viroma del pozol?</li>
+<li>Tres secuencias miden exactamente 45,786 pb (a las 9, 24 y 48 h) y no se agruparon entre sí. Propón explicaciones posibles y cómo las comprobarías. <em>(Pregunta abierta: no se comprobó.)</em></li>
+<li>Para responder cómo cambia el viroma durante la fermentación, ¿bastaría con contar vOTUs por tiempo? ¿Qué análisis adicional harías con las lecturas?</li>
+<li>¿Qué límites tiene trabajar con contigs virales sin binning y con bases de datos sesgadas hacia otros ambientes?</li>
+</ol>
 </div>
 </div>
 <hr>
 </section>
-<section id="archivos-de-salida" class="level3">
-<h3 class="anchored" data-anchor-id="archivos-de-salida">03.1 Archivos de salida</h3>
-<p>El resultado principal de la anotación de genomas es el nombre, secuencia y localización de los genes (Coding sequences, o CDS) y otros elementos que estos contienen. Para representar toda, o parte de esta información pueden usarse diferentes tipos y estructuras de archivos. La diversidad de estos archivos corresponde a la diversidad de usos que se les puede dar. Es decir, cada tipo de archivo fue creado para resolver una necesidad específica. Esto significa que no todos los archivos son equivalentes.</p>
-<p>En general, podemos dividir los archivos de salida entre aquellos que contienen la información de la anotación, la secuencia de nucleotidos y/o aminoácidos y los que contienen la localización (<em>i.e</em> coordenadas) de los mismos, o una combinación de todos estos.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="Figures/anotacion-tipos-de-archivos.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="944"></p>
-</figure>
-</div>
-<p>Los archivos más comunes y utilizados son los siguientes:</p>
-<p><strong>ffn/fasta/faa:</strong> Estos son archivos fasta, similares en formato a los que se usan para los contigs, con la diferencia de que estos únicamente cuentan con los CDS (ffn/fasta) o proteínas (faa). Estos archivos son bastante útiles para cuando queremos hacer alineamientos, BLAST u otros análisis que requieren la secuencia de uno o pocos elementos, sin importar su orden.</p>
-<p><strong>xlsx/tsv:</strong> Ambos son archivos tabulares. Cada programa de anotación suele tener su propio formato, pero en general podemos encontrar las funciones y coordenadas de los CDS u otros elementos anotados en tablas de Excel (xlsx) o tablas separadas por tabuladores que pueden abrirse con cualquier programa (tsv). Estos archivos son muy buenos para hacer resúmenes, comparativas generales entre organismos y para ubicar rápidamente funciones de interés.</p>
-<p><strong>gff3:</strong> El formato general de anotaciones versión 3 (gff3) es un formato estándar que contiene 9 columnas con coordenadas y funciones de los CDS y otros elementos. Se puede considerar como un sub-tipo de los tsv y se usa generalmente en conjunto con el archivo fasta/faa de anotación para generar mapas de genes usando librerías de anotación.</p>
-<p>Las columnas que se encuentran en el archivo gff3 son: 1- Nombre de la secuencia 2- Base de datos que produjo la anotación 3- Tipo de elemento (CDS, gene, etc…) 4- Inicio 5- Fin 6- Score de alineamiento 7- Cadena 8- Fase (posición del nucleótido en el codón) 9- Atributos (función)</p>
-<p><strong>gbff3:</strong> El formato gbff3 (Genebank flat file format), contiene una gran cantidad de información sobre la localización, función, y ambos tipos de secuencias (nucleótidos y aminoácidos). Debido a la gran cantidad de información que podemos extraer de un archivo gbff3, es el formato de anotación por excelencia y es comúnmente usado para pipelines de filogenomica, anotación extra, etc. Sin embargo, puede llegar a ser un poco complicado de utilizar y la falta de un verdadero estándar de como debe estar formado, puede causar problemas.</p>
-<p><strong>embl:</strong> El formato embl, desarrollado por la ENA (European nucleotide archive) es similar al formato gbff, ya que contiene una gran cantidad de información y tiene la ventaja de que su formato está mucho más estandarizado, por lo que es mucho más fácil de utilizar. A pesar de esto, no es tan comúnmente usado, y su uso principal es para contados programas bioinformaticos que permiten usar este tipo de archivos como <em>input</em>.</p>
-<p><strong>asn/json:</strong> Estos formatos suelen contener una gran cantidad de información, incluso más que los formatos gbff o embl. Sin embargo, la información dentro de estos archivos no está estructurada de una forma amigable para ser leída por humanos, por lo que se utilizan principalmente como input para programas especializados.</p>
-<hr>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Ejercicio 3
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Ahora a te toca a ti</strong></p>
-<p>Basado en los tipos de archivos que vimos, escoge uno para comparar a grandes rasgos los genomas que anotaste con prokka y bakta y responde las siguientes preguntas:</p>
-<p>¿Qué archivo elegiste y por qué? ¿Qué métrica usaste para comparar? ¿Cuál fue mejor?</p>
-<p>Tiempo 10 min</p>
-</div>
-</div>
-<hr>
-</section>
-</section>
-<section id="ortología-y-anotación-de-ko-kegg-eggnog-y-pfam" class="level2">
-<h2 class="anchored" data-anchor-id="ortología-y-anotación-de-ko-kegg-eggnog-y-pfam">04.Ortología y anotación de KO, KEGG, eggNOG y Pfam</h2>
-<section id="ortología-homología-y-paralogía" class="level3">
-<h3 class="anchored" data-anchor-id="ortología-homología-y-paralogía">04.1. Ortología, homología y paralogía</h3>
-<p>Como mencionamos en la sección pasada, el formato gff3 contiene una columna llamada <em>“score de alineamiento”</em>. Este score nos indica que tan similar es la secuencia que encontramos a una secuencia conocida y anotada en una base de datos. Sin embargo, una alta similitud (es decir, un buen score) no garantiza que ambas secuencias tengan exactamente la misma función. Para transferir de forma segura la función de un gen conocido a uno de nuestro MAG recién ensamblado, necesitamos distinguir entre <em>homología, ortología y paralogía</em>.</p>
+<section id="referencias-1" class="level2">
+<h2 class="anchored" data-anchor-id="referencias-1">Referencias</h2>
 <ul>
-<li><p><strong>Homología:</strong> Es el término general que indica que dos secuencias comparten un <strong>ancestro evolutivo común</strong>. La similitud es el porcentaje observable (ej. 85% de identidad), mientras que la homología es la conclusión evolutiva. En otras palabras, homología denota parentesco. Y debido a esto, es clasificación categórica. Algo es homologo o no lo es, no hay puntos medios.</p></li>
-<li><p><strong>Ortología:</strong> Son genes homólogos en <em>diferentes especies</em> que divergieron debido a un evento de <strong>especiación</strong> (ej. la ADN polimerasa en <em>E. coli</em> y en <em>Bacillus subtilis</em>). Como simplemente se separaron al ramificarse los linajes, los ortólogos <strong>tienden a conservar la misma función</strong>. La mayoría de los programas de anotación tratan de identificar ortólogos para asignar función a una secuencia.</p></li>
-<li><p><strong>Paralogía:</strong> Son genes homólogos que surgieron por un evento de <strong>duplicación génica</strong>, lo que significa que pueden existir dentro de un <em>mismo organismo</em>. Al duplicarse, una copia suele mantener la función original, mientras que la otra copia queda libre de presión selectiva. Esta copia extra puede acumular mutaciones y desarrollar <strong>funciones nuevas o especializadas</strong> (neofuncionalización/subfuncionalización).</p></li>
+<li>Guo et al.&nbsp;2021. VirSorter2. <em>Microbiome</em>.</li>
+<li>Nayfach et al.&nbsp;2021. CheckV. <em>Nature Biotechnology</em>.</li>
+<li>Kieft et al.&nbsp;2020. VIBRANT. <em>Microbiome</em>.</li>
+<li>Fu et al.&nbsp;2012. CD-HIT. <em>Bioinformatics</em>.</li>
+<li>Camargo et al.&nbsp;2023. geNomad. <em>Nature Biotechnology</em>.</li>
+<li>Roux et al.&nbsp;2019. MIUViG. <em>Nature Biotechnology</em>.</li>
 </ul>
-<p>Si una herramienta de anotación se guía únicamente por el mejor <em>score</em> de similitud cruda (como un simple BLAST), tu gen podría alinearse maravillosamente con un parálogo. Debido a esto, aunque se parezcan mucho en su secuencia de aminoácidos, su función biológica actual podría ser totalmente distinta, provocando una anotación errónea.</p>
-<p>Para resolver este problema, las herramientas y bases de datos funcionales modernas (como KEGG, eggNOG o Pfam) no solo buscan similitud, sino que realizan análisis filogenéticos para agrupar las proteínas en <strong>Grupos Ortólogos (Orthologous Groups)</strong>. Al basarse en la ortología, nos aseguran que la función que le asignamos a nuestra proteína hipotética realmente refleja su verdadero rol biológico en la célula.</p>
-<hr>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Ejercicio 4
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Ahora a te toca a ti</strong></p>
-<p>Mira y analiza esta filogenia para identificar los pares de genes homologos, ortologos y paralogos.</p>
-<p>Tiempo 10 min</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="Figures/example_homologous.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1044"></p>
-</figure>
-</div>
-</div>
-</div>
-<hr>
-</section>
-<section id="bases-de-datos." class="level3">
-<h3 class="anchored" data-anchor-id="bases-de-datos.">04.2. Bases de datos.</h3>
-<p>Ahora que ya sabemos cómo se hacen las comparativas, necesitamos una base de datos con los genes y proteínas que queremos usar como base para la comparación.</p>
-<p>Existen muchas bases de datos, la mayoría de las cuales están basadas en proteínas con función conocida de forma experimental (o con una inferencia informática bastante cuidadosa). Además, las bases de datos suelen organizar estas proteínas de forma racional, en vías metabólicas comunes, por funciones generales, etc…, de acuerdo con las necesidades de quienes las hicieron. Entre las bases de datos más comunes se encuentran KO, KEGG, COG, eggNOG y Pfam. Cada una tiene un enfoque particular para estructurar y clasificar la inmensa diversidad genética:</p>
-<ol type="1">
-<li><p><strong>KEGG (Kyoto Encyclopedia of Genes and Genomes)</strong>: Es mucho más que un simple catálogo de secuencias; es un conjunto integral de bases de datos diseñado para entender los sistemas biológicos de alto nivel. Su mayor fortaleza son los mapas de vías metabólicas (<em>KEGG Pathways</em>), los cuales ilustran gráficamente cómo interactúan las moléculas y enzimas dentro de una célula para realizar funciones biológicas complejas, desde el ciclo de Krebs hasta la degradación de hidrocarburos.</p></li>
-<li><p><strong>KO (KEGG Orthology)</strong>: Es el sistema de clasificación específico que utiliza KEGG para vincular los genes individuales de cualquier organismo con las vías metabólicas generales. Un identificador KO (por ejemplo, <em>K00873</em>) agrupa a todos los genes ortólogos de diferentes especies que catalizan exactamente la misma reacción funcional. En la práctica, cuando anotas un genoma, buscas asignarle un número KO a cada gen para saber exactamente qué “nodo” o paso de un mapa metabólico de KEGG es capaz de realizar tu organismo.</p></li>
-<li><p><strong>COG (Clusters of Orthologous Groups)</strong>: Fue uno de los primeros sistemas pioneros en clasificar las proteínas de genomas completos en grupos evolutivos. Su mayor legado, y la razón por la que lo seguimos mencionando hoy en día, es la creación de las categorías funcionales amplias representadas por una sola letra. Por ejemplo, la categoría <strong>[C]</strong> agrupa genes encargados de Energy production and conversion, y la <strong>[G]</strong> agrupa los de Carbohydrate transport and metabolism. Aunque la base de datos original de COG ya no se actualiza con la misma frecuencia que antes, su sistema de clasificación por letras sigue siendo el estándar universal.</p></li>
-<li><p><strong>eggNOG (evolutionary genealogy of genes: Non-supervised Orthologous Groups)</strong>: Es la evolución moderna, automatizada y escalable del sistema clásico COG. eggNOG construye grupos de ortólogos basándose en análisis filogenéticos masivos a diferentes niveles taxonómicos (abarcando miles de genomas y permitiendo búsquedas desde todo el dominio Bacteria hasta linajes muy específicos). Al heredar y expandir las categorías funcionales de COG, esta base de datos es la herramienta predilecta para hacer resúmenes y gráficos del perfil funcional completo de un MAG, dándote una visión global de lo que “sabe hacer” ese microorganismo.</p></li>
-<li><p><strong>Pfam (Protein families)</strong>: A diferencia de KEGG, COG o eggNOG, Pfam no intenta clasificar o anotar la proteína completa, sino que se enfoca en identificar sus dominios proteicos. Utiliza Modelos Ocultos de Markov (HMMs) para reconocer los “bloques de construcción” evolutivos (módulos estructurales o funcionales) de una secuencia. Esto es crucial porque los genes a menudo se fusionan o intercambian partes. Pfam te permite diseccionar la arquitectura de tu proteína y descubrir si tiene, por ejemplo, un dominio catalítico conocido unido a un dominio regulador completamente nuevo.</p></li>
-</ol>
-<hr>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Ejercicio 5
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Ahora a te toca a ti</strong></p>
-<p>Qué tipo de bases de datos te parecen más adecuadas para los siguientes casos:</p>
-<ol type="1">
-<li><p>Quiero saber qué porcentaje del genoma de mi MAG está dedicado a la “producción de energía” y al “metabolismo de carbohidratos”.</p></li>
-<li><p>Encontré que mi MAG tiene muchas “proteínas hipotéticas” y quiero saber que podrían hacer estas.</p></li>
-<li><p>Quiero hacer un análisis comparativo para saber si todas mis MAGs cuentan con el ciclo de TCA completo</p></li>
-</ol>
-<p>Tiempo 10 min</p>
-</div>
-</div>
-<hr>
-</section>
-<section id="ejecución-de-los-anotación-especializada" class="level3">
-<h3 class="anchored" data-anchor-id="ejecución-de-los-anotación-especializada">04.3. Ejecución de los anotación especializada</h3>
-<p>Con las proteínas predichas por Bakta ya podemos hacerles preguntas más específicas. Como ya vimos, existen varias bases de datos especializadas, y <strong>cada una responde algo distinto</strong>; conviene tener claro el mapa antes de correrlas:</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-¿Qué pregunta responde cada herramienta?
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><p><strong>KofamScan (KEGG):</strong> ¿qué <strong>rutas metabólicas</strong> puede llevar a cabo este organismo? (asigna números KO, que se mapean a rutas)</p></li>
-<li><p><strong>EggNOG-mapper:</strong> ¿a qué <strong>ortólogos / categorías COG</strong> pertenecen sus genes? Función amplia y <strong>comparable entre genomas</strong>.</p></li>
-<li><p><strong>CAZy / dbCAN:</strong> ¿qué <strong>enzimas activas sobre carbohidratos</strong> tiene? Clave en un fermento de maíz, donde degradar el almidón es central.</p></li>
-<li><p><strong>antiSMASH:</strong> ¿tiene <strong>clústeres de genes biosintéticos</strong> para metabolitos secundarios (antibióticos, bacteriocinas…)?</p></li>
-</ul>
-<p>En el taller correremos <strong>KofamScan</strong> en vivo y antiSMASH en web; las demás las platicamos.</p>
-</div>
-</div>
-<hr>
-</section>
-<section id="kofamscan" class="level3">
-<h3 class="anchored" data-anchor-id="kofamscan">05. KofamScan</h3>
-<p><a href="https://github.com/takaram/kofam_scan">KofamScan</a> es una herramienta de anotación, usa la base de datos KOfam de <a href="https://www.genome.jp/kegg/pathway.html">KEGG</a> para obtener información sobre los genes que participan en diferentes rutas metabólicas.</p>
-<p>Puedes mapear los resultados de kofam en <a href="https://www.genome.jp/kegg/mapper/search.html">KEGGMapper</a></p>
-<p>Para correrlo necesitamos activar el ambiente donde vive kofam</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate annot_fun</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Y ahora sí correrlo</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> results/16.kofam/0h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">exec_annotation</span> results/15.bakta/0h/0hBin01/0hBin01.faa <span class="at">-o</span> results/16.kofam/0h/0hBin01.txt <span class="at">--report-unannotated</span> <span class="at">--cpu</span> 6 <span class="at">--tmp-dir</span> results/16.kofam/0h/tmp <span class="at">-p</span>  /data/BD/kofam/profiles/ <span class="at">-k</span>  /data/BD/kofam/ko_list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Borramos el directorio temporal para liberar espacio</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> results/16.kofam/0h/tmp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Y desactivamos el ambiente</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Veamos los resultados
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Descarga el resultado de esta anotación y explorémoslos en <a href="https://www.genome.jp/kegg/mapper/search.html">KEGGMapper</a></p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Para correrlo con muchos genomas
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-15" class="callout-15-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Creamos el script para kofam</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 01. Creamos el directorio para alojar los resultados</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> results/16.kofam/0h/</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 02. Lo corremos</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> FAA <span class="kw">in</span> <span class="va">$(</span><span class="fu">ls</span> results/15.bakta/0h/<span class="pp">*</span>/<span class="pp">*</span>.faa<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">name</span><span class="op">=</span><span class="va">$(</span><span class="fu">basename</span> <span class="va">$FAA</span> .faa<span class="va">)</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">exec_annotation</span> <span class="va">$FAA</span> <span class="dt">\</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">-o</span> results/16.kofam/0h/<span class="st">"</span><span class="va">$name</span><span class="st">.txt"</span> <span class="dt">\</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">--report-unannotated</span> <span class="dt">\</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">--cpu</span> 6 <span class="dt">\</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">--tmp-dir</span> results/16.kofam/0h/<span class="st">"tmp</span><span class="va">$name</span><span class="st">"</span> <span class="dt">\</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">-p</span> /data/BD/kofam/profiles/ <span class="dt">\</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">-k</span> /data/BD/kofam/ko_list</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 03. remover los directorios temporales</span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> results/16.kofam/0h/tmp<span class="pp">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Caution
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Ahora tú: anota todos tus MAGs con KofamScan</strong></p>
-<p>Ya corriste Kofam sobre un MAG. Ahora genera los <code>.txt</code> de <strong>todos los bins de la muestra de tu equipo</strong> — los vas a necesitar en el análisis global. Usa el <code>.faa</code> de <strong>Bakta</strong> (pre-computado en tu directorio) como entrada. Apóyate en el script del callout <em>“Para correrlo con muchos genomas”</em> de arriba.</p>
-<p>Al terminar, deberías tener un <code>.txt</code> por cada MAG en <code>results/16.kofam/&lt;tu_muestra&gt;/</code>. Verifica con <code>ls</code> que estén todos antes de seguir.</p>
-</div>
-</div>
-<hr>
-</section>
-<section id="eggnog" class="level3">
-<h3 class="anchored" data-anchor-id="eggnog">06. EggNOG</h3>
-<p><a href="http://eggnog-mapper.embl.de/">EggNOG-mapper</a> asigna función a las proteínas a partir de <strong>ortólogos</strong>: genes que descienden de un ancestro común y que, por lo tanto, tienden a conservar la misma función. La herramienta compara cada proteína contra la base <strong>eggNOG</strong>, que agrupa genes en familias de ortólogos (<strong>COG</strong> y sus equivalentes) a distintos niveles taxonómicos, y le transfiere la anotación desde el ortólogo más específico que encuentra.</p>
-<p>Genera una anotación <strong>amplia y comparable entre genomas</strong>: además de una descripción funcional, cada gen recibe su categoría <strong>COG</strong>, y referencias cruzadas a <strong>GO, KEGG, EC, CAZy y Pfam</strong>, entre otras. Por eso es una de las anotaciones más usadas cuando quieres comparar el repertorio funcional de varios organismos bajo un mismo marco.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Así se corre (no lo ejecutes)
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-17" class="callout-17-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> results/17.eggnog/0h</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nohup</span> emapper.py <span class="at">--cpu</span> 10 <span class="at">-m</span> diamond <span class="at">--itype</span> proteins <span class="at">--evalue</span> 0.00001 <span class="dt">\</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">-i</span> results/15.bakta/0h/0hBin01/0hBin01.faa <span class="dt">\</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">--output_dir</span> results/17.eggnog/0h <span class="at">-o</span> 0hBin01 <span class="dt">\</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">--decorate_gff</span> yes <span class="at">--report_orthologs</span> <span class="dt">\</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">--data_dir</span> /data/BD/eggnog/emapperdb-5.0.2/ <span class="kw">&amp;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-<hr>
-</section>
-<section id="cazy" class="level3">
-<h3 class="anchored" data-anchor-id="cazy">07. CAZy</h3>
-<p><a href="https://www.cazy.org/">Cazy</a> es una base de datos especializada en enzimas que actúan sobre carbohidratos, esta base de datos se actualiza constantemente y es curada por una comunidad científica que busca dominios funcionales basados en evidencia experimental. Cuentan con <a href="https://www.cazypedia.org/index.php/Main_Page">CAZypedia</a> para informar especificidades de cada familia cazy.</p>
-<p>En el pozol, las CAZymes que degradan almidón del maíz son especialmente relevantes.</p>
-<hr>
-</section>
-<section id="antismash" class="level3">
-<h3 class="anchored" data-anchor-id="antismash">08. antiSMASH</h3>
-<p>Dentro de los genomas microbianos, podemos encontrar algunas regiones específicas que participan en la biosíntesis de metabolitos secundarios, estas secciones se conocen como Clústeres de Genes Biosintéticos, que son relevantes debido a las posibles aplicaciones que pueden tener, por ejemplo: actividades antimicrobianas, antitumorales, reductoras del colesterol, antivirales, etc.</p>
-<p>Los Clústers de genes, u operones, son regiones del genoma que contienen multiples genes, prácticamente pegados unos a otros, todos los cuales son controlados por reguladores (promotores, enhancer, etc…).</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="Figures/operon.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="944"></p>
-</figure>
-</div>
-<p>Las islas genomicas son similares a los operones, con la diferencia de que con la diferencia de que son segmentos de ADN mucho más grandes (generalmente entre 10 y 200 kilobases) y, lo más importante, han sido adquiridos a través de transferencia horizontal de genes (HGT).</p>
-<p>Mientras que un operón es una unidad funcional de transcripción que típicamente evoluciona junto con el organismo, una isla genómica es un “paquete” de información genética foránea que el microorganismo incorporó de otra especie (por ejemplo, a través de plásmidos, fagos o transformación). Debido a esto, las islas genómicas suelen tener características únicas que delatan su origen externo, tales como:</p>
-<ul>
-<li><p>Un porcentaje de GC y un uso de codones diferente al promedio del resto del genoma.</p></li>
-<li><p>Suelen estar flanqueadas por secuencias de inserción, o contener en su interior genes que permitieron su integración original en el cromosoma, como integrasas y transposasas.</p></li>
-</ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="Figures/islas.webp" class="img-fluid quarto-figure quarto-figure-center figure-img" width="944"></p>
-</figure>
-</div>
-<p>Los Clústeres de Genes Biosintéticos (BGCs) son un tipo de operón, que a veces pueden ser parte de una isla genomica. A pesar de que los productos que generan no son estrictamente necesarios para la supervivencia del organismo (metabolismo secundario), son bastante útiles para mejorar el “fitness” del mismo.</p>
-<p><a href="https://antismash.secondarymetabolites.org/#!/start">antiSMASH</a> usa modelos ocultos de Markov que permiten identificar los grupos de genes contenidos en las secuencias genómicas que codifican BGCs de todas las clases químicas conocidas.</p>
-<p>Si te interesa saber más a fondo cómo anotar BGCs en los genomas de tu interés puedes aprender siguiendo el flujo de análisis propuestos en la lección de <a href="https://carpentries-incubator.github.io/genome-mining/">Minería Genómica</a> de Software Carpentry.</p>
-</section>
-</section>
-<section id="reconstrucción-metabólica" class="level2">
-<h2 class="anchored" data-anchor-id="reconstrucción-metabólica">09. Reconstrucción metabólica</h2>
-<p>Una vez que hemos asignado identificadores funcionales, como los números KO, a las secuencias de nuestro MAG, el siguiente paso es realizar una reconstrucción metabólica. Este proceso consiste en integrar esas anotaciones individuales dentro de redes bioquímicas para inferir las capacidades de nuestro microorganismo, su posible importancia ecológico y su estilo de vida. Por ejemplo, con la reconstrucción metabólica podemos saber su tipo de respiración, si tiene la capacidad de fijación de nitrógeno o las vías de síntesis de aminoácidos que utiliza.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="Figures/tca-bacteria.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1044"></p>
-</figure>
-</div>
-<p>La reconstrucción metabólica va más allá de un simple conteo de genes, estando más enfocada en evaluar el contexto de las vías bioquímicas a través de un proceso de 4 etapas:</p>
-<ol type="1">
-<li><p><strong>Mapeo a redes de referencia:</strong> Se relacionan los números KO, EC o Reactome anotados con mapas metabólicos globales estandarizados (como KEGG Pathways, KEGG Modules, MetaCyc o BioCyc).</p></li>
-<li><p><strong>Evaluación de completitud de módulos (Pathway Completeness):</strong> Se determina qué porcentaje de los pasos secuenciales de una ruta metabólica está presente en el genoma. Un módulo se considera funcionalmente completo si cuenta con todas las enzimas clave del bloque sintético o degradativo.</p></li>
-<li><p><strong>Análisis de brechas (Gap-filling):</strong> Identifica pasos ausentes en una ruta. Si a un operón o vía lineal le falta una sola enzima intermedia, esta ausencia puede deberse a la fragmentación del ensamblaje del MAG (cobertura incompleta del genoma) o a que el organismo utiliza una variante enzimática no canónica.</p></li>
-<li><p><strong>Inferencia de fenotipos y perfiles biogeoquímicos:</strong> Agrupa las vías en grandes categorías ecológicas como el ciclo del nitrógeno (desnitrificación, anammox, fijación), ciclo del azufre, metanogénesis, fijación de carbono y resistencia a metales pesados.</p></li>
-</ol>
-<section id="herramientas-para-reconstrucción-metabólica" class="level3">
-<h3 class="anchored" data-anchor-id="herramientas-para-reconstrucción-metabólica">09.1. Herramientas para reconstrucción metabólica</h3>
-<p>Hacer la reconstrucción del metabolismo a mano es increíblemente laborioso y pesado. Por eso se usan herramientas bioinformaticas para semi-automatizar este proceso a partir de archivos de anotación (<em>.gff3, .faa</em> o tablas de <em>eggNOG/KEGG</em>). Entre las herramientas más útiles para esto se encuentran las siguientes:</p>
-<ol type="1">
-<li><p><strong>KEGG Mapper / Reconstruct:</strong> Interfaz que toma listas de identificadores KO y colorea las rutas metabólicas de KEGG, permitiendo visualizar qué nodos de la red están presentes en tu organismo.</p></li>
-<li><p><strong>METABOLIC:</strong> Es un pipeline de linea de comando que integra la anotación funcional con la cobertura metagenómica para cuantificar la contribución potencial de cada MAG a los ciclos biogeoquímicos globales.</p></li>
-<li><p><strong>MicrobeAnnotator:</strong> Pipeline similar a METABOLIC, que extrae anotaciones de múltiples bases de datos para calcular porcentajes de completitud de módulos de KEGG y rutas metabólicas generales.</p></li>
-<li><p><strong>RbiMs (Reconstruction of Bin Metabolisms):</strong> Un paquete de R especializado en la integración, perfilamiento y visualización de vías metabólicas para MAGs. Importa directamente los resultados de anotación (KEGG vía KofamScan, dbCAN, InterProScan, etc.), calcula el porcentaje de cobertura de cada vía y permite extraer subconjuntos de datos metabólicos de manera programática. Al correr de forma nativa en R, facilita la integración de metadatos experimentales, la generación de gráficas y la aplicación de análisis para identificar vías diferencialmente enriquecidas.</p></li>
-</ol>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="Figures/rbims.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="944"></p>
-</figure>
-</div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

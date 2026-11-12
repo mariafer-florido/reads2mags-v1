@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 560" width="860" height="560" font-family="Helvetica, Arial, sans-serif">
+  <rect width="860" height="560" fill="#ffffff"/>
+
+  <!-- 1. Completitud -->
+  <text x="40" y="34" font-size="16" font-weight="bold" fill="#222222">1. Completitud</text>
+  <text x="40" y="54" font-size="13" fill="#555555">¿Qué fracción del genoma esperado tenemos?</text>
+  <text x="40" y="84" font-size="13" fill="#333333">Genoma de referencia más parecido (ejemplo: 40 kb)</text>
+  <rect x="40" y="92" width="800" height="24" rx="4" fill="#cfd8dc" stroke="#78909c" stroke-width="1.5"/>
+  <line x1="40" y1="116" x2="40" y2="154" stroke="#9e9e9e" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <line x1="540" y1="116" x2="540" y2="154" stroke="#9e9e9e" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <text x="52" y="146" font-size="13" fill="#333333">Nuestro contig (ejemplo: 25 kb)</text>
+  <rect x="40" y="154" width="500" height="24" rx="4" fill="#3f72a8"/>
+  <rect x="540" y="154" width="300" height="24" rx="4" fill="none" stroke="#3f72a8" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="690" y="171" text-anchor="middle" font-size="13" fill="#3f72a8">falta ≈ 15 kb</text>
+  <text x="40" y="207" font-size="15" font-weight="bold" fill="#222222">completitud ≈ 25 / 40 ≈ 62 %</text>
+  <text x="40" y="229" font-size="13" fill="#333333">AAI: compara los aminoácidos del contig con genomas de referencia.</text>
+  <text x="40" y="247" font-size="13" fill="#333333">HMM: busca perfiles de genes virales (da un límite inferior).</text>
+
+  <!-- 2. Contaminación -->
+  <text x="40" y="290" font-size="16" font-weight="bold" fill="#222222">2. Contaminación</text>
+  <rect x="40" y="304" width="600" height="24" rx="4" fill="#3f72a8"/>
+  <rect x="640" y="304" width="200" height="24" rx="4" fill="#b8620f"/>
+  <text x="740" y="321" text-anchor="middle" font-size="13" fill="#ffffff">región del hospedador</text>
+  <text x="40" y="350" font-size="13" fill="#333333">contaminación = porcentaje del contig que parece del hospedador (ejemplo: 25 %).</text>
+
+  <!-- 3. Genoma completo -->
+  <text x="40" y="390" font-size="16" font-weight="bold" fill="#222222">3. Genoma completo</text>
+  <rect x="40" y="404" width="800" height="24" rx="4" fill="#3f72a8"/>
+  <rect x="40" y="404" width="44" height="24" rx="4" fill="#0d3c61"/>
+  <rect x="796" y="404" width="44" height="24" rx="4" fill="#0d3c61"/>
+  <text x="440" y="421" text-anchor="middle" font-size="13" fill="#ffffff">repeticiones terminales idénticas en ambos extremos</text>
+  <text x="40" y="448" font-size="13" fill="#333333">Es la señal de un genoma completo o circular.</text>
+
+  <!-- 4. Clasificación -->
+  <text x="40" y="474" font-size="16" font-weight="bold" fill="#222222">Clasificación de CheckV (estándar MIUViG)</text>
+  <rect x="40" y="486" width="150" height="54" rx="8" fill="#1b5e20"/>
+  <text x="115" y="508" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">Complete</text>
+  <text x="115" y="527" text-anchor="middle" font-size="12" fill="#ffffff">genoma completo</text>
+  <rect x="200" y="486" width="150" height="54" rx="8" fill="#2e7d32"/>
+  <text x="275" y="508" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">High-quality</text>
+  <text x="275" y="527" text-anchor="middle" font-size="12" fill="#ffffff">≥ 90 % completo</text>
+  <rect x="360" y="486" width="150" height="54" rx="8" fill="#9ccc65"/>
+  <text x="435" y="508" text-anchor="middle" font-size="13" font-weight="bold" fill="#1b1b1b">Medium-quality</text>
+  <text x="435" y="527" text-anchor="middle" font-size="12" fill="#1b1b1b">50 – 90 % completo</text>
+  <rect x="520" y="486" width="150" height="54" rx="8" fill="#bdbdbd"/>
+  <text x="595" y="508" text-anchor="middle" font-size="13" font-weight="bold" fill="#1b1b1b">Low-quality</text>
+  <text x="595" y="527" text-anchor="middle" font-size="12" fill="#1b1b1b">&lt; 50 % completo</text>
+  <rect x="680" y="486" width="150" height="54" rx="8" fill="#616161"/>
+  <text x="755" y="508" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">Not-determined</text>
+  <text x="755" y="527" text-anchor="middle" font-size="12" fill="#ffffff">sin referencias suficientes</text>
+</svg>
