@@ -554,7 +554,7 @@ chr (20): user_genome, classification, closest_genome_reference, closest_gen...
 </div>
 </div>
 <p>El resultado esperado es el árbol de arriba. En la terminal del servidor no se abre ninguna ventana con la gráfica, así que hay que guardarla en un archivo. Corre el mismo bloque entre <code>png()</code> y <code>dev.off()</code>:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="st">"09_filogenomica_mags_entrega/23.iqtree/arbol.png"</span>, <span class="at">width =</span> <span class="dv">900</span>, <span class="at">height =</span> <span class="dv">700</span>)</span>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="st">"23.iqtree/arbol.png"</span>, <span class="at">width =</span> <span class="dv">900</span>, <span class="at">height =</span> <span class="dv">700</span>)</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>arbol <span class="ot">&lt;-</span> tr</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>arbol<span class="sc">$</span>tip.label <span class="ot">&lt;-</span> etiquetas</span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(arbol, <span class="at">tip.color =</span> colores[tx<span class="sc">$</span>Family], <span class="at">cex =</span> <span class="fl">0.9</span>, <span class="at">label.offset =</span> <span class="fl">0.02</span>)</span>

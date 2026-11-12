@@ -104,7 +104,7 @@ Partimos de lo que ya produjo el taller:
 
 Todo está en tu directorio, dentro de `results/19.gtdbtk_global/`: la carpeta `mags/`, `gtdbtk.bac120.summary.tsv` y `quality_report.tsv`.
 
--   **Ambientes.** Esta práctica usa dos ambientes de conda que ya están instalados en el servidor: `gtdbtk` (pasos 2 y 3) y `qiime2` (pasos 4 a 6). El ambiente `qiime2` también trae R, con los paquetes `tidyverse` y `ape`. En cada paso de terminal se indica cuándo activar y desactivar el ambiente.
+-    **Ambientes.** Esta práctica usa dos ambientes de conda que ya están instalados en el servidor: `gtdbtk` (pasos 2 y 3) y `qiime2` (pasos 4 a 6). El ambiente `qiime2` también trae R, con los paquetes `tidyverse` y `ape`. En cada paso de terminal se indica cuándo activar y desactivar el ambiente.
 
 ------------------------------------------------------------------------
 
@@ -144,6 +144,7 @@ Y la calidad de CheckM2: nombre del MAG, completitud y contaminación:
 cut -f1,2,3 results/19.gtdbtk_global/quality_report.tsv | column -t
 ```
 
+
 Un MAG con pocos de los 120 marcadores aporta poca información al árbol. Para ver cuáles son, comparamos los marcadores únicos de cada MAG con su completitud según CheckM2, que mide algo parecido con otro método. Esta es la gráfica, ya preparada:
 
 ![Marcadores bac120 únicos contra completitud CheckM2](Figures/marcadores.png){fig-align="center" width="70%"}
@@ -177,6 +178,7 @@ Ya no necesitamos este ambiente, así que lo desactivamos:
 ```{bash, eval=FALSE}
 conda deactivate
 ```
+
 
 ------------------------------------------------------------------------
 
@@ -213,6 +215,8 @@ iqtree3 -s results/23.iqtree/bac120_17mags.faa \
 -   `--prefix`: nombre base de las salidas
 
 Las salidas principales son `bac120_17mags.treefile` (el árbol con los soportes SH-aLRT/UFBoot en cada nodo) y `bac120_17mags.iqtree` (el reporte con el modelo y la verosimilitud). Con 4 hilos tarda unos 5 minutos (unos 3 de ellos en ModelFinder).
+
+
 
 ------------------------------------------------------------------------
 
@@ -273,7 +277,7 @@ add.scale.bar()
 El resultado esperado es el árbol de arriba. En la terminal del servidor no se abre ninguna ventana con la gráfica, así que hay que guardarla en un archivo. Corre el mismo bloque entre `png()` y `dev.off()`:
 
 ``` r
-png("09_filogenomica_mags_entrega/23.iqtree/arbol.png", width = 900, height = 700)
+png("23.iqtree/arbol.png", width = 900, height = 700)
 arbol <- tr
 arbol$tip.label <- etiquetas
 plot(arbol, tip.color = colores[tx$Family], cex = 0.9, label.offset = 0.02)
@@ -345,6 +349,7 @@ Los 17 MAGs (`results/19.gtdbtk_global/mags/`) y las tablas `19.gtdbtk_global/gt
 
 `results/22.gtdbtk_marcadores/` (marcadores y alineamiento) y `results/23.iqtree/` (árbol y reporte de IQ-TREE).
 
+
 ## Preguntas de interpretación
 
 1.  ¿Qué MAGs recuperaron menos marcadores y qué implica para su lugar en el árbol?
@@ -370,6 +375,7 @@ Paradis, E., & Schliep, K. (2019). ape 5.0: an environment for modern phylogenet
 Parks, D. H., Chaumeil, P.-A., Mussig, A. J., Rinke, C., Chuvochina, M., & Hugenholtz, P. (2025). GTDB release 10: a complete and systematic taxonomy for 715 230 bacterial and 17 245 archaeal genomes. *Nucleic Acids Research*, 54(D1), D743–D754. <https://doi.org/10.1093/nar/gkaf1040>
 
 Wong, T. K. F., Ly-Trong, N., Ren, H., Demotte, P., Baños, H., Roger, A. J., Susko, E., Bielow, C., De Maio, N., Goldman, N., et al. (2026). IQ-TREE 3: phylogenomic inference software using complex evolutionary models. *Molecular Biology and Evolution*, 43(5), msag117. <https://doi.org/10.1093/molbev/msag117>
+
 
 ## 03. Viromas: genomas virales a partir de metagenomas
 
