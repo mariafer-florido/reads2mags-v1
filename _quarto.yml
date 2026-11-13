@@ -2,6 +2,7 @@ project:
   type: website
   output-dir: docs
   post-render:
+    - python3 tools/modelo_ecologico/publicar.py
     - python3 tools/taxonomia/renderizar.py
 
 
@@ -44,6 +45,9 @@ website:
       - href: 08.1.ReadsTaxonomy.qmd
         text: Taxonomía de lecturas
         icon: diagram-2
+      - href: Modelo_ecologico_integrado.html
+        text: Modelo ecológico integrado
+        icon: diagram-3
       - href: Creditos.qmd
         text: Creditos
         icon: bezier2

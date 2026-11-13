@@ -1,0 +1,693 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Modelo ecológico integrado</title><style>
+:root{--ink:#173b4d;--teal:#087f8c;--muted:#536873;--line:#dbe4e7;--bg:#f3f6f6}
+*{box-sizing:border-box}body{margin:0;font:18px/1.65 system-ui,-apple-system,Segoe UI,sans-serif;color:#243c47;background:var(--bg)}
+header{padding:50px max(24px,calc((100vw - 1160px)/2));background:var(--ink);color:white}header p{max-width:940px;margin:15px 0 0;color:#d9eef0}h1{font-size:clamp(30px,4vw,44px);line-height:1.17;margin:10px 0}h2{font-size:29px;line-height:1.3;color:var(--ink);margin:0 0 20px}h3{font-size:22px;color:var(--teal);margin:24px 0 10px}.eyebrow{text-transform:uppercase;letter-spacing:.1em;font-size:14px}nav{padding:15px 24px;display:flex;justify-content:center;gap:26px;flex-wrap:wrap;background:white;border-bottom:1px solid var(--line)}a{color:#066b7a;text-underline-offset:3px}main{max-width:1240px;margin:auto;padding:28px 22px}section{background:white;border:1px solid var(--line);border-radius:14px;padding:30px;margin-bottom:26px;scroll-margin-top:20px}p{margin:12px 0}figure{margin:24px -12px 16px}img{width:100%;height:auto;display:block}table{border-collapse:collapse;width:100%;font-size:16px;line-height:1.5}th{text-align:left;background:#eaf3f4;color:var(--ink)}td,th{padding:13px 15px;vertical-align:top;border-bottom:1px solid var(--line)}tr:last-child td{border:0}.table-wrap{overflow:auto;margin:22px 0}code{font:15px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace}pre{overflow:auto;background:#102c38;color:#ebf5f5;padding:22px;border-radius:8px;white-space:pre;tab-size:2}.callout{border-left:5px solid var(--teal);padding:12px 20px;background:#eff7f8;margin:20px 0}.note{color:var(--muted);font-size:16px}details{border:1px solid var(--line);padding:16px;border-radius:9px;margin-top:18px}summary{cursor:pointer;font-weight:650;color:var(--ink)}li{margin:9px 0}blockquote{margin:24px 0;border-left:4px solid #d9a044;padding:12px 25px;background:#faf7ef}footer{padding:15px 4px;color:var(--muted);font-size:15px}@media(max-width:650px){main{padding:15px 10px}section{padding:22px 16px}h2{font-size:25px}body{font-size:17px}}@media print{header{padding:25px}nav{display:none}body{background:white}main{max-width:none;padding:0}section{border:0;padding:20px;break-inside:auto}figure{break-inside:avoid}details:not([open]){display:none}a{color:inherit}}
+
+.terminal{border:1px solid #dbe4e7;border-radius:9px;overflow:hidden;margin:20px 0}.terminal pre{margin:0;border-radius:0;max-height:none}.terminal-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:#eaf3f4;font-size:15px}.copy{background:#087f8c;border:0;border-radius:5px;color:white;padding:9px 16px;font:inherit;cursor:pointer}.reading{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}.reading>div{background:#f1f7f7;border-radius:8px;padding:15px 18px}.reading strong{color:#173b4d}.reading p{font-size:17px;line-height:1.55}pre code{font-size:15px;line-height:1.55}.exercise{border-left:4px solid #d9a044;padding:12px 20px;background:#faf7ef;margin:20px 0}.answer{font-size:17px}.figurelink{display:block;text-align:right;font-size:14px}.method{background:#edf3f6;padding:15px 18px;border-radius:8px}details pre{max-height:700px}.small{font-size:15px;color:#536873}@media(max-width:720px){.reading{grid-template-columns:1fr}}
+
+.formula{font-size:20px;padding:15px;background:#eef5f6;border-radius:8px}.table-wrap{overflow-x:auto}figure img{cursor:zoom-in}figure figcaption{font-size:14px;color:#50616b;text-align:center}pre{overflow-x:auto}
+
+.formula{font-size:20px;padding:15px;background:#eef5f6;border-radius:8px}.table-wrap{overflow-x:auto}figure img{cursor:zoom-in}figure figcaption{font-size:14px;color:#50616b;text-align:center}pre{overflow-x:auto}
+
+.formula{font-size:20px;padding:15px;background:#eef5f6;border-radius:8px}.table-wrap{overflow-x:auto}figure img{cursor:zoom-in}figure figcaption{font-size:14px;color:#50616b;text-align:center}pre{overflow-x:auto}
+
+.formula{font-size:20px;padding:15px;background:#eef5f6;border-radius:8px}.table-wrap{overflow-x:auto}figure img{cursor:zoom-in}figure figcaption{font-size:14px;color:#50616b;text-align:center}pre{overflow-x:auto}
+
+.codigo{margin:22px 0;border:1px solid #cad9dd;border-radius:10px;background:#f5f9fa}
+.codigo>summary,.consulta>summary{cursor:pointer;padding:13px 18px;font-weight:650;color:#173b4d;font-size:16px}
+.codigo[open]>summary{border-bottom:1px solid #cad9dd}
+.codigo .terminal{margin:0;border-radius:0 0 10px 10px}
+.codigo>summary:hover,.consulta>summary:hover{background:#e8f1f3}
+.codigo>summary:focus-visible,.consulta>summary:focus-visible{outline:3px solid #087f8c;outline-offset:3px}
+.consulta{border:1px solid #d5e0e3;border-radius:10px;margin:20px 0;background:#fff}
+.consulta>.interior{padding:0 20px 20px}.nota-lectura{padding:15px 20px;background:#eff5f6;border-left:4px solid #087f8c}
+@media print{.codigo{display:none}.consulta:not([open]){display:none}nav{display:none}}
+
+.formula{font-size:20px;padding:15px;background:#eef5f6;border-radius:8px}.table-wrap{overflow-x:auto}figure img{cursor:zoom-in}figure figcaption{font-size:14px;color:#50616b;text-align:center}pre{overflow-x:auto}
+
+.codigo{margin:22px 0;border:1px solid #cad9dd;border-radius:10px;background:#f5f9fa}
+.codigo>summary,.consulta>summary{cursor:pointer;padding:13px 18px;font-weight:650;color:#173b4d;font-size:16px}
+.codigo[open]>summary{border-bottom:1px solid #cad9dd}
+.codigo .terminal{margin:0;border-radius:0 0 10px 10px}
+.codigo>summary:hover,.consulta>summary:hover{background:#e8f1f3}
+.codigo>summary:focus-visible,.consulta>summary:focus-visible{outline:3px solid #087f8c;outline-offset:3px}
+.consulta{border:1px solid #d5e0e3;border-radius:10px;margin:20px 0;background:#fff}
+.consulta>.interior{padding:0 20px 20px}.nota-lectura{padding:15px 20px;background:#eff5f6;border-left:4px solid #087f8c}
+@media print{.codigo{display:none}.consulta:not([open]){display:none}nav{display:none}}
+
+.esquema-pozol{margin:0 0 32px}.esquema-pozol img{border-radius:10px}.esquema-pozol figcaption{font-size:15px;line-height:1.5;color:var(--muted);margin-top:12px}
+</style></head><body><header><div class="eyebrow">Ecología del pozol · integrar evidencias</div><h1>Modelo ecológico integrado</h1><p>Observa las figuras, describe los patrones y propone mecanismos que puedan evaluarse. El código se despliega solo cuando quieras reproducir el análisis.</p><p>Relacionar los cambios en composición y diversidad con las capacidades genéticas, el parentesco bacteriano y los virus recuperados. Preguntamos qué sabemos, cómo lo calculamos y qué mecanismos quedan por comprobar.</p><p>Para ejecutar los análisis, empieza por <a href="#terminal">Reproducir: preparar datos, paquetes y estilo</a>; después abre el código de la figura que quieras generar.</p></header><nav><a href="#insumos">Procedencia</a><a href="#claves">Claves de unión</a><a href="#terminal">Reproducir</a><a href="#diversidad">Diversidad</a><a href="#pcoa">PCoA</a><a href="#virus">Virus</a><a href="#filogenia">Filogenia</a><a href="#pianka">Pianka</a><a href="#modelo">Síntesis</a></nav><main>
+<section id="insumos"><details class="consulta"><summary>Consultar de qué archivo sale cada evidencia</summary><div class="interior"><p>Comparamos <strong>tres tipos de información</strong>: composición taxonómica según Kraken, composición taxonómica según Kaiju y repertorio de funciones de los MAGs. Los virus ensamblados y el árbol bacteriano aportan otras evidencias, con un alcance distinto.</p><div class="table-wrap"><table><thead><tr><th>Información</th><th>Archivo del curso → insumo de la síntesis</th><th>Qué mide</th></tr></thead><tbody><tr><td>Kraken</td><td><code>results/08.kraken/*hrs_sm.kreport</code> → <code>data/09_sintesis/generos_conteos.tsv</code> y <code>denominadores.tsv</code></td><td>Fragmentos asignados a géneros bacterianos. Se reconstruye la jerarquía y se conserva el rango G exacto, sin sumar ancestros con descendientes.</td></tr><tr><td>Kaiju</td><td><code>results/07.kaiju/matrix.tsv</code> → <code>data/09_sintesis/kaiju_matrix.tsv</code></td><td>Entradas del resumen taxonómico disponible, de rangos mezclados. Se excluye unclassified. Son categorías clasificadas, no un conjunto uniforme de especies.</td></tr><tr><td>Funciones</td><td><code>results/21.kofam/MAG*.txt</code> → <code>data/09_sintesis/MAG_KO_conteos.tsv</code></td><td>Asignaciones gen–KO aceptadas (*) por MAG. Un gen puede tener varias asignaciones: se conserva esa ambigüedad. No son abundancias funcionales de las muestras.</td></tr><tr><td>Metadatos de MAGs</td><td>GTDB-Tk y CheckM2 de <code>results/19.gtdbtk_global/</code> → <code>data/09_sintesis/MAG_metadata.tsv</code></td><td>Género, especie, completitud, contaminación y etapa de origen de cada MAG.</td></tr><tr><td>Virus del curso</td><td><code>results/26.votus/catalogo_vOTUs.tsv</code> + <code>results/27.genomad/*_annotate/*_taxonomy.tsv</code> + CheckV → <code>catalogo_vOTUs.tsv</code>, <code>taxonomia_viral_geNomad.tsv</code> y <code>vOTU_metadata.tsv</code> en <code>data/09_sintesis/</code></td><td>Los 12 vOTUs del módulo de viromas. Identidad de secuencia, taxonomía, calidad y ensamblaje de origen; no abundancia por muestra ni hospedero.</td></tr><tr><td>Funciones virales</td><td>Anotaciones VIBRANT de los representantes → <code>trazabilidad/09_sintesis/14_genes_virales_representantes.tsv</code>.</td><td>La red enlaza vOTU y función por anotaciones de genes; no cuantifica infección o abundancia.</td></tr><tr><td>Filogenia bacteriana</td><td><code>09_filogenomica_mags_entrega/23.iqtree/bac120_17mags.treefile</code> del repositorio → <code>data/09_sintesis/bac120_17mags.treefile</code></td><td>Árbol IQ-TREE de los mismos 17 MAGs, con longitudes de rama y soportes. Se reutiliza, no se vuelve a estimar.</td></tr></tbody></table></div><p><strong>Unidad de observación:</strong> hay un perfil de lecturas por tiempo: 0, 9, 24 y 48 h. Se recuperaron 1, 6, 6 y 4 MAGs, respectivamente. Estos genomas no son réplicas de fermentaciones. No tenemos mediciones de pH, oxígeno, metabolitos ni abundancia absoluta.</p><p>Los virus corresponden a los <strong>vOTUs ensamblados y clasificados en la sección 07.Asignacion</strong>. Cada vOTU tiene una secuencia representante. Su taxonomía no proporciona por sí sola abundancias temporales ni identifica al hospedero.</p></div></details></section>
+<section id="claves"><details class="consulta"><summary>Consultar identificadores y uniones de archivos</summary><div class="interior"><p>Una unión relaciona filas que representan la misma entidad. Primero identificamos la entidad y su clave; después comprobamos duplicados y correspondencia. <strong>No unimos por posición de fila ni por parecido entre nombres.</strong></p><div class="table-wrap"><table><thead><tr><th>Unión</th><th>Clave exacta y ejemplo</th><th>Relación y comprobación</th></tr></thead><tbody><tr><td>Kraken entre tiempos</td><td><code>taxid</code> de NCBI; por ejemplo <code>1301</code> para Streptococcus.</td><td>Un TaxID por fila y tiempo. Se unen conteos del mismo género; <code>name</code> solo etiqueta la figura. No se suman niveles jerárquicos.</td></tr><tr><td>Kaiju entre columnas</td><td>Texto completo de <code>Taxonomy</code>, incluida la ruta taxonómica.</td><td>Una fila de la matriz por categoría. La última parte de la ruta sirve como etiqueta corta. No unimos automáticamente Kaiju con Kraken por el nombre del género.</td></tr><tr><td>MAG ↔ árbol ↔ calidad ↔ anotación</td><td>ID completo, por ejemplo <code>MAG17_48h</code>. Corresponde a <code>user_genome</code> en GTDB-Tk, <code>Name</code> en CheckM2, punta del árbol y nombre base del archivo Kofam.</td><td>Los 17 IDs coinciden. Se renombran las columnas a <code>MAG</code> y se usa <code>match()</code> para ordenar por la clave. No se usa solo Streptococcus: hay varios MAGs de ese género.</td></tr><tr><td>Gen ↔ función</td><td>Clave de gen <code>MAG + gene</code>; anotación identificada por <code>MAG + gene + KO</code>.</td><td>Un MAG tiene muchos genes; un gen puede tener varios KO aceptados. La matriz cuenta genes distintos por pareja MAG–KO. La tabla conserva <code>n_KO_for_gene</code>.</td></tr><tr><td>KO ↔ nombre funcional</td><td><code>KO</code>, por ejemplo <code>K01176</code> → alfa-amilasa.</td><td>El identificador enlaza Kofam, matriz y diccionario. Los gráficos muestran nombres; los códigos quedan en tablas y código para conservar trazabilidad.</td></tr><tr><td>Catálogo viral ↔ geNomad ↔ CheckV</td><td><code>secuencia</code> = <code>seq_name</code> = <code>contig_id</code>; ejemplo <code>09h_k89_68057||full</code>.</td><td>Se conserva el nombre completo, incluido <code>||full</code>. Para clasificar cada vOTU se toma su representante y se busca la misma secuencia en geNomad y CheckV.</td></tr><tr><td>Miembros virales ↔ representante</td><td><code>vOTU</code>, por ejemplo <code>vOTU_1</code>.</td><td>Muchos contigs pueden pertenecer al mismo vOTU. Solo una fila tiene rol representante. Para el origen se consideran todos los miembros; para calidad y taxonomía, el representante.</td></tr><tr><td>Gen viral ↔ función</td><td><code>scaffold</code> de VIBRANT = <code>secuencia</code> representante del catálogo; gen identificado por <code>vOTU + protein</code>; función por <code>KO</code>.</td><td>Muchos genes por representante. Una arista conserva al menos una anotación vOTU–KO; la tabla de evidencia conserva los genes que la sustentan.</td></tr><tr><td>Perfiles ↔ tiempo</td><td><code>Tiempo_h</code>: 0, 9, 24 o 48. La etiqueta <code>9hrs</code> y el sufijo <code>_09h</code> se homologan a 9.</td><td>Sirve para ordenar o agrupar perfiles. Compartir tiempo no identifica una especie, una cepa ni una pareja virus–hospedero.</td></tr></tbody></table></div><p><strong>No confundir espacios de identificadores:</strong> el <code>taxid</code> de Kraken es NCBI; el de geNomad pertenece a su taxonomía viral. Un número igual entre bases no garantiza el mismo taxón. Tampoco se convierte un nombre de GTDB a NCBI sin una correspondencia validada. Aquí las comparaciones Kaiju–Kraken se hacen entre perfiles de los mismos tiempos, no fusionando taxones.</p><p>Los bloques muestran las comprobaciones <code>!anyDuplicated()</code>, <code>setequal()</code> y <code>match()</code>. Los nombres traducidos están en <code>data/09_sintesis/nombres_funciones.tsv</code>, junto a su KO y definición original.</p></div></details></section>
+
+<section id="composicion"><h2>1. Composición: quién gana representación</h2><p class="method"><strong>Procedencia:</strong> <code>data/09_sintesis/generos_conteos.tsv</code> y <code>denominadores.tsv</code>, derivados de Kraken.</p><p><strong>Objetivo:</strong> Tener a la vista la identidad de los géneros que dominan. Esta figura de contexto permitirá interpretar por qué cambia la diversidad.</p><figure><img src="assets/modelo_ecologico_integrado/01_composicion.png" alt="Composición bacteriana relativa a todos los fragmentos."><figcaption>Para ampliar, abre la imagen en otra pestaña. También se guarda como PDF vectorial en results/09_sintesis/.</figcaption></figure><div class="reading"><div><strong>Cómo leer el gráfico</strong><p>El eje x ordena los tiempos. Cada color ocupa el porcentaje del total de fragmentos asignado a ese género; el gris conserva los fragmentos fuera de esos géneros bacterianos.</p></div><div><strong>Cómo leer el estadístico</strong><p>Porcentaje = 100 × fragmentos del género / total de fragmentos. Streptococcus representa 3.52% a 0 h, 50.61% a 24 h y 35.18% a 48 h.</p></div></div><p><strong>Interpretación ecológica:</strong> <strong>Ventaja de los fermentadores.</strong> La dominancia de Streptococcus es compatible con que aprovechar carbohidratos y tolerar las condiciones de fermentación otorgue ventaja relativa. Los aumentos tardíos de otros géneros lácticos sugieren un relevo parcial, no la sustitución completa del dominante. Acidificación y competencia son mecanismos candidatos, todavía por medir. <a href="#ref-pozol">[3]</a></p><div class="exercise"><strong>Discute:</strong> ¿Aumentar en porcentaje equivale a aumentar en células por gramo?</div><details class="answer"><summary>Lectura orientativa</summary><p>No. Puede aumentar el numerador, disminuir otros organismos, o ambas cosas. Hace falta una referencia de cantidad para estimar células o copias por gramo.</p></details><details class="codigo"><summary>Mostrar código y ejecución</summary><div class="terminal"><div class="terminal-bar"><span>Terminal Bash · guardar el script y ejecutarlo desde la raíz del proyecto</span><button class="copy" type="button">Copiar bloque</button></div><pre><code>cat &gt; scripts/09_sintesis/01_composicion.R &lt;&lt;&#x27;RSCRIPT&#x27;
+source(&quot;scripts/09_sintesis/00_preparar.R&quot;, encoding = &quot;UTF-8&quot;)
+
+# FIGURA 1. Los 12 generos con mayor porcentaje medio + Lactobacillus,
+# que se incluye explicitamente para examinar su aumento tardio.
+top &lt;- unique(c(order(rowMeans(porcentaje), decreasing = TRUE)[1:12],
+                which(tabla$name == &quot;Lactobacillus&quot;)))
+barras &lt;- rbind(porcentaje[top, , drop = FALSE],
+                colSums(porcentaje) - colSums(porcentaje[top, , drop = FALSE]),
+                100 - colSums(porcentaje))
+rownames(barras) &lt;- c(tabla$name[top], &quot;Otros géneros bacterianos&quot;, &quot;Sin asignación a género bacteriano&quot;)
+perfil &lt;- data.frame(Grupo = rep(rownames(barras), times = 4),
+                     Tiempo = factor(rep(etiquetas, each = nrow(barras)), levels = etiquetas),
+                     Porcentaje = as.vector(barras))
+perfil$Grupo &lt;- factor(perfil$Grupo, levels = rownames(barras))
+paleta &lt;- setNames(c(hcl.colors(length(top), &quot;Dark 3&quot;), &quot;#A8BFC3&quot;, &quot;#E6E9EC&quot;), rownames(barras))
+fig1 &lt;- ggplot(perfil, aes(Tiempo, Porcentaje, fill = Grupo)) +
+  geom_col(width = 0.66, position = position_stack(reverse = TRUE)) +
+  scale_fill_manual(values = paleta) +
+  scale_y_continuous(limits = c(0, 100), expand = expansion(mult = c(0, 0.02))) +
+  labs(title = &quot;01 · Composición bacteriana durante la fermentación&quot;,
+       subtitle = &quot;Kraken · porcentaje calculado sobre el total de fragmentos de cada muestra.&quot;,
+       x = &quot;Tiempo de fermentación&quot;, y = &quot;% del total de fragmentos&quot;, fill = NULL,
+       caption = &quot;Gris: sin asignación a un género bacteriano. Un perfil por tiempo.\nLos porcentajes representan fragmentos; no miden biomasa ni crecimiento absoluto.&quot;) +
+  guides(fill = guide_legend(ncol = 3)) +
+  theme(panel.grid.major.x = element_blank(), legend.text = element_text(size = 13))
+ggsave(&quot;results/09_sintesis/01_composicion.pdf&quot;, fig1, width = 13, height = 8.5, device = cairo_pdf)
+
+ggsave(&quot;results/09_sintesis/01_composicion.png&quot;, fig1, device = &quot;png&quot;, type = &quot;cairo&quot;, width = 13, height = 8.5, dpi = 300)
+writeLines(capture.output(sessionInfo()), &quot;results/09_sintesis/sessionInfo.txt&quot;)
+RSCRIPT
+
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 Rscript --vanilla scripts/09_sintesis/01_composicion.R
+</code></pre></div></details></section>
+<section id="diversidad"><h2>2. Diversidad comparada: Kraken, Kaiju y funciones</h2><p class="method"><strong>Procedencia:</strong> Kraken: todos los géneros bacterianos. Kaiju: categorías clasificadas de la matriz original, sin unclassified. Funciones: todas las asignaciones gen–KO por MAG, antes de los filtros CLR.</p><p><strong>Objetivo:</strong> Distinguir concentración de la comunidad y variedad de anotaciones por genoma. Menor diversidad taxonómica no implica automáticamente menor capacidad metabólica.</p><p>La diversidad combina <strong>riqueza</strong> (cuántas categorías) y <strong>equitatividad</strong> (cómo se reparte su representación). Aquí contamos fragmentos taxonómicos y anotaciones por MAG, no individuos ni actividad metabólica.</p><div class="table-wrap"><table><thead><tr><th>Índice</th><th>Pregunta que responde</th><th>Lectura</th></tr></thead><tbody><tr><td>q1 = exp(H′)</td><td>¿Cuánta incertidumbre hay sobre la categoría de un elemento sorteado?</td><td>Shannon considera todas las proporciones; responde más a categorías poco representadas que q2, pero no mide exclusivamente rareza.</td></tr><tr><td>q2 = 1/Σp²</td><td>¿Cuánto pesan los dominantes?</td><td>Σp² es la probabilidad de coincidencia en dos sorteos independientes. Su inverso aumenta cuando se reduce la concentración.</td></tr></tbody></table></div><p>Ambos se expresan en <strong>números efectivos de categorías</strong>, desde 1 hasta la riqueza observada. No son porcentajes ni tienen umbrales universales de comunidad «sana». <a href="#ref-diversidad">[1]</a></p><figure><img src="assets/modelo_ecologico_integrado/02_diversidad.png" alt="Diversidad efectiva q1 y q2 para Kraken, Kaiju y funciones, y sus tendencias z."><figcaption>Para ampliar, abre la imagen en otra pestaña. También se guarda como PDF vectorial en results/09_sintesis/.</figcaption></figure><div class="reading"><div><strong>Cómo leer el gráfico</strong><p>Izquierda: q1; derecha: q2. Las tres primeras filas muestran valores de diversidad efectiva; solo la última muestra z. Allí, cero es el promedio de cada serie y +1 significa una desviación estándar por encima. z compara formas, no cantidades.</p></div><div><strong>Cómo leer el estadístico</strong><p>A 24 h, Kraken tiene q1 = 5.47 y q2 = 2.41: equivale, según cada índice, a esos números de géneros igualmente representados. Como D = 1/q2, dos fragmentos sorteados independientemente dentro de los géneros bacterianos clasificados tienen una probabilidad estimada de 41.5% de coincidir en género.</p></div></div><p><strong>Interpretación ecológica:</strong> <strong>Concentración taxonómica, sin una contracción funcional paralela.</strong> La caída conjunta de q1 y q2 es compatible con un filtro que favorece a ciertos fermentadores. El pico de anotaciones diversas por MAG a 9 h permite plantear que pocos grupos dominantes conserven capacidades variadas. No demuestra especialización, pérdida de especies ni degradación del sistema.</p><div class="exercise"><strong>Discute:</strong> ¿Qué indica que q1 sea mayor que q2? ¿Por qué menos diversidad no significa peor fermentación?</div><details class="answer"><summary>Lectura orientativa</summary><p>q1 mayor que q2 indica representación desigual y aporte de categorías menos dominantes. La fermentación puede favorecer pocos organismos capaces de transformar el sustrato; diversidad, seguridad alimentaria y funcionamiento son propiedades distintas.</p></details><details class="codigo"><summary>Mostrar código y ejecución</summary><div class="terminal"><div class="terminal-bar"><span>Terminal Bash · guardar el script y ejecutarlo desde la raíz del proyecto</span><button class="copy" type="button">Copiar bloque</button></div><pre><code>cat &gt; scripts/09_sintesis/02_diversidad.R &lt;&lt;&#x27;RSCRIPT&#x27;
+source(&quot;scripts/09_sintesis/00_preparar.R&quot;, encoding = &quot;UTF-8&quot;)
+library(patchwork)
+# Diversidad sobre proporciones originales: no CLR ni pseudoconteos.
+k &lt;- read.delim(&quot;data/09_sintesis/kaiju_matrix.tsv&quot;, check.names = FALSE)
+k &lt;- k[k$Taxonomy != &quot;unclassified&quot;, ]
+kaiju &lt;- t(as.matrix(k[, c(&quot;0hrs&quot;, &quot;9hrs&quot;, &quot;24hrs&quot;, &quot;48hrs&quot;)]))
+mag &lt;- as.matrix(read.delim(&quot;data/09_sintesis/MAG_KO_conteos.tsv&quot;, row.names = 1, check.names = FALSE))
+meta &lt;- read.delim(&quot;data/09_sintesis/MAG_metadata.tsv&quot;, check.names = FALSE)
+stopifnot(!anyDuplicated(meta$MAG), setequal(rownames(mag), meta$MAG))
+meta &lt;- meta[match(rownames(mag), meta$MAG), ]
+# Un índice por muestra (lecturas) o por MAG (funciones).
+# vegan::diversity convierte los conteos a proporciones dentro de cada fila.
+matrices &lt;- list(Kraken = t(conteos), Kaiju = kaiju, Funciones = mag)
+individuales &lt;- list()
+for (tipo in names(matrices)) {
+  x &lt;- matrices[[tipo]]
+  t &lt;- if (tipo == &quot;Funciones&quot;) meta$Tiempo_h else horas
+  individuales[[tipo]] &lt;- data.frame(Tipo = tipo, ID = if (tipo == &quot;Funciones&quot;) rownames(mag) else etiquetas,
+    Tiempo_h = t, q1 = exp(vegan::diversity(x, index = &quot;shannon&quot;)),
+    q2 = vegan::diversity(x, index = &quot;invsimpson&quot;))
+}
+individuales &lt;- do.call(rbind, individuales)
+# En funciones se promedia el índice calculado por MAG, con igual peso por genoma.
+# NO se suman genes de 1, 6, 6 y 4 MAGs como si fueran abundancias de las muestras.
+diversidad &lt;- aggregate(cbind(q1, q2) ~ Tipo + Tiempo_h, data = individuales, FUN = mean)
+diversidad &lt;- diversidad[order(match(diversidad$Tipo, names(matrices)), diversidad$Tiempo_h), ]
+diversidad$n_perfiles &lt;- as.integer(table(paste(individuales$Tipo, individuales$Tiempo_h))[paste(diversidad$Tipo, diversidad$Tiempo_h)])
+write.table(individuales, &quot;results/09_sintesis/02_diversidad_por_perfil.tsv&quot;, sep = &quot;\t&quot;, row.names = FALSE, quote = FALSE)
+write.table(diversidad, &quot;results/09_sintesis/02_diversidad_resumen.tsv&quot;, sep = &quot;\t&quot;, row.names = FALSE, quote = FALSE)
+largo &lt;- rbind(data.frame(diversidad[, c(&quot;Tipo&quot;, &quot;Tiempo_h&quot;, &quot;n_perfiles&quot;)], Indice = &quot;q1 · Exponencial de Shannon&quot;, Valor = diversidad$q1),
+               data.frame(diversidad[, c(&quot;Tipo&quot;, &quot;Tiempo_h&quot;, &quot;n_perfiles&quot;)], Indice = &quot;q2 · Inverso de Simpson&quot;, Valor = diversidad$q2))
+largo$Z &lt;- ave(largo$Valor, interaction(largo$Tipo, largo$Indice), FUN = function(x) as.numeric(scale(x)))
+largo$Tipo &lt;- factor(largo$Tipo, levels = names(matrices))
+write.table(largo, &quot;results/09_sintesis/02_diversidad_z.tsv&quot;, sep = &quot;\t&quot;, row.names = FALSE, quote = FALSE)
+colores &lt;- colores_datos
+nombres &lt;- c(Kraken = &quot;Kraken · géneros bacterianos&quot;, Kaiju = &quot;Kaiju · categorías clasificadas&quot;, Funciones = &quot;Funciones · promedio por MAG&quot;)
+paneles &lt;- list()
+for (tipo in names(matrices)) {
+ for (indice in unique(largo$Indice)) {
+  d &lt;- largo[largo$Tipo == tipo &amp; largo$Indice == indice, ]
+  paneles[[paste(tipo, indice)]] &lt;- ggplot(d, aes(Tiempo_h, Valor)) +
+    geom_line(colour = colores[tipo], linewidth = 1) + geom_point(colour = colores[tipo], size = 3.5) +
+    geom_text(aes(label = sprintf(&quot;%.2f&quot;, Valor)), vjust = -0.8, size = 4.4) +
+    scale_x_continuous(breaks = horas, labels = etiquetas) +
+    scale_y_continuous(limits = c(0, NA), expand = expansion(mult = c(0, 0.22))) +
+    labs(title = nombres[tipo], subtitle = indice, x = NULL,
+         y = if (tipo == &quot;Funciones&quot;) &quot;Funciones efectivas\npor MAG&quot; else if (tipo == &quot;Kraken&quot;) &quot;Géneros efectivos&quot; else &quot;Categorías efectivas&quot;) +
+    theme(plot.title = element_text(size = 17), axis.title.y = element_text(size = 13))
+ }
+}
+for (indice in unique(largo$Indice)) {
+ d &lt;- largo[largo$Indice == indice, ]
+ paneles[[paste(&quot;Z&quot;, indice)]] &lt;- ggplot(d, aes(Tiempo_h, Z, colour = Tipo, shape = Tipo)) +
+   geom_hline(yintercept = 0, colour = &quot;grey70&quot;, linetype = 2) +
+   geom_line(linewidth = 1) + geom_point(size = 3.5) +
+   scale_colour_manual(values = colores) + scale_shape_manual(values = c(Kraken = 16, Kaiju = 17, Funciones = 15)) +
+   scale_x_continuous(breaks = horas, labels = etiquetas) + scale_y_continuous(limits = c(-1.7, 1.7), breaks = -1:1) +
+   labs(title = &quot;Comparar la forma de los cambios&quot;, subtitle = paste(indice, &quot;· z entre cuatro tiempos&quot;),
+        x = &quot;Tiempo de fermentación&quot;, y = &quot;z del índice&quot;, colour = NULL, shape = NULL) +
+   theme(plot.title = element_text(size = 17), axis.title.y = element_text(size = 13))
+}
+fig2 &lt;- wrap_plots(paneles, ncol = 2, guides = &quot;collect&quot;) +
+ plot_annotation(title = &quot;02 · ¿Cómo cambia el reparto de taxones y funciones?&quot;,
+ subtitle = &quot;Arriba: valores originales, con unidades y escalas distintas. Abajo: z para comparar tendencias, no magnitudes.&quot;,
+ caption = &quot;Funciones: media del índice por MAG; 1, 6, 6 y 4 genomas por etapa. No es diversidad funcional de toda la comunidad.\nUn perfil de lecturas por tiempo; no se estiman intervalos de incertidumbre. No se calcula diversidad sobre CLR.&quot;)
+ggsave(&quot;results/09_sintesis/02_diversidad.pdf&quot;, fig2, width = 17, height = 17, device = cairo_pdf)
+ggsave(&quot;results/09_sintesis/02_diversidad.png&quot;, fig2, width = 17, height = 17, dpi = 300, device = &quot;png&quot;, type = &quot;cairo&quot;)
+print(diversidad)
+RSCRIPT
+
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 Rscript --vanilla scripts/09_sintesis/02_diversidad.R
+</code></pre></div></details></section>
+<section><h3>Lectura ecológica por etapas</h3><div class="table-wrap"><table><thead><tr><th>Etapa</th><th>Interpretación que podemos proponer</th></tr></thead><tbody><tr><td>0 h</td><td>Mayor diversidad efectiva inicial: representación menos concentrada que después. No equivale a ausencia de dominantes ni mide una comunidad madura.</td></tr><tr><td>9 h</td><td>Aumenta la dominancia taxonómica mientras el promedio funcional por MAG alcanza su máximo: posible selección de fermentadores con capacidades variadas.</td></tr><tr><td>24 h</td><td>Persiste la dominancia y baja la diversidad de anotaciones recuperadas. Puede cambiar el repertorio de los portadores; la completitud impide atribuirlo directamente a especialización.</td></tr><tr><td>48 h</td><td>q2 taxonómico repunta, especialmente en Kaiju: se reparte algo más la representación entre categorías comunes. No demuestra recuperación ecológica ni un clímax.</td></tr></tbody></table></div><p><strong>Hipótesis integradora:</strong> recursos disponibles y acidificación podrían filtrar la comunidad durante la fermentación. La menor diversidad puede acompañar esa transformación; no diagnostica daño. <a href="#ref-pozol">[3]</a></p><p><strong>Alcance:</strong> Kraken y Kaiju concuerdan en la caída inicial, pero usan las mismas muestras y categorías distintas. Funciones es el promedio por MAG (1, 6, 6 y 4 genomas), no diversidad funcional comunitaria.</p><details class="consulta"><summary>Cómo se estandariza y qué no corrige z</summary><div class="interior"><p>Conteos → proporciones → q1/q2 → z = (índice − media temporal)/desviación estándar. En funciones se calcula primero cada índice por MAG y después su promedio por origen. z permite comparar formas; no corrige completitud, clasificación, profundidad ni sesgos de recuperación.</p></div></details></section>
+<section id="clr"><h2>Comparar composiciones: CLR y distancia de Aitchison</h2><p>Ahora la pregunta cambia: <strong>¿cuánto se modifica el perfil completo de categorías?</strong> Los conteos de secuenciación son composicionales; por eso comparamos razones entre componentes.</p><p class="formula">CLR(x) = log(x + 0.5) − media de log(x + 0.5), dentro de cada muestra o MAG.</p><p>El valor es un logaritmo natural de la razón del componente frente a la media geométrica del perfil ajustado. CLR = 0 no significa ausencia; significa igualdad con esa referencia. ΔCLR = 1 representa multiplicar esa razón por e ≈ 2.72.</p><p><strong>Regla fija de esta práctica:</strong> para las comparaciones de lecturas conservamos categorías con detección en al menos tres de cuatro tiempos y al menos 50 fragmentos totales. En funciones conservamos KO recuperados en al menos tres MAGs. Añadimos 0.5 a todos los conteos, en sus unidades originales, para poder calcular los logaritmos.</p><p>El pseudoconteo influye sobre todo en conteos pequeños y ceros; es una decisión explícita, no una solución universal. Un cero puede representar no detección o filtrado previo, y en MAGs también recuperación incompleta. Las conclusiones quedan condicionadas a estas tablas y filtros.</p><div class="table-wrap"><table><thead><tr><th>Información</th><th>Componentes retenidos</th><th>Perfiles temporales</th></tr></thead><tbody><tr><td>Kraken</td><td>319</td><td>4</td></tr><tr><td>Kaiju</td><td>575</td><td>4</td></tr><tr><td>Funciones</td><td>1569</td><td>4</td></tr></tbody></table></div><p><strong>Distancia de Aitchison:</strong> distancia euclidiana entre los perfiles CLR. Se calcula con <code>dist()</code>. Para funciones, primero se calcula CLR por MAG y después el promedio CLR de los genomas de cada origen: el centro composicional del catálogo, con igual peso por MAG. No es el promedio de q1/q2 del apartado anterior.</p><details class="codigo"><summary>Mostrar código y ejecución</summary><div class="terminal"><div class="terminal-bar"><span>Terminal Bash · guardar el script y ejecutarlo desde la raíz del proyecto</span><button class="copy" type="button">Copiar bloque</button></div><pre><code>cat &gt; scripts/09_sintesis/00_perfiles_clr.R &lt;&lt;&#x27;RSCRIPT&#x27;
+source(&quot;scripts/09_sintesis/00_preparar.R&quot;, encoding = &quot;UTF-8&quot;)
+library(ggrepel)
+library(patchwork)
+# Muestras o MAGs en filas; taxones o funciones en columnas.
+kraken &lt;- t(conteos)
+kaiju_tab &lt;- read.delim(&quot;data/09_sintesis/kaiju_matrix.tsv&quot;, check.names = FALSE)
+kaiju_tab &lt;- kaiju_tab[kaiju_tab$Taxonomy != &quot;unclassified&quot;, ]
+kaiju &lt;- t(as.matrix(kaiju_tab[, c(&quot;0hrs&quot;, &quot;9hrs&quot;, &quot;24hrs&quot;, &quot;48hrs&quot;)]))
+colnames(kaiju) &lt;- kaiju_tab$Taxonomy
+rownames(kaiju) &lt;- tiempos
+mag &lt;- as.matrix(read.delim(&quot;data/09_sintesis/MAG_KO_conteos.tsv&quot;, row.names = 1, check.names = FALSE))
+# Clave MAG: unir metadatos por el ID completo, nunca por el orden de las filas.
+meta_mag &lt;- read.delim(&quot;data/09_sintesis/MAG_metadata.tsv&quot;, check.names = FALSE)
+stopifnot(!anyDuplicated(meta_mag$MAG), setequal(rownames(mag), meta_mag$MAG))
+meta_mag &lt;- meta_mag[match(rownames(mag), meta_mag$MAG), ]
+origen_mag &lt;- meta_mag$Tiempo_h
+# Filtros fijos, solo para las comparaciones CLR; no para diversidad.
+kraken &lt;- kraken[, colSums(kraken &gt; 0) &gt;= 3 &amp; colSums(kraken) &gt;= 50, drop = FALSE]
+kaiju &lt;- kaiju[, colSums(kaiju &gt; 0) &gt;= 3 &amp; colSums(kaiju) &gt;= 50, drop = FALSE]
+mag &lt;- mag[, colSums(mag &gt; 0) &gt;= 3, drop = FALSE]
+# El pseudoconteo se suma a TODOS los conteos antes del logaritmo natural.
+clr_kraken &lt;- vegan::decostand(kraken, method = &quot;clr&quot;, pseudocount = 0.5)
+clr_kaiju &lt;- vegan::decostand(kaiju, method = &quot;clr&quot;, pseudocount = 0.5)
+clr_mag &lt;- vegan::decostand(mag, method = &quot;clr&quot;, pseudocount = 0.5)
+n_mag &lt;- table(factor(origen_mag, levels = horas))
+clr_funciones &lt;- rowsum(clr_mag, group = factor(origen_mag, levels = horas))
+clr_funciones &lt;- sweep(clr_funciones, 1, as.numeric(n_mag), &quot;/&quot;)
+rownames(clr_funciones) &lt;- tiempos
+# Funciones: centro de los MAGs recuperados, con igual peso por MAG.
+# No representa abundancia de funciones en la muestra completa.
+perfiles &lt;- list(Kraken = clr_kraken, Kaiju = clr_kaiju, Funciones = clr_funciones)
+titulos &lt;- c(Kraken = &quot;Kraken · géneros bacterianos&quot;, Kaiju = &quot;Kaiju · entradas taxonómicas&quot;,
+             Funciones = &quot;Funciones · catálogo de MAGs&quot;)
+kd &lt;- read.delim(&quot;data/09_sintesis/KO_definiciones.tsv&quot;, check.names = FALSE)
+kd &lt;- kd[!duplicated(kd$KO), ]
+trad &lt;- read.delim(&quot;data/09_sintesis/nombres_funciones.tsv&quot;, check.names = FALSE)
+# La clave KO se conserva para unir. Solo cambia el texto de las figuras.
+kd$Nombre_figura &lt;- kd$definition
+idx &lt;- match(trad$KO, kd$KO)
+stopifnot(!anyNA(idx), !anyDuplicated(trad$KO))
+kd$Nombre_figura[idx] &lt;- trad$Nombre_figura
+nombres_perfiles &lt;- list(
+  Kraken = setNames(tabla$name, as.character(tabla$taxid)),
+  Kaiju = setNames(sub(&quot;.*;&quot;, &quot;&quot;, sub(&quot;;+$&quot;, &quot;&quot;, kaiju_tab$Taxonomy)), kaiju_tab$Taxonomy),
+  Funciones = setNames(kd$Nombre_figura, kd$KO))
+auditoria &lt;- data.frame(Tipo = names(perfiles), Componentes = vapply(perfiles, ncol, integer(1)),
+                       Perfiles = 4L, Pseudoconteo = 0.5)
+write.table(auditoria, &quot;results/09_sintesis/00_auditoria_CLR.tsv&quot;, sep = &quot;\t&quot;, row.names = FALSE, quote = FALSE)
+write.table(data.frame(Tiempo_h = horas, MAGs_recuperados = as.integer(n_mag)),
+            &quot;results/09_sintesis/00_MAGs_por_origen.tsv&quot;, sep = &quot;\t&quot;, row.names = FALSE, quote = FALSE)
+for (tipo in names(perfiles)) {
+  write.table(perfiles[[tipo]], paste0(&quot;results/09_sintesis/00_CLR_&quot;, tipo, &quot;.tsv&quot;), sep = &quot;\t&quot;, col.names = NA, quote = FALSE)
+}
+RSCRIPT
+
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 Rscript --vanilla scripts/09_sintesis/00_perfiles_clr.R
+</code></pre></div></details></section>
+<section id="pcoa"><h2>3. PCoA: ¿coinciden los patrones taxonómicos y funcionales?</h2><p class="method"><strong>Procedencia:</strong> Distancias de Aitchison de Kraken, Kaiju y funciones; una ordenación por cada matriz.</p><p><strong>Objetivo:</strong> Reconocer sucesión: cuánto se reorganizan las proporciones taxonómicas y el repertorio de los MAGs entre etapas.</p><figure><img src="assets/modelo_ecologico_integrado/03_pcoa_comparadas.png" alt="Tres PCoA: Kraken, Kaiju y repertorio funcional de MAGs."><figcaption>Para ampliar, abre la imagen en otra pestaña. También se guarda como PDF vectorial en results/09_sintesis/.</figcaption></figure><div class="reading"><div><strong>Cómo leer el gráfico</strong><p>Cada punto representa un tiempo; en funciones, el centro del catálogo de MAGs de ese origen. Puntos próximos tienen perfiles parecidos; alejados, perfiles distintos según Aitchison. La distancia en el plano aproxima la original. Las líneas solo ordenan los tiempos; no representan muestras intermedias.</p></div><div><strong>Cómo leer el estadístico</strong><p>El eje 1 resume la mayor variación entre perfiles; el eje 2, la siguiente dirección independiente. En Kraken explican 81.96% y 13.55%: juntos, 95.51%. Los planos de Kaiju y funciones resumen 97.47% y 91.93%. No son porcentajes de especies reemplazadas ni efectos del tiempo. Los ejes no son pH o recursos; su signo es arbitrario. <a href="#ref-pcoa">[2]</a></p></div></div><p><strong>Interpretación ecológica:</strong> <strong>Sucesión con reorganización temprana.</strong> La separación de 0 h y la cercanía taxonómica de 9–24 h sugieren un establecimiento temprano de la comunidad fermentadora; 48 h aporta una reorganización posterior. Cambios en sustratos y acidez podrían alterar los nichos disponibles. La ordenación funcional refleja el recambio del catálogo recuperado, no actividad comunitaria. <a href="#ref-pozol">[3]</a></p><div class="exercise"><strong>Discute:</strong> ¿Dos tiempos próximos prueban estabilidad ecológica? ¿Podemos llamar «acidez» al eje 1?</div><details class="answer"><summary>Lectura orientativa</summary><p>No. Indican semejanza en las variables y escala analizadas. Podrían cambiar biomasa o metabolismo sin gran desplazamiento composicional. Para asociar un eje con acidez necesitamos pH medido; cercanía no demuestra estabilidad frente a perturbaciones.</p></details><details class="codigo"><summary>Mostrar código y ejecución</summary><div class="terminal"><div class="terminal-bar"><span>Terminal Bash · guardar el script y ejecutarlo desde la raíz del proyecto</span><button class="copy" type="button">Copiar bloque</button></div><pre><code>cat &gt; scripts/09_sintesis/03_pcoa_comparadas.R &lt;&lt;&#x27;RSCRIPT&#x27;
+source(&quot;scripts/09_sintesis/00_perfiles_clr.R&quot;, encoding = &quot;UTF-8&quot;)
+# Una PCoA por tipo. Mismo metodo; cada tipo conserva su propio espacio.
+# Euclidiana sobre CLR: no requiere correccion de Lingoes.
+graficos &lt;- list()
+estadisticos &lt;- list()
+for (tipo in names(perfiles)) {
+  ord &lt;- wcmdscale(dist(perfiles[[tipo]]), k = 2, eig = TRUE, add = FALSE)
+  inercia &lt;- 100 * ord$eig / sum(ord$eig[ord$eig &gt; 0])
+  xy &lt;- data.frame(Tiempo_h = horas, Tiempo = factor(etiquetas, levels = etiquetas),
+                   Eje1 = ord$points[, 1], Eje2 = ord$points[, 2])
+  # Signo arbitrario: fijarlo no altera distancias ni autovalores.
+  if (xy$Eje1[1] &gt; 0) xy$Eje1 &lt;- -xy$Eje1
+  if (xy$Eje2[2] &lt; 0) xy$Eje2 &lt;- -xy$Eje2
+  xy$Etiqueta &lt;- etiquetas
+  if (tipo == &quot;Funciones&quot;) xy$Etiqueta &lt;- paste0(etiquetas, &quot; (&quot;, as.integer(n_mag), ifelse(n_mag == 1, &quot; MAG)&quot;, &quot; MAGs)&quot;))
+  estadisticos[[tipo]] &lt;- data.frame(Tipo = tipo, Eje = seq_along(ord$eig), Autovalor = ord$eig, Inercia_porcentaje = inercia)
+  write.table(xy, paste0(&quot;results/09_sintesis/03_PCoA_&quot;, tipo, &quot;.tsv&quot;), sep = &quot;\t&quot;, row.names = FALSE, quote = FALSE)
+  graficos[[tipo]] &lt;- ggplot(xy, aes(Eje1, Eje2)) +
+    geom_path(aes(group = 1), colour = &quot;#8B9CA3&quot;, linewidth = 0.8) +
+    geom_point(aes(colour = Tiempo), size = 4.5, show.legend = FALSE) +
+    geom_text_repel(aes(label = Etiqueta), seed = 17, size = 4.5,
+                    max.overlaps = Inf, max.iter = 10000, max.time = 30,
+                    box.padding = 0.5, min.segment.length = 0) +
+    scale_colour_manual(values = colores_tiempo) +
+    scale_x_continuous(expand = expansion(mult = 0.22)) +
+    scale_y_continuous(expand = expansion(mult = 0.25)) + coord_fixed(ratio = 1) +
+    labs(title = titulos[[tipo]], subtitle = sprintf(&quot;Dos ejes: %.1f%% de la inercia&quot;, sum(inercia[1:2])),
+         x = sprintf(&quot;PCoA 1 (%.1f%%)&quot;, inercia[1]), y = sprintf(&quot;PCoA 2 (%.1f%%)&quot;, inercia[2])) +
+    theme(plot.title = element_text(size = 19), plot.subtitle = element_text(size = 14))
+}
+estadisticos &lt;- do.call(rbind, estadisticos)
+write.table(estadisticos, &quot;results/09_sintesis/03_PCoA_inercia.tsv&quot;, sep = &quot;\t&quot;, row.names = FALSE, quote = FALSE)
+fig4 &lt;- wrap_plots(graficos, ncol = 3) +
+  plot_annotation(title = &quot;03 · Tres perspectivas del cambio durante la fermentación&quot;,
+                  subtitle = &quot;PCoA de Aitchison · CLR con pseudoconteo 0.5 · cada panel tiene sus propios ejes.&quot;,
+                  caption = &quot;Los puntos de lecturas son muestras; los de funciones son centros de los MAGs recuperados por etapa.\nLos porcentajes describen representación geométrica, no efecto del tiempo. Comparar patrones dentro de cada panel.&quot;)
+ggsave(&quot;results/09_sintesis/03_pcoa_comparadas.pdf&quot;, fig4, width = 20, height = 8, device = cairo_pdf)
+ggsave(&quot;results/09_sintesis/03_pcoa_comparadas.png&quot;, fig4, width = 20, height = 8, dpi = 300, device = &quot;png&quot;, type = &quot;cairo&quot;)
+print(estadisticos)
+RSCRIPT
+
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 Rscript --vanilla scripts/09_sintesis/03_pcoa_comparadas.R
+</code></pre></div></details></section>
+<section id="aportes"><h2>4. ¿Qué taxones y funciones aportan más a las diferencias?</h2><p class="method"><strong>Procedencia:</strong> Cambios CLR entre tiempos consecutivos. Los nombres funcionales se unen por KO mediante <code>nombres_funciones.tsv</code>.</p><p><strong>Objetivo:</strong> Identificar qué componentes aportan aritméticamente al cambio del perfil, para proponer preguntas sobre organismos y recursos. Se descompone Aitchison al cuadrado: d² = suma(ΔCLR²).</p><figure><img src="assets/modelo_ecologico_integrado/04_contribuciones_comparadas.png" alt="Contribuciones de taxones y funciones, con nombres explícitos."><figcaption>Para ampliar, abre la imagen en otra pestaña. También se guarda como PDF vectorial en results/09_sintesis/.</figcaption></figure><div class="reading"><div><strong>Cómo leer el gráfico</strong><p>Las filas son tipos de información y las columnas, intervalos. Se muestran los tres mayores aportes. El eje horizontal es logarítmico: 0.1, 1, 10 y 100% ocupan pasos iguales, cada uno diez veces el anterior. Los nombres de funciones sustituyen los códigos KO en las figuras.</p></div><div><strong>Cómo leer el estadístico</strong><p>Aporte = 100 × ΔCLR² del componente / suma de ΔCLR² de todos los componentes. Todos los aportes suman 100% por comparación, aunque los tres mostrados no. El color indica aumento o disminución respecto a la referencia geométrica, no crecimiento absoluto ni significancia.</p></div></div><p><strong>Interpretación ecológica:</strong> <strong>Posible reorganización de la adquisición de nutrientes.</strong> Los aportes de funciones de unión a péptidos en 24–48 h señalan al nitrógeno orgánico como recurso candidato para explicar diferencias entre portadores. Podrían variar las capacidades de captación o la competencia por péptidos. No muestran escasez de nitrógeno: hay que medir disponibilidad y consumo.</p><div class="exercise"><strong>Discute:</strong> ¿Por qué el género dominante puede no ser el principal contribuyente CLR?</div><details class="answer"><summary>Lectura orientativa</summary><p>La dominancia describe la proporción actual; la contribución describe cuánto cambia una log-razón. Un taxón menos abundante puede cambiar mucho respecto al resto del perfil. En funciones, “putativa” y la especificidad múltiple se conservan en la etiqueta: no son funciones confirmadas experimentalmente.</p></details><details class="codigo"><summary>Mostrar código y ejecución</summary><div class="terminal"><div class="terminal-bar"><span>Terminal Bash · guardar el script y ejecutarlo desde la raíz del proyecto</span><button class="copy" type="button">Copiar bloque</button></div><pre><code>cat &gt; scripts/09_sintesis/04_aportes_clr.R &lt;&lt;&#x27;RSCRIPT&#x27;
+source(&quot;scripts/09_sintesis/00_perfiles_clr.R&quot;, encoding = &quot;UTF-8&quot;)
+# d_Aitchison^2 = suma(delta_CLR^2). Se descompone d^2, no d.
+# Porcentaje_j = 100 * delta_CLR_j^2 / sum(delta_CLR^2).
+aportes &lt;- list()
+paneles &lt;- list()
+intervalos &lt;- c(&quot;0–9 h&quot;, &quot;9–24 h&quot;, &quot;24–48 h&quot;)
+for (tipo in names(perfiles)) {
+  x &lt;- perfiles[[tipo]]
+  for (i in 1:3) {
+    cambio &lt;- x[i + 1, ] - x[i, ]
+    a &lt;- data.frame(Tipo = tipo, Intervalo = intervalos[i], Componente = names(cambio),
+                    Nombre = unname(nombres_perfiles[[tipo]][names(cambio)]),
+                    Delta_CLR = as.numeric(cambio), Aporte_pct_d2 = 100 * cambio^2 / sum(cambio^2))
+    clave &lt;- paste(tipo, i, sep = &quot;_&quot;)
+    aportes[[clave]] &lt;- a
+    top &lt;- head(a[order(-a$Aporte_pct_d2), ], 3)
+    top$Etiqueta &lt;- top$Nombre
+    top$Etiqueta &lt;- vapply(top$Etiqueta, function(x) paste(strwrap(x, width = 28), collapse = &quot;\n&quot;), character(1))
+    top$Etiqueta &lt;- factor(top$Etiqueta, levels = rev(top$Etiqueta))
+    top$Direccion &lt;- factor(ifelse(top$Delta_CLR &gt; 0, &quot;Delta CLR &gt; 0&quot;, &quot;Delta CLR &lt; 0&quot;),
+                             levels = c(&quot;Delta CLR &gt; 0&quot;, &quot;Delta CLR &lt; 0&quot;))
+    paneles[[clave]] &lt;- ggplot(top, aes(Aporte_pct_d2, Etiqueta, colour = Direccion)) +
+      geom_point(size = 3.5, show.legend = TRUE) +
+      geom_text(aes(label = sprintf(&quot;%.1f%%&quot;, Aporte_pct_d2)), hjust = -0.22, size = 4.4, colour = &quot;#173B4D&quot;) +
+      scale_x_log10(limits = c(0.1, 300), breaks = c(0.1, 1, 10, 100), labels = c(&quot;0.1&quot;, &quot;1&quot;, &quot;10&quot;, &quot;100&quot;)) +
+      scale_colour_manual(values = c(&quot;Delta CLR &gt; 0&quot; = &quot;#087F8C&quot;, &quot;Delta CLR &lt; 0&quot; = &quot;#9756A5&quot;),
+                          limits = c(&quot;Delta CLR &gt; 0&quot;, &quot;Delta CLR &lt; 0&quot;), drop = FALSE) +
+      labs(title = paste(tipo, intervalos[i], sep = &quot; · &quot;), x = &quot;Aporte a d² (%) · eje log10&quot;, y = NULL, colour = NULL) +
+      theme(plot.title = element_text(size = 17), axis.title.x = element_text(size = 13),
+            axis.text = element_text(size = 13), panel.grid.major.y = element_blank())
+  }
+}
+aportes &lt;- do.call(rbind, aportes)
+write.table(aportes, &quot;results/09_sintesis/04_aportes_aitchison_todos.tsv&quot;, sep = &quot;\t&quot;, row.names = FALSE, quote = FALSE)
+fig5 &lt;- wrap_plots(paneles, ncol = 3, guides = &quot;collect&quot;) +
+  plot_annotation(title = &quot;04 · Componentes que más aportan al cambio composicional&quot;,
+                  subtitle = &quot;Tres mayores aportes por tipo de información e intervalo; denominador: TODOS los componentes. Eje horizontal logarítmico.&quot;,
+                  caption = &quot;Distancias iguales en x representan razones iguales: 0.1 → 1 → 10 → 100%. No es abundancia ni causalidad.\nFunciones: nombres explícitos; identificadores KO conservados en las tablas. Potencial genético, no actividad.&quot;)
+ggsave(&quot;results/09_sintesis/04_contribuciones_comparadas.pdf&quot;, fig5, width = 20, height = 14, device = cairo_pdf)
+ggsave(&quot;results/09_sintesis/04_contribuciones_comparadas.png&quot;, fig5, width = 20, height = 14, dpi = 300, device = &quot;png&quot;, type = &quot;cairo&quot;)
+RSCRIPT
+
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 Rscript --vanilla scripts/09_sintesis/04_aportes_clr.R
+</code></pre></div></details></section>
+<section id="trayectorias"><h2>5. Trayectorias estandarizadas: ejemplos de aumentos y descensos relativos</h2><p class="method"><strong>Procedencia:</strong> Cuatro componentes por tipo de información, elegidos por la mayor suma de cambios CLR al cuadrado entre tiempos consecutivos.</p><p><strong>Objetivo:</strong> Identificar ventanas temporales distintas y proponer qué recursos o condiciones podrían favorecerlas.</p><figure><img src="assets/modelo_ecologico_integrado/05_trayectorias_z.png" alt="Mapa de calor del z del CLR con nombres taxonómicos y funcionales."><figcaption>Para ampliar, abre la imagen en otra pestaña. También se guarda como PDF vectorial en results/09_sintesis/.</figcaption></figure><div class="reading"><div><strong>Cómo leer el gráfico</strong><p>Cada fila es un componente; cada columna, un tiempo. El color compara esa fila con su propia media temporal. Azul indica valores CLR inferiores a su media; amarillo, superiores. El número dentro de la celda es z, redondeado a una décima.</p></div><div><strong>Cómo leer el estadístico</strong><p>z describe una fila respecto a su propia media: Weissella pasa de −1.49 a +0.68 entre 0–9 h; Acetobacter alcanza +1.49 a 48 h. Son aumentos relativos al resto del perfil y a la trayectoria propia. Dos filas con el mismo z no tienen igual abundancia.</p></div></div><p><strong>Interpretación ecológica:</strong> <strong>Weissella temprano frente a Acetobacter tardío:</strong> permite proponer nichos temporales distintos. El primero podría aprovechar azúcares accesibles; aislados de pozol utilizan sacarosa y xilooligosacáridos. El segundo sugiere evaluar etanol y oxígeno disponibles al final. Es una hipótesis de recambio de recursos, no competencia demostrada. <a href="#ref-weissella">[4]</a> <a href="#ref-acetobacter">[5]</a><br><strong>Kaiju:</strong> los descensos coincidentes a 9 h son compatibles con un filtro común, aunque también con cambios composicionales; no prueban interacción.<br><strong>Funciones:</strong> los receptores de quimiotaxis destacan en el único MAG de 0 h: capacidad potencial de responder a gradientes, no mayor búsqueda de alimento de toda la comunidad. La anotación genérica del transportador no permite identificar su sustrato.</p><div class="exercise"><strong>Discute:</strong> ¿Los picos separados indican que Weissella y Acetobacter se excluyen?</div><details class="answer"><summary>Lectura orientativa</summary><p>No. Pueden responder a recursos o condiciones diferentes, coexistir en microhábitats o cambiar de representación sin interactuar directamente. Cuantificar azúcares, etanol y oxígeno permitiría evaluar la hipótesis; demostrar competencia requiere comprobar que uno reduce el desempeño del otro.</p></details><details class="codigo"><summary>Mostrar código y ejecución</summary><div class="terminal"><div class="terminal-bar"><span>Terminal Bash · guardar el script y ejecutarlo desde la raíz del proyecto</span><button class="copy" type="button">Copiar bloque</button></div><pre><code>cat &gt; scripts/09_sintesis/05_trayectorias_z.R &lt;&lt;&#x27;RSCRIPT&#x27;
+source(&quot;scripts/09_sintesis/00_perfiles_clr.R&quot;, encoding = &quot;UTF-8&quot;)
+# Cuatro componentes por tipo con mayor suma de cambios CLR al cuadrado.
+# z es POR COMPONENTE entre los cuatro tiempos, solo para visualizar.
+# z=0: su media temporal; z=1: una desviacion estandar por encima.
+mapa &lt;- list()
+for (tipo in names(perfiles)) {
+  x &lt;- perfiles[[tipo]]
+  variacion &lt;- colSums((x[2:4, , drop = FALSE] - x[1:3, , drop = FALSE])^2)
+  elegidos &lt;- names(head(sort(variacion, decreasing = TRUE), 4))
+  z &lt;- scale(x[, elegidos, drop = FALSE], center = TRUE, scale = TRUE)
+  labs &lt;- unname(nombres_perfiles[[tipo]][elegidos])
+  mapa[[tipo]] &lt;- data.frame(Tipo = tipo, Componente = rep(elegidos, each = 4),
+                              Etiqueta = rep(labs, each = 4), Tiempo = rep(etiquetas, times = 4), Z = as.vector(z))
+}
+mapa &lt;- do.call(rbind, mapa)
+mapa$Tiempo &lt;- factor(mapa$Tiempo, levels = etiquetas)
+mapa$Tipo &lt;- factor(mapa$Tipo, levels = names(perfiles))
+write.table(mapa, &quot;results/09_sintesis/05_trayectorias_z.tsv&quot;, sep = &quot;\t&quot;, row.names = FALSE, quote = FALSE)
+mapa$Etiqueta &lt;- vapply(mapa$Etiqueta, function(s) paste(strwrap(s, width = 37), collapse = &quot;\n&quot;), character(1))
+fig6 &lt;- ggplot(mapa, aes(Tiempo, Etiqueta, fill = Z)) +
+  geom_tile(colour = &quot;white&quot;, linewidth = 1) +
+  geom_text(aes(label = sprintf(&quot;%.1f&quot;, Z)), size = 4.5) +
+  facet_wrap(~Tipo, ncol = 1, scales = &quot;free_y&quot;, labeller = as_labeller(titulos)) +
+  scale_fill_gradient2(low = &quot;#76B3CF&quot;, mid = &quot;white&quot;, high = &quot;#D9A044&quot;, midpoint = 0,
+                       limits = c(-2, 2), breaks = c(-2, -1, 0, 1, 2)) +
+  labs(title = &quot;05 · Comparar la forma de las trayectorias&quot;,
+       subtitle = &quot;CLR y después z por componente entre tiempos; cuatro componentes seleccionados por tipo de información.&quot;,
+       x = &quot;Tiempo de fermentación&quot;, y = NULL, fill = &quot;z del CLR&quot;,
+       caption = &quot;Los colores comparan cada fila con SU propia media temporal; no comparan abundancias entre filas.\nLas funciones describen genomas recuperados, no su actividad ni su abundancia en la comunidad.&quot;) +
+  theme(panel.grid = element_blank(), strip.text = element_text(size = 14, face = &quot;bold&quot;))
+ggsave(&quot;results/09_sintesis/05_trayectorias_z.pdf&quot;, fig6, width = 16, height = 10, device = cairo_pdf)
+ggsave(&quot;results/09_sintesis/05_trayectorias_z.png&quot;, fig6, width = 16, height = 10, dpi = 300, device = &quot;png&quot;, type = &quot;cairo&quot;)
+RSCRIPT
+
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 Rscript --vanilla scripts/09_sintesis/05_trayectorias_z.R
+</code></pre></div></details></section>
+<section id="virus"><h2>6. Virus y funciones: conexiones respaldadas por genes</h2><p class="method"><strong>Procedencia:</strong> <code>VIBRANT_annotations_input_CHM.tsv</code> → genes de las secuencias representantes del catálogo → <code>14_genes_virales_representantes.tsv</code>. Se unen <code>scaffold = secuencia</code>, después <code>protein</code> y <code>KO</code>. No proceden de los Kofam de MAGs bacterianos.</p><p><strong>Objetivo:</strong> Resumir funciones codificadas en los representantes virales recuperados y plantear su conexión con el recambio bacteriano.</p><figure><img src="assets/modelo_ecologico_integrado/06_red_virus_funciones.png" alt="Red bipartita de vOTUs y funciones anotadas; no representa parejas virus-hospedero."><figcaption>Para ampliar, abre la imagen en otra pestaña. También se guarda como PDF vectorial en results/09_sintesis/.</figcaption></figure><div class="reading"><div><strong>Cómo leer el gráfico</strong><p>A la izquierda están los 12 vOTUs; a la derecha, funciones con nombres explícitos. Cada línea indica que se recuperó al menos un gen con esa anotación en el representante viral. El color agrupa funciones por proceso; el grosor es constante. Los enlaces no representan abundancia ni intensidad de interacción.</p></div><div><strong>Cómo leer el estadístico</strong><p>Los 33 enlaces están respaldados por 39 proteínas predichas. El grado de un vOTU cuenta funciones seleccionadas recuperadas, no actividad ni importancia ecológica. Los genes de cada enlace están en <code>06_evidencia_genes_virales.tsv</code>.</p></div></div><p><strong>Interpretación ecológica:</strong> <strong>Los virus podrían modificar la comunidad y el suministro de recursos.</strong> Si las enzimas de pared participan en lisis, podrían reducir poblaciones bacterianas y liberar compuestos aprovechables por otros microorganismos. Las integrasas sugieren otra posibilidad: persistencia asociada al genoma hospedero. La red resume potencial genético; no demuestra lisis, lisogenia activa ni hospederos. <a href="#ref-vibrant">[6]</a></p><div class="exercise"><strong>Discute:</strong> ¿Qué conectarías con el recambio bacteriano y qué medirías para comprobarlo?</div><details class="answer"><summary>Lectura orientativa</summary><p>Se puede proponer que la infección y lisis contribuyan al recambio y a liberar compuestos aprovechables por otros organismos. Para evaluarlo hacen falta enlaces específicos a hospederos, cuantificación temporal y evidencia de infección o lisis. La red actual documenta capacidades anotadas y no prueba ese mecanismo.</p></details><details class="codigo"><summary>Mostrar código y ejecución</summary><div class="terminal"><div class="terminal-bar"><span>Terminal Bash · guardar el script y ejecutarlo desde la raíz del proyecto</span><button class="copy" type="button">Copiar bloque</button></div><pre><code>cat &gt; scripts/09_sintesis/06_red_virus_funciones.R &lt;&lt;&#x27;RSCRIPT&#x27;
+source(&quot;scripts/09_sintesis/00_preparar.R&quot;, encoding = &quot;UTF-8&quot;)
+library(igraph)
+# Red de evidencia genetica: nodos virales y funciones, no hospederos.
+meta_v &lt;- read.delim(&quot;data/09_sintesis/vOTU_metadata.tsv&quot;, check.names = FALSE)
+sel &lt;- read.delim(&quot;data/09_sintesis/funciones_virales_red.tsv&quot;, check.names = FALSE)
+hits_v &lt;- read.delim(&quot;trazabilidad/09_sintesis/14_genes_virales_representantes.tsv&quot;, check.names = FALSE)
+stopifnot(!anyDuplicated(meta_v$vOTU), !anyDuplicated(sel$KO),
+          setequal(unique(hits_v$vOTU), meta_v$vOTU))
+# Solo genes de las secuencias representantes, con KO seleccionado.
+evidencia &lt;- unique(hits_v[hits_v$KO %in% sel$KO, c(&quot;vOTU&quot;, &quot;secuencia&quot;, &quot;protein&quot;, &quot;KO&quot;)])
+enlaces &lt;- aggregate(protein ~ vOTU + KO, evidencia, function(x) length(unique(x)))
+names(enlaces)[3] &lt;- &quot;Genes_anotados&quot;
+enlaces$Funcion &lt;- sel$Funcion[match(enlaces$KO, sel$KO)]
+enlaces$Proceso &lt;- sel$Proceso[match(enlaces$KO, sel$KO)]
+enlaces$from &lt;- enlaces$vOTU; enlaces$to &lt;- enlaces$KO
+write.table(evidencia, &quot;results/09_sintesis/06_evidencia_genes_virales.tsv&quot;, sep = &quot;\t&quot;, row.names = FALSE, quote = FALSE)
+write.table(enlaces, &quot;results/09_sintesis/06_enlaces_virus_funcion.tsv&quot;, sep = &quot;\t&quot;, row.names = FALSE, quote = FALSE)
+nodos &lt;- data.frame(name = c(meta_v$vOTU, sel$KO), Etiqueta = c(meta_v$vOTU, sel$Funcion),
+                     type = c(rep(FALSE, nrow(meta_v)), rep(TRUE, nrow(sel))))
+g &lt;- igraph::graph_from_data_frame(enlaces[, c(&quot;from&quot;, &quot;to&quot;)], directed = FALSE, vertices = nodos)
+stopifnot(igraph::is_bipartite(g))
+pos &lt;- igraph::layout_as_bipartite(g, types = igraph::V(g)$type)
+nodos &lt;- igraph::as_data_frame(g, what = &quot;vertices&quot;)
+nodos$x &lt;- as.numeric(nodos$type); nodos$y &lt;- pos[, 1]
+nodos$x_texto &lt;- nodos$x + ifelse(nodos$type, .03, -.03)
+nodos$ajuste &lt;- ifelse(nodos$type, 0, 1)
+nodos$Grupo &lt;- ifelse(nodos$type, &quot;Función anotada&quot;, &quot;Virus del catálogo&quot;)
+nodos$Etiqueta &lt;- vapply(nodos$Etiqueta, function(x) paste(strwrap(x, width = 36), collapse = &quot;\n&quot;), character(1))
+enlaces$x &lt;- nodos$x[match(enlaces$from, nodos$name)]
+enlaces$y &lt;- nodos$y[match(enlaces$from, nodos$name)]
+enlaces$xend &lt;- nodos$x[match(enlaces$to, nodos$name)]
+enlaces$yend &lt;- nodos$y[match(enlaces$to, nodos$name)]
+fig6 &lt;- ggplot() +
+ geom_segment(data = enlaces, aes(x, y, xend = xend, yend = yend, colour = Proceso), linewidth = .8, alpha = .58) +
+ geom_point(data = nodos, aes(x, y, shape = Grupo), size = 4.4, fill = &quot;white&quot;, colour = &quot;#173B4D&quot;, stroke = 1.2) +
+ geom_text(data = nodos, aes(x_texto, y, label = Etiqueta, hjust = ajuste), size = 4.8, lineheight = .9, colour = &quot;#173B4D&quot;) +
+ scale_shape_manual(values = c(&quot;Virus del catálogo&quot; = 24, &quot;Función anotada&quot; = 21)) +
+ scale_colour_manual(values = c(&quot;Replicación del ADN&quot; = &quot;#395F9E&quot;, &quot;Empaquetamiento del ADN&quot; = &quot;#087F8C&quot;, &quot;Integración del ADN&quot; = &quot;#9756A5&quot;, &quot;Pared bacteriana&quot; = &quot;#BE8125&quot;)) +
+ coord_cartesian(xlim = c(-.28, 2.05), clip = &quot;off&quot;) +
+ labs(title = &quot;06 · Conexiones entre virus y funciones anotadas&quot;,
+      subtitle = sprintf(&quot;%d vOTUs · %d funciones seleccionadas · %d vínculos respaldados por anotaciones de genes.&quot;, nrow(meta_v), nrow(sel), nrow(enlaces)),
+      caption = &quot;Cada línea indica al menos un gen anotado en el representante del vOTU; el color resume su función.\nNo son correlaciones, abundancias, infecciones observadas ni asignaciones de hospedero.&quot;, colour = &quot;Proceso asociado&quot;, shape = NULL) +
+ theme_void(base_size = 16) + theme(legend.position = &quot;bottom&quot;, legend.box = &quot;vertical&quot;,
+  plot.title = element_text(size = 22, face = &quot;bold&quot;, colour = &quot;#173B4D&quot;), plot.caption = element_text(size = 12, hjust = 0, colour = &quot;#50616B&quot;),
+  plot.subtitle = element_text(size = 14, colour = &quot;#50616B&quot;),
+  plot.background = element_rect(fill = &quot;white&quot;, colour = NA), plot.margin = margin(20, 25, 20, 25))
+ggsave(&quot;results/09_sintesis/06_red_virus_funciones.pdf&quot;, fig6, width = 17, height = 12, device = cairo_pdf)
+ggsave(&quot;results/09_sintesis/06_red_virus_funciones.png&quot;, fig6, width = 17, height = 12, dpi = 300, type = &quot;cairo&quot;)
+print(table(enlaces$Proceso))
+RSCRIPT
+
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 Rscript --vanilla scripts/09_sintesis/06_red_virus_funciones.R
+</code></pre></div></details></section>
+<section><p><strong>Origen verificado:</strong> las 39 proteínas de la red están en la tabla original de VIBRANT y en las secuencias representantes de los 12 vOTUs. Por tanto, la figura resume anotaciones de esas secuencias virales candidatas, no funciones tomadas de MAGs bacterianos.</p><details class="consulta"><summary>Ver trazabilidad y límites de la atribución viral</summary><div class="interior"><p>La tabla <code>15_procedencia_funciones_virales.tsv</code> conserva secuencia, calidad CheckV y número de funciones y genes. Los originales VIBRANT y CheckV se incluyen en <code>trazabilidad/09_sintesis/</code>. El enlace se verifica por identidad exacta de <code>scaffold</code>, <code>protein</code> y <code>KO</code>.</p><p>CheckV marca un gen de tipo hospedero en cada uno de vOTU_3, vOTU_4 y vOTU_7, y ningún marcador viral reconocido en vOTU_11. Esto no identifica un hospedero ni demuestra contaminación de cada gen mostrado. Sin posiciones y contexto genómico no podemos certificar la atribución viral gen por gen. La figura conserva el nivel de evidencia: anotaciones de representantes clasificados como virales.</p></div></details></section>
+<section><details class="consulta"><summary>¿Y la red entre bacterias y virus?</summary><div class="interior"><p>La red de funciones responde una pregunta diferente. Con los archivos actuales no podemos calcular la asociación temporal bacteria–virus: la taxonomía viral y el tiempo de ensamblaje no son abundancias por muestra.</p><p>La extensión requiere <code>data/09_sintesis/vOTU_conteos.tsv</code>, con una fila por vOTU y columnas <code>0</code>, <code>9</code>, <code>24</code> y <code>48</code>: conteos reales de fragmentos mapeados al mismo catálogo con filtros y regla de multimapeo documentados. El código compara géneros de Kraken con esos vOTUs mediante Pearson sobre CLR. Sin el archivo, avisa y no genera correlaciones. Con cuatro tiempos, sería una asociación exploratoria, no una identificación de hospederos.</p><details class="codigo"><summary>Mostrar código y ejecución</summary><div class="terminal"><div class="terminal-bar"><span>Terminal Bash · guardar el script y ejecutarlo desde la raíz del proyecto</span><button class="copy" type="button">Copiar bloque</button></div><pre><code>cat &gt; scripts/09_sintesis/06b_red_bacteria_virus_condicional.R &lt;&lt;&#x27;RSCRIPT&#x27;
+source(&quot;scripts/09_sintesis/00_perfiles_clr.R&quot;, encoding = &quot;UTF-8&quot;)
+library(igraph)
+# Extension condicionada a conteos reales de fragmentos mapeados a los vOTUs.
+# Filas: vOTU; columnas: 0, 9, 24, 48. No son tiempos de ensamblaje ni coberturas.
+archivo_virus &lt;- &quot;data/09_sintesis/vOTU_conteos.tsv&quot;
+if (!file.exists(archivo_virus)) {
+  message(&quot;Red pendiente: falta data/09_sintesis/vOTU_conteos.tsv. No se generan correlaciones ni figura.&quot;)
+} else {
+  virus_tab &lt;- read.delim(archivo_virus, check.names = FALSE)
+  virus_meta &lt;- read.delim(&quot;data/09_sintesis/vOTU_metadata.tsv&quot;, check.names = FALSE)
+  stopifnot(all(c(&quot;vOTU&quot;, tiempos) %in% names(virus_tab)),
+            !anyDuplicated(virus_tab$vOTU), !anyDuplicated(virus_meta$vOTU),
+            setequal(virus_tab$vOTU, virus_meta$vOTU))
+  virus &lt;- t(as.matrix(virus_tab[, tiempos]))
+  colnames(virus) &lt;- virus_tab$vOTU
+  rownames(virus) &lt;- tiempos
+  stopifnot(is.numeric(virus), all(is.finite(virus)), all(virus &gt;= 0),
+            all(virus == floor(virus)), all(rowSums(virus) &gt; 0))
+  # Misma regla descriptiva de lecturas: &gt;=3 tiempos y &gt;=50 fragmentos en total.
+  conservar &lt;- colSums(virus &gt; 0) &gt;= 3 &amp; colSums(virus) &gt;= 50
+  virus &lt;- virus[, conservar, drop = FALSE]
+  if (ncol(virus) &lt; 2L) stop(&quot;Se necesitan al menos dos vOTUs elegibles para un perfil CLR.&quot;)
+  clr_virus &lt;- vegan::decostand(virus, method = &quot;clr&quot;, pseudocount = 0.5)
+  # Conservar el universo CLR al retirar columnas constantes solo para correlacion.
+  variables &lt;- apply(clr_virus, 2, sd) &gt; 1e-10
+  clr_virus &lt;- clr_virus[, variables, drop = FALSE]
+  if (!ncol(clr_virus)) stop(&quot;No hay trayectorias virales variables que correlacionar.&quot;)
+  # Seleccion de dibujo: seis generos dominantes y dos candidatos lacticos.
+  bact_ids &lt;- unique(c(as.character(tabla$taxid[order(rowMeans(porcentaje), decreasing = TRUE)[1:6]]),
+                       as.character(tabla$taxid[tabla$name %in% c(&quot;Lactobacillus&quot;, &quot;Limosilactobacillus&quot;)])))
+  bact_ids &lt;- intersect(bact_ids, colnames(clr_kraken))
+  bact_ids &lt;- bact_ids[apply(clr_kraken[, bact_ids, drop = FALSE], 2, sd) &gt; 1e-10]
+  stopifnot(length(bact_ids) &gt; 0, identical(rownames(clr_kraken), rownames(clr_virus)))
+  # Cuatro tiempos alineados por nombre. r describe similitud temporal, no infeccion.
+  r &lt;- cor(clr_kraken[, bact_ids, drop = FALSE], clr_virus, method = &quot;pearson&quot;)
+  pares &lt;- as.data.frame(as.table(r), stringsAsFactors = FALSE)
+  names(pares) &lt;- c(&quot;TaxID_bacteria&quot;, &quot;vOTU&quot;, &quot;r_CLR&quot;)
+  pares$Bacteria &lt;- unname(nombres_perfiles$Kraken[pares$TaxID_bacteria])
+  pares$Taxonomia_viral &lt;- virus_meta$lineage[match(pares$vOTU, virus_meta$vOTU)]
+  pares$n_tiempos &lt;- 4L
+  write.table(pares, &quot;results/09_sintesis/06_todas_correlaciones.tsv&quot;, sep = &quot;\t&quot;, row.names = FALSE, quote = FALSE)
+  # Corte visual fijo; NO es significancia ni criterio de hospedero.
+  enlaces &lt;- pares[abs(pares$r_CLR) &gt;= 0.85, ]
+  enlaces$from &lt;- paste0(&quot;B_&quot;, enlaces$TaxID_bacteria)
+  enlaces$to &lt;- enlaces$vOTU
+  nodos &lt;- data.frame(name = c(paste0(&quot;B_&quot;, bact_ids), colnames(clr_virus)),
+    Etiqueta = c(unname(nombres_perfiles$Kraken[bact_ids]), colnames(clr_virus)),
+    type = c(rep(FALSE, length(bact_ids)), rep(TRUE, ncol(clr_virus))))
+  g &lt;- igraph::graph_from_data_frame(enlaces[, c(&quot;from&quot;, &quot;to&quot;, &quot;r_CLR&quot;)], directed = FALSE, vertices = nodos)
+  pos &lt;- igraph::layout_as_bipartite(g, types = igraph::V(g)$type)
+  nodos &lt;- igraph::as_data_frame(g, what = &quot;vertices&quot;)
+  nodos$x &lt;- as.numeric(nodos$type); nodos$y &lt;- pos[, 1]
+  nodos$Grupo &lt;- ifelse(nodos$type, &quot;Virus (vOTUs)&quot;, &quot;Géneros bacterianos&quot;)
+  nodos$x_texto &lt;- nodos$x + ifelse(nodos$type, 0.035, -0.035)
+  nodos$ajuste &lt;- ifelse(nodos$type, 0, 1)
+  enlaces$x &lt;- nodos$x[match(enlaces$from, nodos$name)]
+  enlaces$y &lt;- nodos$y[match(enlaces$from, nodos$name)]
+  enlaces$xend &lt;- nodos$x[match(enlaces$to, nodos$name)]
+  enlaces$yend &lt;- nodos$y[match(enlaces$to, nodos$name)]
+  write.table(enlaces, &quot;results/09_sintesis/06_enlaces_dibujados.tsv&quot;, sep = &quot;\t&quot;, row.names = FALSE, quote = FALSE)
+  fig6 &lt;- ggplot() +
+    geom_segment(data = enlaces, aes(x, y, xend = xend, yend = yend, colour = r_CLR), linewidth = 1.1, alpha = .65) +
+    geom_point(data = nodos, aes(x, y, fill = Grupo, shape = Grupo), size = 4.5, colour = &quot;#173B4D&quot;) +
+    geom_text(data = nodos, aes(x_texto, y, label = Etiqueta, hjust = ajuste), size = 4.6, colour = &quot;#173B4D&quot;) +
+    scale_fill_manual(values = c(&quot;Géneros bacterianos&quot; = &quot;#A7CDD1&quot;, &quot;Virus (vOTUs)&quot; = &quot;#D7B9DB&quot;)) +
+    scale_shape_manual(values = c(&quot;Géneros bacterianos&quot; = 21, &quot;Virus (vOTUs)&quot; = 24)) +
+    scale_colour_gradient2(low = &quot;#9756A5&quot;, mid = &quot;white&quot;, high = &quot;#087F8C&quot;, midpoint = 0,
+                          limits = c(-1, 1), name = &quot;r de Pearson (CLR)&quot;) +
+    coord_cartesian(xlim = c(-.75, 1.65), clip = &quot;off&quot;) +
+    labs(title = &quot;06 · Afinidad temporal entre bacterias y virus del catálogo&quot;,
+         subtitle = sprintf(&quot;%d parejas evaluadas; %d enlaces con |r| ≥ 0.85; cuatro tiempos.&quot;, nrow(pares), nrow(enlaces)),
+         caption = &quot;Cada grupo tiene su referencia CLR. Sin valores p: las asociaciones son exploratorias.\nUna arista no demuestra infección, cooperación ni competencia; compartir una tendencia temporal puede producirla.&quot;) +
+    theme_void(base_size = 16) + theme(legend.position = &quot;bottom&quot;,
+      plot.title = element_text(size = 22, face = &quot;bold&quot;), plot.subtitle = element_text(size = 14),
+      plot.caption = element_text(size = 12, hjust = 0), plot.margin = margin(20, 24, 20, 24))
+  ggsave(&quot;results/09_sintesis/06_red_bipartita.pdf&quot;, fig6, width = 16, height = 10, device = cairo_pdf)
+  ggsave(&quot;results/09_sintesis/06_red_bipartita.png&quot;, fig6, width = 16, height = 10, dpi = 300, type = &quot;cairo&quot;)
+}
+RSCRIPT
+
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 Rscript --vanilla scripts/09_sintesis/06b_red_bacteria_virus_condicional.R
+</code></pre></div></details></div></details></section>
+<section id="filogenia"><h2>7. Filogenia y funciones: ¿quiénes podrían transformar el sustrato?</h2><p class="method"><strong>Procedencia:</strong> Árbol público <code>bac120_17mags.treefile</code>, taxonomía y calidad de MAGs, y asignaciones Kofam aceptadas. Se unen por el ID completo del MAG; las funciones, por KO.</p><p><strong>Objetivo:</strong> Añadir el parentesco a la pregunta funcional: ¿una capacidad se concentra en organismos cercanos o aparece en linajes separados? Reutilizamos el árbol de marcadores bacterianos y superponemos siete anotaciones relacionadas con carbohidratos, lactato, acetato y transporte de péptidos.</p><figure><img src="assets/modelo_ecologico_integrado/07_filogenia_funciones.png" alt="Árbol bacteriano anotado con tiempo, completitud y funciones de cada MAG."><figcaption>Para ampliar, abre la imagen en otra pestaña. También se guarda como PDF vectorial en results/09_sintesis/.</figcaption></figure><div class="reading"><div><strong>Cómo leer el gráfico</strong><p><strong>Empieza por las columnas.</strong> Cada una representa una función; su encabezado indica cuántos de los 17 MAGs tienen esa anotación. Después lee una fila de izquierda a derecha para ver las capacidades recuperadas en un MAG. Finalmente usa el árbol para reconocer si los portadores son parientes próximos. El orden vertical es la disposición del árbol: se pueden girar ramas sin cambiar el parentesco; no es una cronología, una escala de abundancia ni una jerarquía ecológica. El color del nombre indica origen; los corchetes, completitud. Verde = anotación con al menos un gen sin otros KO aceptados; morado = solo genes con asignaciones múltiples; gris = no recuperado.</p></div><div><strong>Cómo leer el estadístico</strong><p>Las ramas representan sustituciones por sitio; una barra de 0.5 indica esa distancia evolutiva, no horas ni abundancia. El nodo 87.5/80 conserva los soportes SH-aLRT/UFBoot del árbol original, que evalúan ese agrupamiento, no la asociación ecológica. Los soportes completos se guardan en <code>07_soportes_arbol.tsv</code>. No se recalculan remuestreos.</p></div></div><p><strong>Interpretación ecológica:</strong> <strong>Capacidades compartidas y diferencias de estrategia.</strong> La acetato quinasa, anotada en todos los MAGs, conecta acetil-fosfato y acetato con ATP/ADP: en el sentido productor de acetato puede aportar energía. D-lactato deshidrogenasa aparece en cuatro MAGs; al reducir piruvato regenera NAD+, sosteniendo potencialmente la glucólisis. La unión a oligopéptidos abre una vía de captación de nitrógeno orgánico. Este reparto permite proponer estrategias distintas de obtención de energía y nutrientes, sin identificar todavía sus flujos en la masa.</p><div class="exercise"><strong>Discute:</strong> ¿Una función compartida por muchos linajes garantiza que todos hagan lo mismo?</div><details class="answer"><summary>Lectura orientativa</summary><p>No: expresión, sustratos y condiciones pueden diferir. El parentesco ayuda a formular si una capacidad se conserva entre linajes próximos; no sustituye la medición de actividad.</p></details><details class="codigo"><summary>Mostrar código y ejecución</summary><div class="terminal"><div class="terminal-bar"><span>Terminal Bash · guardar el script y ejecutarlo desde la raíz del proyecto</span><button class="copy" type="button">Copiar bloque</button></div><pre><code>cat &gt; scripts/09_sintesis/07_filogenia_funciones.R &lt;&lt;&#x27;RSCRIPT&#x27;
+source(&quot;scripts/09_sintesis/00_preparar.R&quot;, encoding = &quot;UTF-8&quot;)
+library(ape)
+# Reutilizar el arbol IQ-TREE de la seccion 07; no estimar otro arbol.
+arbol &lt;- ape::read.tree(&quot;data/09_sintesis/bac120_17mags.treefile&quot;)
+meta &lt;- read.delim(&quot;data/09_sintesis/MAG_metadata.tsv&quot;, check.names = FALSE)
+hits &lt;- read.delim(&quot;trazabilidad/09_sintesis/09_KO_aceptados_genes.tsv&quot;, check.names = FALSE)
+stopifnot(!anyDuplicated(meta$MAG), setequal(arbol$tip.label, meta$MAG), setequal(unique(hits$MAG), meta$MAG))
+# Mismo grupo externo que en la practica; la raiz no es una fecha.
+arbol &lt;- ape::root(arbol, outgroup = &quot;MAG07_09h&quot;, resolve.root = TRUE, edgelabel = TRUE)
+arbol &lt;- ape::ladderize(arbol)
+meta &lt;- meta[match(arbol$tip.label, meta$MAG), ]
+funciones &lt;- c(K00925 = &quot;Acetato quinasa&quot;, K01176 = &quot;Alfa-amilasa&quot;, K01200 = &quot;Pululanasa&quot;,
+               K00016 = &quot;L-lactato DH&quot;, K03778 = &quot;D-lactato DH&quot;,
+               K02035 = &quot;Unión a péptidos/níquel&quot;, K15580 = &quot;Unión a oligopéptidos&quot;)
+# Estados de evidencia, no cantidades: no recuperado / anotado / asignacion multiple.
+estado &lt;- matrix(&quot;No recuperado&quot;, nrow = nrow(meta), ncol = length(funciones), dimnames = list(meta$MAG, names(funciones)))
+for (m in rownames(estado)) for (ko in colnames(estado)) {
+ h &lt;- hits[hits$MAG == m &amp; hits$KO == ko, ]
+ if (nrow(h)) estado[m, ko] &lt;- if (any(h$n_KO_for_gene == 1)) &quot;Anotado&quot; else &quot;Asignación múltiple&quot;
+}
+write.table(estado, &quot;results/09_sintesis/07_funciones_por_MAG.tsv&quot;, sep = &quot;\t&quot;, col.names = NA, quote = FALSE)
+write.table(data.frame(MAG = meta$MAG, Genero = meta$Genus, Tiempo_h = meta$Tiempo_h,
+                       Completitud = meta$Completeness), &quot;results/09_sintesis/07_etiquetas_arbol.tsv&quot;, sep = &quot;\t&quot;, row.names = FALSE, quote = FALSE)
+write.table(data.frame(Nodo = seq_along(arbol$node.label) + length(arbol$tip.label),
+                       SHaLRT_UFBoot = arbol$node.label), &quot;results/09_sintesis/07_soportes_arbol.tsv&quot;, sep = &quot;\t&quot;, row.names = FALSE, quote = FALSE)
+write.table(ape::cophenetic.phylo(arbol), &quot;results/09_sintesis/07_distancias_filogeneticas.tsv&quot;, sep = &quot;\t&quot;, col.names = NA, quote = FALSE)
+# Solo las etiquetas graficas cambian; las uniones anteriores usaron el MAG completo.
+etiquetas_arbol &lt;- paste(meta$MAG, meta$Genus, sprintf(&quot;[%.1f%%]&quot;, meta$Completeness))
+grafico_arbol &lt;- arbol; grafico_arbol$tip.label &lt;- etiquetas_arbol
+rownames(estado) &lt;- etiquetas_arbol
+# Contar MAGs con evidencia recuperada, sin equiparar no recuperado con ausencia.
+n_portadores &lt;- colSums(estado != &quot;No recuperado&quot;)
+resumen_funciones &lt;- data.frame(KO = names(funciones), Funcion = unname(funciones),
+  MAGs_con_anotacion = as.integer(n_portadores),
+  Asignacion_unica = as.integer(colSums(estado == &quot;Anotado&quot;)),
+  Solo_multiple = as.integer(colSums(estado == &quot;Asignación múltiple&quot;)),
+  No_recuperado = as.integer(colSums(estado == &quot;No recuperado&quot;)), MAGs_evaluados = nrow(estado))
+write.table(resumen_funciones, &quot;results/09_sintesis/07_resumen_funciones.tsv&quot;, sep = &quot;\t&quot;, row.names = FALSE, quote = FALSE)
+colnames(estado) &lt;- paste0(c(&quot;Acetato\nquinasa&quot;, &quot;Alfa-\namilasa&quot;, &quot;Pululanasa&quot;, &quot;L-lactato\nDH&quot;, &quot;D-lactato\nDH&quot;, &quot;Unión a\npéptidos/\nníquel&quot;, &quot;Unión a\noligopéptidos&quot;), &quot;\n&quot;, n_portadores, &quot;/17&quot;)
+# Funciones oficiales de ape alinean automaticamente la matriz por nombre de punta.
+# La funcion de color solo fija la paleta, no calcula una estadistica nueva.
+for (formato in c(&quot;pdf&quot;, &quot;png&quot;)) {
+ archivo &lt;- paste0(&quot;results/09_sintesis/07_filogenia_funciones.&quot;, formato)
+ if (formato == &quot;pdf&quot;) cairo_pdf(archivo, width = 21, height = 12, pointsize = 16)
+ else png(archivo, width = 21, height = 12, units = &quot;in&quot;, res = 300, type = &quot;cairo&quot;, pointsize = 16)
+ par(mar = c(7, 1, 7, 1), xpd = NA, family = &quot;sans&quot;)
+ profundidad &lt;- max(ape::node.depth.edgelength(grafico_arbol))
+ ape::plot.phylo(grafico_arbol, align.tip.label = TRUE, underscore = TRUE, font = 1, cex = 0.85, label.offset = 0.05,
+   tip.color = colores_h[as.character(meta$Tiempo_h)], edge.color = &quot;#50616B&quot;, edge.width = 1.5,
+   x.lim = c(0, profundidad + 6), y.lim = c(0, 18))
+ par(cex = .85)
+ ape::phydataplot(estado, grafico_arbol, style = &quot;mosaic&quot;, offset = 2.3, width = .48,
+    legend = &quot;none&quot;, funcol = function(n) colores_estado, border = &quot;white&quot;, lwd = 2)
+ par(cex = 1)
+ # Mostrar el nodo de menor soporte; los valores completos se guardan en TSV.
+ bajo &lt;- which(arbol$node.label == &quot;87.5/80&quot;)
+ if (length(bajo)) ape::nodelabels(arbol$node.label[bajo], node = bajo + length(arbol$tip.label),
+    frame = &quot;none&quot;, cex = .8, adj = c(1, -.6), col = &quot;#9756A5&quot;)
+ ape::add.scale.bar(x = 0, y = .15, length = .5, lwd = 2, cex = .8)
+ title(main = &quot;07 · Parentesco, origen y capacidades genéticas de los MAGs&quot;, line = 4, adj = 0, cex.main = 1.3, col.main = &quot;#173B4D&quot;)
+ mtext(&quot;Columnas: funciones y MAGs con anotación / 17. Filas: MAGs ordenados por el árbol; no por tiempo.&quot;, side = 3, line = 2.3, adj = 0, cex = .85)
+ legend(&quot;bottomleft&quot;, inset = c(0, -.1), legend = paste(horas, &quot;h&quot;), text.col = colores_h,
+    bty = &quot;n&quot;, horiz = TRUE, cex = .85, title = &quot;Origen del MAG&quot;)
+ legend(&quot;bottomright&quot;, inset = c(.02, -.1), legend = names(colores_estado), fill = colores_estado,
+    border = NA, bty = &quot;n&quot;, horiz = TRUE, cex = .85, title = &quot;Evidencia funcional&quot;)
+ mtext(&quot;Ramas: sustituciones por sitio, no horas. Soporte mostrado: SH-aLRT/UFBoot del árbol original. Color del nombre: origen; corchetes: completitud. Gris: no recuperado, no ausencia. DH: deshidrogenasa.&quot;,
+    side = 1, line = 5.7, adj = 0, cex = .78)
+ dev.off()
+}
+RSCRIPT
+
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 Rscript --vanilla scripts/09_sintesis/07_filogenia_funciones.R
+</code></pre></div></details></section>
+<section><p><strong>Unión a oligopéptidos:</strong> se recupera en 10 MAGs: tres con al menos un gen sin otros KO aceptados y siete solo con asignaciones múltiples. Pocas celdas verdes no significan presencia en pocos MAGs. La proteína reconoce péptidos; no es una proteasa ni acredita un transportador completo.</p><p>Para conectar estas capacidades con procesos: medir acetato, D/L-lactato y captación de péptidos. Referencias: <a href="https://www.kegg.jp/entry/R00315">acetato quinasa</a>, <a href="https://www.kegg.jp/entry/R00704">D-lactato deshidrogenasa</a> y <a href="https://www.kegg.jp/entry/ko:K15580">unión a oligopéptidos</a>.</p></section>
+<section><h3>Por qué no calculamos UniFrac de toda la comunidad con este árbol</h3><p>El árbol contiene 17 MAGs, mientras que las tablas de lecturas contienen muchas categorías taxonómicas. No hay correspondencia uno a uno entre ambas: por ejemplo, varios MAGs son Streptococcus. Asignar a cada uno el mismo conteo del género duplicaría la abundancia. Una diversidad filogenética de la comunidad requeriría una matriz de abundancias de esos MAGs, o un árbol compatible con las unidades de la matriz taxonómica.</p></section>
+<section id="pianka"><h2>8. Pianka: semejanza funcional y posibles nichos</h2><p class="method"><strong>Procedencia:</strong> Conteos gen–KO por MAG, restringidos a las siete funciones del árbol en <code>funciones_pianka_seleccionadas.tsv</code>. El repertorio completo queda como referencia desplegable.</p><p><strong>Objetivo:</strong> Identificar portadores con capacidades parecidas o contrastantes relacionadas con la transformación del pozol.</p><p>En su uso ecológico original, Pianka compara <strong>proporciones de recursos utilizados</strong>. Aquí las columnas son funciones anotadas: calculamos semejanza de capacidades genéticas, una aproximación para formular hipótesis de nicho, no una medición de uso de recursos. <a href="#ref-pianka">[7]</a></p><figure><img src="assets/modelo_ecologico_integrado/08_pianka_funcional.png" alt="Mapa de calor de Pianka calculado sobre las siete funciones seleccionadas."><figcaption>Para ampliar, abre la imagen en otra pestaña. También se guarda como PDF vectorial en results/09_sintesis/.</figcaption></figure><div class="reading"><div><strong>Cómo leer el gráfico</strong><p>Cruza una fila con una columna para comparar dos MAGs. Amarillo indica mayor semejanza; morado, menor. El número es Pianka, no porcentaje. Se omiten la diagonal y las comparaciones repetidas. El orden sigue el árbol; los códigos cortos conservan el número del MAG.</p></div><div><strong>Cómo leer el estadístico</strong><p>Pianka = 1 significa perfiles proporcionales idénticos; 0, ninguna función compartida. MAG11–MAG17 (Streptococcus) = 0.941. MAG08–MAG16 (Limosilactobacillus–Lactobacillus) = 0.071: contrastan anotaciones de lactato y de unión a péptidos. MAG06–MAG07 = 1 porque ambos solo recuperan acetato quinasa dentro del conjunto seleccionado.</p></div></div><p><strong>Interpretación ecológica:</strong> <strong>Solapamiento de capacidades, no de consumo medido.</strong> Un valor cercano a 1 permite proponer capacidades compartidas; habría competencia potencial solo si los organismos usan el mismo recurso limitante. Un valor bajo sugiere perfiles distintos y motiva evaluar diferenciación de nicho. No prueba cooperación ni complementariedad: para eso debe demostrarse un intercambio o reparto de recursos. La similitud tampoco garantiza redundancia ecológica. <a href="#ref-pianka">[7]</a></p><div class="exercise"><strong>Discute:</strong> ¿Pianka = 1 implica que dos organismos cumplen el mismo papel en el pozol?</div><details class="answer"><summary>Lectura orientativa</summary><p>No. El resultado depende de las funciones elegidas: compartir únicamente acetato quinasa puede dar 1 aunque difieran muchas otras capacidades. Para evaluar nichos reales necesitamos consumo de sustratos, condiciones de crecimiento e interacciones.</p></details><details class="codigo"><summary>Mostrar código y ejecución</summary><div class="terminal"><div class="terminal-bar"><span>Terminal Bash · guardar el script y ejecutarlo desde la raíz del proyecto</span><button class="copy" type="button">Copiar bloque</button></div><pre><code>cat &gt; scripts/09_sintesis/08_pianka_funcional.R &lt;&lt;&#x27;RSCRIPT&#x27;
+source(&quot;scripts/09_sintesis/00_preparar.R&quot;, encoding = &quot;UTF-8&quot;)
+library(ape)
+x &lt;- as.matrix(read.delim(&quot;data/09_sintesis/MAG_KO_conteos.tsv&quot;, row.names = 1, check.names = FALSE))
+meta &lt;- read.delim(&quot;data/09_sintesis/MAG_metadata.tsv&quot;, check.names = FALSE)
+sel &lt;- read.delim(&quot;data/09_sintesis/funciones_pianka_seleccionadas.tsv&quot;, check.names = FALSE)
+stopifnot(is.numeric(x), all(is.finite(x)), all(x &gt;= 0),
+ !anyDuplicated(rownames(x)), !anyDuplicated(meta$MAG), setequal(rownames(x), meta$MAG),
+ !anyDuplicated(sel$KO), all(sel$KO %in% colnames(x)))
+# Analisis principal: las siete funciones del arbol. El repertorio completo es referencia.
+conjuntos &lt;- list(Seleccionadas = x[, sel$KO, drop = FALSE], Todas = x)
+matrices &lt;- list()
+for (nombre in names(conjuntos)) {
+ m &lt;- conjuntos[[nombre]]
+ stopifnot(all(rowSums(m) &gt; 0))
+ p_mag &lt;- vegan::decostand(m, method = &quot;total&quot;, MARGIN = 1)
+ d &lt;- vegan::designdist(p_mag, method = &quot;1-J/sqrt(A*B)&quot;, terms = &quot;quadratic&quot;, name = &quot;1 - Pianka&quot;)
+ matrices[[nombre]] &lt;- 1 - as.matrix(d)
+ write.table(matrices[[nombre]], paste0(&quot;results/09_sintesis/08_pianka_&quot;, nombre, &quot;.tsv&quot;), sep = &quot;\t&quot;, col.names = NA, quote = FALSE)
+}
+write.table(conjuntos$Seleccionadas, &quot;results/09_sintesis/08_conteos_funciones_seleccionadas.tsv&quot;, sep = &quot;\t&quot;, col.names = NA, quote = FALSE)
+indices &lt;- which(upper.tri(matrices$Seleccionadas), arr.ind = TRUE)
+pares &lt;- data.frame(MAG_A = rownames(x)[indices[, 1]], MAG_B = rownames(x)[indices[, 2]],
+ Pianka = matrices$Seleccionadas[indices])
+pares$Genero_A &lt;- meta$Genus[match(pares$MAG_A, meta$MAG)]
+pares$Genero_B &lt;- meta$Genus[match(pares$MAG_B, meta$MAG)]
+pares$Completitud_A &lt;- meta$Completeness[match(pares$MAG_A, meta$MAG)]
+pares$Completitud_B &lt;- meta$Completeness[match(pares$MAG_B, meta$MAG)]
+write.table(pares, &quot;results/09_sintesis/08_pianka_pares_seleccionados.tsv&quot;, sep = &quot;\t&quot;, row.names = FALSE, quote = FALSE)
+# Orden filogenetico para consultar junto al arbol; no se agrupa por el valor de Pianka.
+arbol &lt;- ape::ladderize(ape::root(ape::read.tree(&quot;data/09_sintesis/bac120_17mags.treefile&quot;), outgroup = &quot;MAG07_09h&quot;, resolve.root = TRUE))
+arbol &lt;- ape::reorder.phylo(arbol, order = &quot;cladewise&quot;)
+orden &lt;- rev(arbol$tip.label[arbol$edge[arbol$edge[, 2] &lt;= ape::Ntip(arbol), 2]])
+etiquetas_y &lt;- setNames(paste(sub(&quot;_.*&quot;, &quot;&quot;, meta$MAG), meta$Genus), meta$MAG)
+etiquetas_x &lt;- setNames(sub(&quot;_.*&quot;, &quot;&quot;, meta$MAG), meta$MAG)
+for (nombre in names(matrices)) {
+ m &lt;- matrices[[nombre]][orden, orden]; m[upper.tri(m, diag = TRUE)] &lt;- NA
+ d &lt;- as.data.frame(as.table(m), stringsAsFactors = FALSE); names(d) &lt;- c(&quot;MAG_A&quot;, &quot;MAG_B&quot;, &quot;Pianka&quot;)
+ d &lt;- d[is.finite(d$Pianka), ]
+ d$MAG_A &lt;- factor(d$MAG_A, levels = rev(orden)); d$MAG_B &lt;- factor(d$MAG_B, levels = orden)
+ fig8 &lt;- ggplot(d, aes(MAG_B, MAG_A, fill = Pianka)) +
+  geom_tile(colour = &quot;white&quot;, linewidth = .4) +
+  geom_text(aes(label = sprintf(&quot;%.2f&quot;, Pianka), colour = Pianka &lt; .55), size = 4.6, show.legend = FALSE) +
+  scale_colour_manual(values = c(&quot;TRUE&quot; = &quot;white&quot;, &quot;FALSE&quot; = &quot;#173B4D&quot;), guide = &quot;none&quot;) +
+  scale_fill_viridis_c(option = &quot;C&quot;, limits = c(0, 1), breaks = c(0, .25, .5, .75, 1), name = &quot;Pianka&quot;,
+   guide = guide_colourbar(barwidth = grid::unit(9, &quot;cm&quot;), barheight = grid::unit(.5, &quot;cm&quot;), title.position = &quot;top&quot;)) +
+  scale_x_discrete(drop = FALSE, labels = etiquetas_x) +
+  scale_y_discrete(drop = FALSE, labels = etiquetas_y) + coord_fixed() +
+  labs(title = if (nombre == &quot;Seleccionadas&quot;) &quot;08 · Similitud de capacidades genéticas seleccionadas&quot; else &quot;Referencia · Similitud del repertorio anotado completo&quot;,
+   subtitle = if (nombre == &quot;Seleccionadas&quot;) &quot;Siete funciones: carbohidratos, lactato, acetato y unión a péptidos. Mismo orden que el árbol.&quot; else &quot;Todas las funciones anotadas; incluye metabolismo y maquinaria celular general.&quot;,
+   x = &quot;MAG comparado&quot;, y = NULL,
+   caption = &quot;Pianka compara proporciones de anotaciones gen–KO: 0 = sin coincidencia; 1 = perfiles proporcionales idénticos.\nNo mide consumo, competencia ni actividad. Los ceros de entrada indican no recuperación; influyen completitud y asignaciones múltiples.&quot;) +
+  theme(panel.grid = element_blank(), axis.text.x = element_text(angle = 55, hjust = 1, size = 15),
+   axis.text.y = element_text(size = 15), plot.title = element_text(size = 22), plot.subtitle = element_text(size = 14),
+   plot.caption = element_text(size = 12), legend.position = &quot;bottom&quot;)
+ archivo &lt;- if (nombre == &quot;Seleccionadas&quot;) &quot;08_pianka_funcional&quot; else &quot;08_pianka_repertorio_completo&quot;
+ ggsave(paste0(&quot;results/09_sintesis/&quot;, archivo, &quot;.pdf&quot;), fig8, width = 17, height = 14, device = cairo_pdf)
+ ggsave(paste0(&quot;results/09_sintesis/&quot;, archivo, &quot;.png&quot;), fig8, width = 17, height = 14, dpi = 300, type = &quot;cairo&quot;)
+}
+print(pares[paste(pares$MAG_A, pares$MAG_B, sep = &quot;|&quot;) %in% c(&quot;MAG11_24h|MAG17_48h&quot;, &quot;MAG08_24h|MAG16_48h&quot;, &quot;MAG06_09h|MAG07_09h&quot;), ], row.names = FALSE)
+RSCRIPT
+
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 Rscript --vanilla scripts/09_sintesis/08_pianka_funcional.R
+</code></pre></div></details></section>
+<section><details class="consulta"><summary>Consultar el repertorio completo y el cálculo de Pianka</summary><div class="interior"><figure><img src="assets/modelo_ecologico_integrado/08_pianka_repertorio_completo.png" alt="Pianka del repertorio completo, conservado únicamente como referencia."><figcaption>Para ampliar, abre la imagen en otra pestaña. También se guarda como PDF vectorial en results/09_sintesis/.</figcaption></figure><p>La referencia usa todas las anotaciones, incluida maquinaria celular general. La interpretación principal utiliza las siete funciones del árbol. Tablas: <code>08_pianka_Seleccionadas.tsv</code>, <code>08_pianka_Todas.tsv</code> y <code>08_pianka_pares_seleccionados.tsv</code>.</p><p><strong>Cálculo:</strong> producto escalar de dos perfiles dividido por el producto de sus longitudes (similitud coseno). Se usan proporciones de anotaciones por MAG, sin CLR, z ni pseudoconteos; los ceros son válidos. <a href="https://vegandevs.github.io/vegan/reference/designdist.html">vegan::designdist()</a> conserva las comparaciones individuales.</p><p>Un gen con varios KO aceptados contribuye a varios componentes. La recuperación incompleta, las copias y la elección de funciones influyen en Pianka; no se interpretan como cantidades de recurso consumido. No hay umbrales de competencia ni pruebas de significancia.</p></div></details></section>
+<section id="modelo"><figure id="esquema-pozol" class="esquema-pozol"><img src="assets/modelo_ecologico_integrado/pozol_modelo_ecologico.png" width="1448" height="1086" alt="Síntesis del pozol entre 0 y 48 horas: concentración temprana, predominio de Streptococcus a las 24 horas y relevo parcial a las 48 horas. Se distinguen perfiles observados, capacidades genéticas compartidas y procesos por medir, incluida la posible lisis viral."><figcaption>Recorrido conceptual de 0 a 48 horas: perfiles observados, capacidades genéticas y procesos por comprobar. Las ilustraciones no representan abundancias. Esquema generado con IA y revisado para esta práctica.</figcaption></figure><h2>Modelo ecológico integrado: evidencia, hipótesis y proceso por medir</h2><div class="table-wrap"><table><thead><tr><th>Evidencia que tenemos</th><th>Conexión ecológica propuesta</th><th>Qué observar para evaluarla</th></tr></thead><tbody><tr><td>Aumenta la dominancia; las PCoA de Kraken y Kaiju separan el perfil inicial de los posteriores.</td><td>Reorganización inicial de la comunidad compatible con cambios en recursos o condiciones de fermentación.</td><td>pH, oxígeno, metabolitos y seguimiento de fermentaciones independientes.</td></tr><tr><td>Acetato quinasa anotada en los 17 MAGs.</td><td>Paso metabólico ampliamente compartido que podría contribuir a transformar intermediarios de carbono.</td><td>Ruta completa, expresión y dirección/tasa de producción o consumo de acetato.</td></tr><tr><td>Alfa-amilasa anotada en seis MAGs de distintos linajes.</td><td>Varios organismos podrían contribuir a transformar almidón y generar recursos accesibles a otros.</td><td>Actividad y secreción enzimática, azúcares liberados y transferencia de carbono.</td></tr><tr><td>Cambian los géneros representados y el repertorio funcional de los genomas recuperados.</td><td>Recambio de portadores y posible cambio de estrategias de uso de recursos.</td><td>Abundancia de MAGs por muestra, expresión y consumo/producción de metabolitos.</td></tr><tr><td>Anotaciones relacionadas con lactato y acetato; aumentos tardíos de algunos géneros lácticos.</td><td>Transformación del sustrato y modificación del ambiente que podrían favorecer otros miembros.</td><td>Concentraciones y tasas de producción/consumo. Un gen no define la dirección neta del proceso.</td></tr><tr><td>12 vOTUs clasificados como Caudoviricetes; un vOTU recuperado de dos tiempos.</td><td>Posible persistencia viral y regulación de poblaciones bacterianas mediante infección.</td><td>Abundancia viral por muestra, enlaces a hospederos y evidencia de infección/lisis.</td></tr><tr><td>Un mismo potencial funcional aparece en varios portadores del árbol.</td><td>Solapamiento de capacidades y posible complementariedad o redundancia.</td><td>Actividad bajo distintas condiciones, intercambio de metabolitos y respuesta a retirar un portador.</td></tr></tbody></table></div><p>Podemos describir una sucesión de perfiles observados y proponer mecanismos, pero los datos no demuestran por sí solos sucesión autogénica, exclusión competitiva, sintrofía ni un estado clímax. La síntesis convierte esos conceptos en hipótesis que conectan organismos, genes y transformación del sustrato.</p><h3>Producto del estudiante</h3><ol><li>Escribe un resultado de composición, uno de diversidad y una comparación de perfiles; incluye sus valores y denominadores.</li><li>Compara una coincidencia y una diferencia entre Kraken, Kaiju y funciones. Explica qué conserva y qué elimina z.</li><li>Relaciona acetato quinasa, D-lactato deshidrogenasa y unión a oligopéptidos con procesos del pozol. Interpreta un valor alto y uno bajo de Pianka usando las funciones del árbol, sin equipararlos a competencia o cooperación.</li><li>Propón una conexión con el sustrato o con los virus y señala el dato concreto que falta para probarla.</li></ol></section>
+<section id="fuentes"><h2>Fundamento de las interpretaciones</h2><p>La literatura orienta las hipótesis; sus mediciones no se incorporan como si fueran datos de esta práctica.</p><ul><li id="ref-diversidad">[1] <a href="https://doi.org/10.1111/j.2006.0030-1299.14714.x">Jost (2006): números efectivos de diversidad</a>; <a href="https://vegandevs.github.io/vegan/reference/diversity.html">vegan: Shannon y variantes de Simpson</a>.</li><li id="ref-pcoa">[2] <a href="https://vegandevs.github.io/vegan/reference/wcmdscale.html">vegan: PCoA, distancias y autovalores</a>.</li><li id="ref-pozol">[3] <a href="https://doi.org/10.1099/mic.0.001355">López-Sánchez et al. (2023): dinámica bacteriana del pozol</a>; <a href="https://doi.org/10.3389/fnut.2021.714814">Rizo et al. (2021): metaproteómica y cambios del sustrato</a>.</li><li id="ref-weissella">[4] <a href="https://doi.org/10.3389/fmicb.2021.629449">Diversity of Weissella confusa in Pozol and Its Carbohydrate Metabolism (2021)</a>: uso de sacarosa y xilooligosacáridos en aislados.</li><li id="ref-acetobacter">[5] <a href="https://pubmed.ncbi.nlm.nih.gov/30008048/">Two-stage oxygen supply strategy… (2018)</a>: oxígeno y metabolismo del etanol en Acetobacter.</li><li id="ref-vibrant">[6] <a href="https://doi.org/10.1186/s40168-020-00867-0">Kieft et al. (2020): VIBRANT</a>; <a href="https://github.com/AnantharamanLab/VIBRANT">documentación y archivos de salida</a>.</li><li id="ref-pianka">[7] <a href="https://gotellilab.github.io/EcoSimR/inst/web/pianka.html">EcoSimR: índice de Pianka</a>; <a href="https://www.uvm.edu/~ngotelli/EcoSim/Niche%20Overlap%20Tutorial.html">Gotelli: solapamiento, recursos y competencia</a>.</li></ul></section>
+<section id="terminal"><details class="consulta"><summary>Reproducir el análisis: preparar datos, paquetes y estilo</summary><div class="interior"><p>Trabajaremos desde la carpeta principal del proyecto. El siguiente bloque comprueba los insumos, crea las carpetas de salida y verifica que R puede cargar los paquetes necesarios.</p><div class="table-wrap"><table><thead><tr><th>Directorio relativo a reads2mags_pozol</th><th>Contenido</th></tr></thead><tbody><tr><td><code>data/09_sintesis/</code></td><td>Tablas de entrada y árbol proporcionados para la práctica.</td></tr><tr><td><code>scripts/09_sintesis/</code></td><td>Código visible que guardarás con cada bloque.</td></tr><tr><td><code>results/09_sintesis/</code></td><td>Figuras PDF/PNG y tablas de resultados.</td></tr><tr><td><code>trazabilidad/09_sintesis/</code></td><td>Anotaciones originales, calidad y procedencia de las entradas.</td></tr><tr><td><code>outs/</code></td><td>Registros de ejecución, siguiendo la estructura del curso.</td></tr></tbody></table></div><details class="codigo"><summary>Mostrar código y ejecución</summary><div class="terminal"><div class="terminal-bar"><span>Terminal Bash · comprobar raíz, insumos y paquetes</span><button class="copy" type="button">Copiar bloque</button></div><pre><code>cd &quot;$HOME/curso_metagenomica_2026/bitacora/reads2mags_pozol&quot; &amp;&amp;
+pwd
+ls -d data results scripts
+ls data/09_sintesis
+mkdir -p scripts/09_sintesis results/09_sintesis outs
+
+conda activate /data/env/qiime2
+Rscript -e &#x27;p &lt;- c(&quot;ggplot2&quot;, &quot;vegan&quot;, &quot;ggrepel&quot;, &quot;patchwork&quot;, &quot;igraph&quot;, &quot;ape&quot;); print(sapply(p, requireNamespace, quietly=TRUE)); stopifnot(all(sapply(p, requireNamespace, quietly=TRUE)))&#x27;
+</code></pre></div></details><p><code>pwd</code> debe terminar en <code>/reads2mags_pozol</code>. Ejecutamos todos los bloques desde allí: no entramos a <code>data/</code> ni cambiamos de directorio dentro de R. Si falta un insumo o un paquete, avisa al docente antes de continuar.</p><p>Pega cada bloque completo en la terminal Bash, incluida la línea final <code>RSCRIPT</code>. Primero guarda el archivo y luego lo ejecuta. Las líneas interiores son código R; no se pegan individualmente en Bash.</p><h3>Preparar los datos, las etiquetas y el formato de las figuras</h3>
+<p>Este bloque guarda <code>00_preparar.R</code>, una preparación compartida que evita repetir las mismas instrucciones en cada figura. Hace cuatro tareas:</p>
+<ol><li><strong>Lee y comprueba los datos de Kraken.</strong> Importa los conteos de géneros y los totales por muestra; ordena las muestras a 0, 9, 24 y 48 h mediante sus identificadores. Comprueba que no haya TaxID duplicados ni valores faltantes.</li>
+<li><strong>Define dos denominadores distintos.</strong> Para composición calcula el porcentaje sobre todos los fragmentos; para diversidad calcula proporciones dentro de los géneros bacterianos clasificados. Conserva ambas matrices y guarda los porcentajes y sus diferencias entre tiempos.</li>
+<li><strong>Unifica etiquetas y colores.</strong> Usa siempre las etiquetas «0 h», «9 h», «24 h» y «48 h», con la misma paleta temporal. También define colores para Kraken, Kaiju y funciones, y para los estados de anotación del árbol. Los colores de géneros y de valores numéricos se especifican en sus figuras.</li>
+<li><strong>Fija la presentación.</strong> Establece un tema limpio, tamaño base de 16 puntos, títulos de 22, etiquetas de ejes de 14, márgenes y leyendas. Cada figura ajusta el tamaño cuando su distribución lo requiere. El árbol usa funciones de ape y conserva su propia configuración gráfica.</li></ol>
+<p><strong>Qué estandariza y qué no:</strong> armoniza el orden temporal, las etiquetas y el aspecto de los gráficos; no convierte taxones de diferentes bases en equivalentes, ni aplica CLR o z. Esas transformaciones aparecen después, junto a su explicación.</p>
+<p>Cada llamada a <code>Rscript</code> abre una sesión nueva: los objetos de una figura no quedan disponibles para la siguiente. Por eso los scripts comienzan con <code>source("scripts/09_sintesis/00_preparar.R")</code>, directamente o a través del bloque CLR. <code>source()</code> ejecuta el código que se muestra aquí; no descarga datos ni llama a un análisis oculto.</p><details class="codigo"><summary>Mostrar código y ejecución</summary><div class="terminal"><div class="terminal-bar"><span>Terminal Bash · guardar el script y ejecutarlo desde la raíz del proyecto</span><button class="copy" type="button">Copiar bloque</button></div><pre><code>cat &gt; scripts/09_sintesis/00_preparar.R &lt;&lt;&#x27;RSCRIPT&#x27;
+# PREPARACION COMUN — visible en la practica.
+# Cada figura inicia una sesion R y vuelve a leer estos insumos pequenos.
+# No instala paquetes, no usa internet, no remuestrea ni ejecuta pruebas.
+# Graficos: ggplot2. Diversidad: diversity() de vegan.
+# t(p) coloca muestras en filas, como requieren las funciones de vegan.
+
+library(ggplot2)
+library(vegan)
+Sys.setenv(OMP_NUM_THREADS = &quot;1&quot;, OPENBLAS_NUM_THREADS = &quot;1&quot;)
+dir.create(&quot;results/09_sintesis&quot;, showWarnings = FALSE)
+tiempos &lt;- c(&quot;0&quot;, &quot;9&quot;, &quot;24&quot;, &quot;48&quot;)
+horas &lt;- as.numeric(tiempos)
+etiquetas &lt;- paste(tiempos, &quot;h&quot;)
+# Paletas compartidas: el mismo significado conserva siempre el mismo color.
+colores_h &lt;- c(&quot;0&quot; = &quot;#395F9E&quot;, &quot;9&quot; = &quot;#D9A044&quot;, &quot;24&quot; = &quot;#087F8C&quot;, &quot;48&quot; = &quot;#9756A5&quot;)
+colores_tiempo &lt;- setNames(unname(colores_h), etiquetas)
+colores_datos &lt;- c(Kraken = &quot;#087F8C&quot;, Kaiju = &quot;#9756A5&quot;, Funciones = &quot;#BE8125&quot;)
+colores_estado &lt;- c(&quot;Anotado&quot; = &quot;#087F8C&quot;, &quot;Asignación múltiple&quot; = &quot;#C59BD0&quot;, &quot;No recuperado&quot; = &quot;#E8ECEF&quot;)
+theme_set(theme_minimal(base_size = 16))
+theme_update(plot.title = element_text(face = &quot;bold&quot;, size = 22, colour = &quot;#173B4D&quot;),
+             plot.subtitle = element_text(size = 14, colour = &quot;#50616B&quot;),
+             plot.caption = element_text(size = 12, hjust = 0, colour = &quot;#50616B&quot;),
+             axis.title = element_text(size = 16),
+             axis.text = element_text(size = 14, colour = &quot;#263D48&quot;),
+             legend.text = element_text(size = 13),
+             plot.title.position = &quot;plot&quot;, plot.caption.position = &quot;plot&quot;,
+             panel.grid.minor = element_blank(),
+             plot.margin = margin(20, 24, 20, 20), legend.position = &quot;bottom&quot;)
+
+# 1. LEER CONTEOS DE GENEROS BACTERIANOS Y DENOMINADORES.
+# Cada fila es un TaxID de rango G; no se sumaron ancestros y descendientes.
+tabla &lt;- read.delim(&quot;data/09_sintesis/generos_conteos.tsv&quot;, check.names = FALSE)
+den &lt;- read.delim(&quot;data/09_sintesis/denominadores.tsv&quot;, check.names = FALSE)
+den &lt;- den[match(horas, den$time_h), ]
+conteos &lt;- as.matrix(tabla[, tiempos])
+rownames(conteos) &lt;- as.character(tabla$taxid)
+stopifnot(!anyNA(conteos), !anyNA(den), all(conteos &gt;= 0),
+          !anyDuplicated(tabla$taxid), all(colSums(conteos) == den$bacteria_genus))
+
+# 2. DOS DENOMINADORES: NO SON INTERCAMBIABLES.
+# Porcentaje del TOTAL de fragmentos, para composicion y cambios.
+porcentaje &lt;- sweep(conteos, 2, den$total_fragments, &quot;/&quot;) * 100
+# Proporcion DENTRO de los generos bacterianos, para diversidad.
+p &lt;- sweep(conteos, 2, colSums(conteos), &quot;/&quot;)
+write.table(data.frame(TaxID = tabla$taxid, Genero = tabla$name, porcentaje,
+                       check.names = FALSE),
+            &quot;results/09_sintesis/01_porcentajes_generos.tsv&quot;, sep = &quot;\t&quot;, row.names = FALSE, quote = FALSE)
+
+# Cambios en puntos porcentuales respecto al TOTAL de fragmentos.
+# Se guardan por separado de los cambios dentro del perfil usados en la figura 4.
+cambios_total &lt;- porcentaje[, 2:4, drop = FALSE] - porcentaje[, 1:3, drop = FALSE]
+colnames(cambios_total) &lt;- c(&quot;0_a_9_h&quot;, &quot;9_a_24_h&quot;, &quot;24_a_48_h&quot;)
+write.table(data.frame(TaxID = tabla$taxid, Genero = tabla$name, cambios_total),
+            &quot;results/09_sintesis/02_cambios_pp.tsv&quot;, sep = &quot;\t&quot;, row.names = FALSE, quote = FALSE)
+RSCRIPT
+
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 Rscript --vanilla scripts/09_sintesis/00_preparar.R
+</code></pre></div></details></div></details></section><section><h2>Reproducibilidad y documentación</h2><p>Cada figura utiliza funciones de R: vegan para diversidad y CLR, stats para distancias y z, ggplot2/patchwork/ggrepel para gráficos, igraph para la red de virus y funciones y ape para el árbol y su matriz funcional. No se añaden pruebas de significancia ni remuestreos. Las figuras se guardan como PDF vectorial y PNG a 300 ppp, con texto legible.</p><p>Las figuras incluidas se ejecutaron con R 4.6.0 mediante WebR. La red virus–función utiliza anotaciones reales; la extensión bacteria–virus sigue condicionada a los conteos virales por muestra. Los resultados numéricos dependen de las tablas distribuidas; las fuentes y disposición de etiquetas pueden variar ligeramente entre sistemas. Las versiones completas están en <code>results/09_sintesis/sessionInfo.txt</code>.</p><details class="codigo"><summary>Mostrar código y ejecución</summary><div class="terminal"><div class="terminal-bar"><span>Terminal Bash · repetición completa opcional, después de estudiar los bloques</span><button class="copy" type="button">Copiar bloque</button></div><pre><code>OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 Rscript --vanilla scripts/09_sintesis/09_ejecutar_todo.R &gt; outs/09_sintesis.log 2&gt;&amp;1
+cat outs/09_sintesis.log
+</code></pre></div></details><ul><li><a href="https://vegandevs.github.io/vegan/reference/diversity.html">vegan: diversidad</a>; <a href="https://vegandevs.github.io/vegan/reference/decostand.html">CLR</a>; <a href="https://vegandevs.github.io/vegan/reference/wcmdscale.html">PCoA</a>.</li><li><a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/scale.html">R: estandarización z</a>; <a href="https://onlinelibrary.wiley.com/doi/10.1111/j.2006.0030-1299.14714.x/full">Jost (2006): números efectivos de diversidad</a>.</li><li><a href="https://www.kegg.jp/entry/ko:K00925">KEGG: acetato quinasa</a>; <a href="https://www.kegg.jp/module/M00579">módulo asociado</a>; <a href="https://www.genome.jp/entry/K01176">alfa-amilasa</a>.</li><li><a href="https://cran.r-project.org/web/packages/ape/refman/ape.html">ape: árbol y anotaciones con phydataplot</a>.</li><li><a href="https://mariafer-florido.github.io/reads2mags-v1/07.Asignacion.html">Curso: filogenia y virus</a>; <a href="https://mariafer-florido.github.io/reads2mags-v1/08.1.ReadsTaxonomy.html">estructura del proyecto y taxonomía de lecturas</a>.</li></ul></section><footer>Modelo ecológico integrado del pozol · evidencia genética, patrones y mecanismos por medir.</footer></main><script>
+document.querySelectorAll('.copy').forEach(button=>button.addEventListener('click',async()=>{const text=button.closest('.terminal').querySelector('code').textContent;try{await navigator.clipboard.writeText(text);button.textContent='Copiado';setTimeout(()=>button.textContent='Copiar bloque',1800);}catch(e){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();button.textContent='Copiado';}}));
+</script></body></html>

@@ -66,6 +66,12 @@ Este es el programa del taller **De lecturas a MAGs**. Está diseñado para que 
 
 ## Día 5 · Ejercicio de integración
 
+<div id="acceso-modelo-ecologico" class="callout callout-style-default callout-note" style="padding:1rem;margin:1rem 0">
+<p><strong><a href="Modelo_ecologico_integrado.html">Modelo ecológico integrado</a></strong></p>
+<p>Integra composición, diversidad, funciones, filogenia y virus del pozol para distinguir evidencia, hipótesis y procesos por medir.</p>
+<p><a href="descargas/Insumos_modelo_ecologico_pozol.zip">Descargar los insumos de la práctica</a></p>
+</div>
+
 | Jornada | Hora | Tema | Modalidad |
 |----|----|----|----|
 | Mañana | 9:00–10:00 | Inferencia y conclusión ecológica de Baxter | Teoria + práctica |
